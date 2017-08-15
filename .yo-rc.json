@@ -1,0 +1,10 @@
+{
+  "generator-jhipster-module": {
+    "promptValues": {
+      "githubName": "Dufgui",
+      "authorName": "Guillaume DUFOUR",
+      "authorEmail": "guillaume.duff@gmail.com",
+      "authorUrl": ""
+    }
+  }
+}
