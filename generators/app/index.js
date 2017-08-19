@@ -1,3 +1,21 @@
+/**
+ * Copyright 2013-2017 the original author or authors from the JHipster project.
+ *
+ * This file is part of the JHipster project, see https://jhipster.github.io/
+ * for more information.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 const util = require('util');
 const chalk = require('chalk');
 const generator = require('yeoman-generator');
@@ -5,9 +23,15 @@ const packagejs = require('../../package.json');
 const semver = require('semver');
 const BaseGenerator = require('generator-jhipster/generators/generator-base');
 const jhipsterConstants = require('generator-jhipster/generators/generator-constants');
+const prompts = require('./prompts');
+const writeFiles = require('./files').writeFiles;
 
 const JhipsterGenerator = generator.extend({});
 util.inherits(JhipsterGenerator, BaseGenerator);
+
+
+const MODULES_PAGES_CONFIG_FILE = `${BaseGenerator.JHIPSTER_CONFIG_DIR}/pages`;
+
 
 module.exports = JhipsterGenerator.extend({
     initializing: {
@@ -35,22 +59,9 @@ module.exports = JhipsterGenerator.extend({
     },
 
     prompting() {
-        const prompts = [
-            {
-                type: 'input',
-                name: 'message',
-                message: 'Please put something',
-                default: 'hello world!'
-            }
-        ];
 
-        const done = this.async();
-        this.prompt(prompts).then((props) => {
-            this.props = props;
-            // To access props later use this.props.someOption;
-
-            done();
-        });
+        /* ask for page set and type */
+        askForPageConfig: prompts.askForPageConfig
     },
 
     writing() {
@@ -80,7 +91,7 @@ module.exports = JhipsterGenerator.extend({
         const webappDir = jhipsterConstants.CLIENT_MAIN_SRC_DIR;
 
         // variable from questions
-        this.message = this.props.message;
+        //this.message = this.props.pageSet;
 
         // show all variables
         this.log('\n--- some config read from config ---');
@@ -102,18 +113,7 @@ module.exports = JhipsterGenerator.extend({
         this.log(`\nmessage=${this.message}`);
         this.log('------\n');
 
-        if (this.clientFramework === 'angular1') {
-            this.template('dummy.txt', 'dummy-angular1.txt');
-        }
-        if (this.clientFramework === 'angular2') {
-            this.template('dummy.txt', 'dummy-angular2.txt');
-        }
-        if (this.buildTool === 'maven') {
-            this.template('dummy.txt', 'dummy-maven.txt');
-        }
-        if (this.buildTool === 'gradle') {
-            this.template('dummy.txt', 'dummy-gradle.txt');
-        }
+        writeFiles();
     },
 
     install() {
