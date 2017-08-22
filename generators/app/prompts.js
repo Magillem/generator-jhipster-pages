@@ -23,7 +23,7 @@ const shelljs = require('shelljs');
 const BaseGenerator = require('generator-jhipster/generators/generator-base');
 
 
-const MODULES_PAGES_CONFIG_FILE = `${BaseGenerator.JHIPSTER_CONFIG_DIR}/pages`;
+const MODULES_PAGES_CONFIG_FILE = `.jhipster/pages`;
 
 module.exports = {
     askForPageConfig
@@ -52,10 +52,11 @@ function askForPageConfig() {
             name: 'newPageSet',
             message: 'Create page set with the following name:',
             validate: (input) => {
-                if (shelljs.test('-f', '${MODULES_PAGES_CONFIG_FILE}/${input}')) {
-                    return false;
+                let inputPath = `${MODULES_PAGES_CONFIG_FILE}/${input}`;
+                if (shelljs.test('-f', inputPath)) {
+                    return `${input} already exist in ${MODULES_PAGES_CONFIG_FILE}`;
                 }
-                return `${input} already exist/`;
+                return true;
             }
         },
         {

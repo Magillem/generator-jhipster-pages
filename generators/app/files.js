@@ -205,6 +205,50 @@ module.exports = {
 function writeFiles() {
     return {
 
+        readConf() {
+
+            // read config from .yo-rc.json
+            this.baseName = this.jhipsterAppConfig.baseName;
+            this.packageName = this.jhipsterAppConfig.packageName;
+            this.packageFolder = this.jhipsterAppConfig.packageFolder;
+            this.clientFramework = this.jhipsterAppConfig.clientFramework;
+            this.clientPackageManager = this.jhipsterAppConfig.clientPackageManager;
+            this.buildTool = this.jhipsterAppConfig.buildTool;
+
+            // use function in generator-base.js from generator-jhipster
+            this.angularAppName = this.getAngularAppName();
+
+            // use constants from generator-constants.js
+            const javaDir = `${constants.SERVER_MAIN_SRC_DIR + this.packageFolder}/`;
+            const resourceDir = constants.SERVER_MAIN_RES_DIR;
+            const webappDir = constants.CLIENT_MAIN_SRC_DIR;
+
+            // variable from questions
+            //this.message = this.props.pageSet;
+
+            // show all variables
+            this.log('\n--- some config read from config ---');
+            this.log(`baseName=${this.baseName}`);
+            this.log(`packageName=${this.packageName}`);
+            this.log(`clientFramework=${this.clientFramework}`);
+            this.log(`clientPackageManager=${this.clientPackageManager}`);
+            this.log(`buildTool=${this.buildTool}`);
+
+            this.log('\n--- some function ---');
+            this.log(`angularAppName=${this.angularAppName}`);
+
+            this.log('\n--- some const ---');
+            this.log(`javaDir=${javaDir}`);
+            this.log(`resourceDir=${resourceDir}`);
+            this.log(`webappDir=${webappDir}`);
+
+            this.log('\n--- variables from questions ---');
+            this.log(`\nmessage=${this.message}`);
+            this.log('------\n');
+
+
+        },
+
         writeServerFiles() {
             if (this.skipServer) return;
 

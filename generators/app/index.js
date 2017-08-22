@@ -22,15 +22,11 @@ const generator = require('yeoman-generator');
 const packagejs = require('../../package.json');
 const semver = require('semver');
 const BaseGenerator = require('generator-jhipster/generators/generator-base');
-const jhipsterConstants = require('generator-jhipster/generators/generator-constants');
 const prompts = require('./prompts');
 const writeFiles = require('./files').writeFiles;
 
 const JhipsterGenerator = generator.extend({});
 util.inherits(JhipsterGenerator, BaseGenerator);
-
-
-const MODULES_PAGES_CONFIG_FILE = `${BaseGenerator.JHIPSTER_CONFIG_DIR}/pages`;
 
 
 module.exports = JhipsterGenerator.extend({
@@ -58,63 +54,13 @@ module.exports = JhipsterGenerator.extend({
         }
     },
 
-    prompting() {
+    prompting: {
 
         /* ask for page set and type */
         askForPageConfig: prompts.askForPageConfig
     },
 
-    writing() {
-        // function to use directly template
-        this.template = function (source, destination) {
-            this.fs.copyTpl(
-                this.templatePath(source),
-                this.destinationPath(destination),
-                this
-            );
-        };
-
-        // read config from .yo-rc.json
-        this.baseName = this.jhipsterAppConfig.baseName;
-        this.packageName = this.jhipsterAppConfig.packageName;
-        this.packageFolder = this.jhipsterAppConfig.packageFolder;
-        this.clientFramework = this.jhipsterAppConfig.clientFramework;
-        this.clientPackageManager = this.jhipsterAppConfig.clientPackageManager;
-        this.buildTool = this.jhipsterAppConfig.buildTool;
-
-        // use function in generator-base.js from generator-jhipster
-        this.angularAppName = this.getAngularAppName();
-
-        // use constants from generator-constants.js
-        const javaDir = `${jhipsterConstants.SERVER_MAIN_SRC_DIR + this.packageFolder}/`;
-        const resourceDir = jhipsterConstants.SERVER_MAIN_RES_DIR;
-        const webappDir = jhipsterConstants.CLIENT_MAIN_SRC_DIR;
-
-        // variable from questions
-        //this.message = this.props.pageSet;
-
-        // show all variables
-        this.log('\n--- some config read from config ---');
-        this.log(`baseName=${this.baseName}`);
-        this.log(`packageName=${this.packageName}`);
-        this.log(`clientFramework=${this.clientFramework}`);
-        this.log(`clientPackageManager=${this.clientPackageManager}`);
-        this.log(`buildTool=${this.buildTool}`);
-
-        this.log('\n--- some function ---');
-        this.log(`angularAppName=${this.angularAppName}`);
-
-        this.log('\n--- some const ---');
-        this.log(`javaDir=${javaDir}`);
-        this.log(`resourceDir=${resourceDir}`);
-        this.log(`webappDir=${webappDir}`);
-
-        this.log('\n--- variables from questions ---');
-        this.log(`\nmessage=${this.message}`);
-        this.log('------\n');
-
-        writeFiles();
-    },
+    writing: writeFiles(),
 
     install() {
         let logMsg =
@@ -129,7 +75,7 @@ module.exports = JhipsterGenerator.extend({
                 this.warning('Install of dependencies failed!');
                 this.log(logMsg);
             } else if (this.clientFramework === 'angular1') {
-                this.spawnCommand('gulp', ['install']);
+                //this.spawnCommand('gulp', ['install']);
             }
         };
         const installConfig = {
@@ -141,7 +87,7 @@ module.exports = JhipsterGenerator.extend({
         if (this.options['skip-install']) {
             this.log(logMsg);
         } else {
-            this.installDependencies(installConfig);
+            //this.installDependencies(installConfig);
         }
     },
 
