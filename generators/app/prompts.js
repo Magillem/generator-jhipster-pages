@@ -20,8 +20,6 @@
 const chalk = require('chalk');
 const path = require('path');
 const shelljs = require('shelljs');
-const BaseGenerator = require('generator-jhipster/generators/generator-base');
-
 
 const MODULES_PAGES_CONFIG_FILE = `.jhipster/pages`;
 
@@ -65,19 +63,19 @@ function askForPageConfig() {
             message: 'Which king of page you want to add?',
             choices: [
                 {
-                    value: 'Static',
+                    value: 'static',
                     name: 'Static'
                 },
                 {
-                    value: 'Dynamic',
+                    value: 'dynamic',
                     name: 'Dynamic'
                 },
                 {
-                    value: 'Forms',
+                    value: 'forms',
                     name: 'Forms'
                 },
                 {
-                    value: 'Workflow',
+                    value: 'workflow',
                     name: 'Workflow'
                 },
             ],
@@ -93,6 +91,7 @@ function askForPageConfig() {
     this.prompt(prompts).then((prompt) => {
         this.pageSet = prompt.pageSet;
         this.newPageSet = prompt.newPageSet;
+        this.pageType = prompt.pageType;
         this.pageName = prompt.pageName;
         done();
     });

@@ -44,6 +44,7 @@ const CLIENT_I18N_TEMPLATES_DIR = 'client';
 const serverFiles = {
     server: [
         {
+            condition: generator => generator.pageType !== 'static',
             path: SERVER_MAIN_SRC_DIR,
             templates: [
                 {
@@ -53,7 +54,7 @@ const serverFiles = {
             ]
         },
         {
-            condition: generator => generator.service === 'serviceImpl',
+            condition: generator => generator.service === 'serviceImpl' && generator.pageType !== 'static',
             path: SERVER_MAIN_SRC_DIR,
             templates: [
                 {
@@ -67,7 +68,7 @@ const serverFiles = {
             ]
         },
         {
-            condition: generator => generator.service === 'serviceClass',
+            condition: generator => generator.service === 'serviceClass' && generator.pageType !== 'static',
             path: SERVER_MAIN_SRC_DIR,
             templates: [{
                 file: 'package/service/impl/_PageSetServiceImpl.java',
@@ -78,6 +79,7 @@ const serverFiles = {
     test: [
         {
             path: SERVER_TEST_SRC_DIR,
+            condition: generator => generator.pageType !== 'static',
             templates: [{
                 file: 'package/web/rest/_PageSetResourceIntTest.java',
                 options: { context: { randexp, _, chalkRed: chalk.red, fs, SERVER_TEST_SRC_DIR } },
@@ -85,7 +87,7 @@ const serverFiles = {
             }]
         },
         {
-            condition: generator => generator.gatlingTests,
+            condition: generator => generator.gatlingTests && generator.pageType !== 'static',
             path: TEST_DIR,
             templates: [{
                 file: 'gatling/user-files/simulations/_PageSetGatlingTest.scala',
@@ -97,14 +99,10 @@ const serverFiles = {
 };
 
 const angularjsFiles = {
-    client: [
+    pageStatic: [
         {
             path: ANGULAR_DIR,
             templates: [
-                {
-                    file: 'pages/_page-set.service.js',
-                    renameTo: generator => `pages/${generator.pageFolderName}/${generator.pageSet}.service.js`
-                },
                 {
                     file: 'pages/_page-set.state.js',
                     renameTo: generator => `pages/${generator.pageFolderName}/${generator.pageSet}.state.js`
@@ -122,6 +120,19 @@ const angularjsFiles = {
             ]
         }
     ],
+    pageDynamic: [
+        {
+            path: ANGULAR_DIR,
+            condition: generator => generator.pageType !== 'static',
+            templates: [
+                {
+                    file: 'pages/_page-set.service.js',
+                    renameTo: generator => `pages/${generator.pageFolderName}/${generator.pageSet}.service.js`
+                }
+            ]
+        }
+    ],
+
     test: [
         {
             path: CLIENT_TEST_SRC_DIR,
@@ -147,6 +158,7 @@ const angularFiles = {
             path: ANGULAR_DIR,
             templates: [
                 {
+                    condition: generator => generator.pageType !== 'static',
                     file: 'pages/_page-set.service.ts',
                     renameTo: generator => `pages/${generator.pageFolderName}/${generator.pageSet}.service.ts`
                 },
@@ -243,7 +255,12 @@ function writeFiles() {
             this.log(`webappDir=${webappDir}`);
 
             this.log('\n--- variables from questions ---');
-            this.log(`\nmessage=${this.message}`);
+            this.log(`\npageSet=${this.pageSet}`);
+            this.log(`\nnewPageSet=${this.newPageSet}`);
+            this.log(`\npageType=${this.pageType}`);
+            this.log(`\npageName=${this.pageName}`);
+            this.log(`\nfuck=${this.pageType !== 'static'}`);
+
             this.log('------\n');
 
 
