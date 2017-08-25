@@ -85,14 +85,23 @@ function askForPageConfig() {
             type: 'input',
             name: 'pageName',
             message: 'Enter the page name:',
+        },
+        {
+            type: 'input',
+            name: 'pageGlyphicon',
+            message: 'Enter the page glyphicon name (see https://getbootstrap.com/components/):',
         }
     ];
 
     this.prompt(prompts).then((prompt) => {
         this.pageSet = prompt.pageSet;
         this.newPageSet = prompt.newPageSet;
+        if(typeof this.newPageSet !== "undefined") {
+            this.pageSet = this.newPageSet;
+        }
         this.pageType = prompt.pageType;
         this.pageName = prompt.pageName;
+        this.pageGlyphicon = prompt.pageGlyphicon;
         done();
     });
 }

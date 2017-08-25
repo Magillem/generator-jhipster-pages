@@ -99,7 +99,7 @@ const serverFiles = {
 };
 
 const angularjsFiles = {
-    pageStatic: [
+    pageCommon: [
         {
             path: ANGULAR_DIR,
             templates: [
@@ -108,19 +108,27 @@ const angularjsFiles = {
                     renameTo: generator => `pages/${generator.pageFolderName}/${generator.pageSet}.state.js`
                 },
                 {
-                    file: `pages/_page-${generator.pageType}.html`,
-                    method: 'processHtml',
-                    template: true,
-                    renameTo: generator => `pages/${generator.pageFolderName}/${generator.pageName}.html`
-                },
-                {
                     file: 'pages/_page.controller.js',
                     renameTo: generator => `pages/${generator.pageFolderName}/${generator.pageName}.controller.js`
                 }
             ]
         }
     ],
-    pageDynamic: [
+    pageStatic: [
+        {
+            path: ANGULAR_DIR,
+            condition: generator => generator.pageType === 'static',
+            templates: [
+                {
+                    file: 'pages/_page-static.html',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: generator => `pages/${generator.pageFolderName}/${generator.pageName}.html`
+                }
+            ]
+        }
+    ],
+    pageCommonWithService: [
         {
             path: ANGULAR_DIR,
             condition: generator => generator.pageType !== 'static',
@@ -128,6 +136,20 @@ const angularjsFiles = {
                 {
                     file: 'pages/_page-set.service.js',
                     renameTo: generator => `pages/${generator.pageFolderName}/${generator.pageSet}.service.js`
+                }
+            ]
+        }
+    ],
+    pageDynamic: [
+        {
+            path: ANGULAR_DIR,
+            condition: generator => generator.pageType === 'dynamic',
+            templates: [
+                {
+                    file: 'pages/_page-dynamic.html',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: generator => `pages/${generator.pageFolderName}/${generator.pageName}.html`
                 }
             ]
         }
@@ -284,7 +306,7 @@ function writeFiles() {
                 this.writeFilesToDisk(angularFiles, this, false, CLIENT_NG2_TEMPLATES_DIR);
             }
 
-            this.addEntityToMenu(this.entityStateName, this.enableTranslation, this.clientFramework);
+            this.addElementToMenu(this.pageSet+'-'+this.pageName, this.pageGlyphicon, this.enableTranslation, this.clientFramework);
 
             // Copy for each
             if (this.enableTranslation) {
