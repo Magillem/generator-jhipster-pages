@@ -120,7 +120,7 @@ const angularjsFiles = {
             condition: generator => generator.pageType === 'static',
             templates: [
                 {
-                    file: 'pages/_page-static.html',
+                    file: 'pages/static/_page.html',
                     method: 'processHtml',
                     template: true,
                     renameTo: generator => `pages/${generator.pageFolderName}/${generator.pageName}.html`
@@ -306,7 +306,7 @@ function writeFiles() {
                 this.writeFilesToDisk(angularFiles, this, false, CLIENT_NG2_TEMPLATES_DIR);
             }
 
-            this.addElementToMenu(this.pageSet+'-'+this.pageName, this.pageGlyphicon, this.enableTranslation, this.clientFramework);
+            this.addElementToMenu(this.pageSet+'-'+this.pageName, this.pageGlyphIcon, this.enableTranslation, this.clientFramework);
 
             // Copy for each
             if (this.enableTranslation) {

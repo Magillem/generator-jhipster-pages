@@ -21,7 +21,9 @@ const chalk = require('chalk');
 const generator = require('yeoman-generator');
 const packagejs = require('../../package.json');
 const semver = require('semver');
+const _ = require('lodash');
 const BaseGenerator = require('generator-jhipster/generators/generator-base');
+const constant = require('./constant');
 const prompts = require('./prompts');
 const writeFiles = require('./files').writeFiles;
 
@@ -56,8 +58,33 @@ module.exports = JhipsterGenerator.extend({
 
     prompting: {
 
-        /* ask for page set and type */
+        askForPageSetConfig: prompts.askForPageSetConfig,
         askForPageConfig: prompts.askForPageConfig
+    },
+
+    configuring: {
+            writePageSetJson() {
+                let toPath = `${constant.MODULES_PAGES_CONFIG_FILE}/${this.pageSet}`;
+                // store information in a file for further use.
+                if (!this.useConfigurationFile && (this.databaseType === 'sql' || this.databaseType === 'cassandra')) {
+                    this.changelogDate = this.dateFormatForLiquibase();
+                }
+                this.data = {};
+                this.data.pages = this.pages;
+                this.data.changelogDate = this.changelogDate;
+                this.fs.writeJSON(toPath, this.data, null, 4);
+            },
+
+            loadInMemoryData() {
+            this.pageSetSpinalCased = _.kebabCase(_.lowerFirst(this.pageSet));
+            this.pageSetClass = _.camelCase(this.pageSet);
+
+
+            this.pages.forEach((page) => {
+                page.pageNameKebabCased = _.kebabCase(_.lowerFirst(page.pageName));
+                page.pageNameCamelCased = _.camelCase(page.pageName);
+            });
+        }
     },
 
     writing: writeFiles(),
