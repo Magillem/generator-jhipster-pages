@@ -78,11 +78,16 @@ module.exports = JhipsterGenerator.extend({
             loadInMemoryData() {
             this.pageSetSpinalCased = _.kebabCase(_.lowerFirst(this.pageSet));
             this.pageSetClass = _.camelCase(this.pageSet);
-
+            this.pageSetUrl = this.pageSetSpinalCased;
+            this.pageSetFolder = this.pageSetSpinalCased;
+            this.pageSetTranslation = this.pageSetSpinalCased;
 
             this.pages.forEach((page) => {
                 page.pageNameKebabCased = _.kebabCase(_.lowerFirst(page.pageName));
                 page.pageNameCamelCased = _.camelCase(page.pageName);
+                page.pageUrl = page.pageNameKebabCased;
+                page.pageNameTranslationKey = _.lowerFirst(page.pageName);
+                page.pageAngularName = page.pageNameCamelCased;
             });
         }
     },

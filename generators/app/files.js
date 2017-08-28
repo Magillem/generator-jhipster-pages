@@ -105,11 +105,11 @@ const angularjsFiles = {
             templates: [
                 {
                     file: 'pages/_page-set.state.js',
-                    renameTo: generator => `pages/${generator.pageFolderName}/${generator.pageSet}.state.js`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSet}.state.js`
                 },
                 {
                     file: 'pages/_page.controller.js',
-                    renameTo: generator => `pages/${generator.pageFolderName}/${generator.pageName}.controller.js`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageName}.controller.js`
                 }
             ]
         }
@@ -123,7 +123,7 @@ const angularjsFiles = {
                     file: 'pages/static/_page.html',
                     method: 'processHtml',
                     template: true,
-                    renameTo: generator => `pages/${generator.pageFolderName}/${generator.pageName}.html`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageName}.html`
                 }
             ]
         }
@@ -135,7 +135,7 @@ const angularjsFiles = {
             templates: [
                 {
                     file: 'pages/_page-set.service.js',
-                    renameTo: generator => `pages/${generator.pageFolderName}/${generator.pageSet}.service.js`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSet}.service.js`
                 }
             ]
         }
@@ -149,7 +149,7 @@ const angularjsFiles = {
                     file: 'pages/_page-dynamic.html',
                     method: 'processHtml',
                     template: true,
-                    renameTo: generator => `pages/${generator.pageFolderName}/${generator.pageName}.html`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageName}.html`
                 }
             ]
         }
@@ -160,7 +160,7 @@ const angularjsFiles = {
             path: CLIENT_TEST_SRC_DIR,
             templates: [{
                 file: 'spec/app/pages/_page.controller.spec.js',
-                renameTo: generator => `spec/app/pages/${generator.pageFolderName}/${generator.pageName}.controller.spec.js`
+                renameTo: generator => `spec/app/pages/${generator.pageSetFolder}/${generator.pageName}.controller.spec.js`
             }]
         },
         {
@@ -182,30 +182,30 @@ const angularFiles = {
                 {
                     condition: generator => generator.pageType !== 'static',
                     file: 'pages/_page-set.service.ts',
-                    renameTo: generator => `pages/${generator.pageFolderName}/${generator.pageSet}.service.ts`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSet}.service.ts`
                 },
                 {
                     file: 'pages/_page-set.route.ts',
-                    renameTo: generator => `pages/${generator.pageFolderName}/${generator.pageSet}.route.ts`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSet}.route.ts`
                 },
                 {
                     file: `pages/_page-${generator.pageType}.component.html`,
                     method: 'processHtml',
                     template: true,
-                    renameTo: generator => `pages/${generator.pageFolderName}/${generator.pageName}.component.html`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageName}.component.html`
                 },
                 {
                     file: 'pages/_index.ts',
-                    renameTo: generator => `pages/${generator.pageFolderName}/index.ts`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/index.ts`
                 },
                 {
                     file: 'pages/_page.module.ts',
-                    renameTo: generator => `pages/${generator.pageFolderName}/${generator.pageName}.module.ts`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageName}.module.ts`
                 },
 
                 {
                     file: 'pages/_page.model.ts',
-                    renameTo: generator => `pages/${generator.pageFolderName}/${generator.pageName}.model.ts`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageName}.model.ts`
                 }
             ]
         }
@@ -215,7 +215,7 @@ const angularFiles = {
             path: CLIENT_TEST_SRC_DIR,
             templates: [{
                 file: `spec/app/pages/_page-${generator.pageType}.component.spec.ts`,
-                renameTo: generator => `spec/app/pages/${generator.pageFolderName}/${generator.pageName}.component.spec.ts`
+                renameTo: generator => `spec/app/pages/${generator.pageSetFolder}/${generator.pageName}.component.spec.ts`
             }]
         },
         {
