@@ -37,8 +37,14 @@ function askForPageSetConfig() {
         },
     ];
 
-    shelljs.ls(`{constant.MODULES_PAGES_CONFIG_FILE}/*.js`).forEach((file) => {
-        pageSetChoices.push(file.slice(0, -3));
+
+    const pageSetConfigs = `${constant.MODULES_PAGES_CONFIG_FILE}/*.json`;
+    shelljs.ls(pageSetConfigs).forEach((file) => {
+        const fileName = file.split('\\').pop().split('/').pop().slice(0, -5);
+        pageSetChoices.push({
+            value: fileName,
+            name: fileName
+        });
     });
 
     const prompts = [
@@ -72,7 +78,18 @@ function askForPageSetConfig() {
             this.pages = [];
             this.changelogDate = this.dateFormatForLiquibase();
         } else {
-            _loadPageSetJson();
+            let fromPath = `${constant.MODULES_PAGES_CONFIG_FILE}/${this.pageSet}.json`;
+            this.log(fromPath);
+            try {
+                this.fileData = this.fs.readJSON(fromPath);
+            } catch (err) {
+                this.debug('Error:', err);
+                this.error(chalk.red('\nThe page set configuration file could not be read!\n'));
+            }
+            this.log(this.fileData);
+            this.fileData = this.fileData || {};
+            this.pages = this.fileData.pages || [];
+            this.changelogDate = this.fileData.changelogDate;
         }
         done();
     });
@@ -125,20 +142,7 @@ function askForPageConfig() {
         this.pageName = prompt.pageName;
         this.pageGlyphIcon = prompt.pageGlyphIcon;
         this.pages.push({pageName: this.pageName, pageType: this.pageType, pageGlyphIcon: this.pageGlyphIcon});
-
+        this.changelogDate = this.dateFormatForLiquibase();
         done();
     });
-}
-
-function _loadPageSetJson() {
-    let fromPath = `${constant.MODULES_PAGES_CONFIG_FILE}/${this.pageSet}`;
-
-    try {
-        this.fileData = this.fs.readJSON(fromPath);
-    } catch (err) {
-        this.debug('Error:', err);
-        this.error(chalk.red('\nThe page set configuration file could not be read!\n'));
-    }
-    this.pages = this.fileData.pages || [];
-    this.changelogDate = this.fileData.changelogDate;
 }

@@ -63,22 +63,25 @@ module.exports = JhipsterGenerator.extend({
     },
 
     configuring: {
-            writePageSetJson() {
-                let toPath = `${constant.MODULES_PAGES_CONFIG_FILE}/${this.pageSet}`;
-                // store information in a file for further use.
-                if (!this.useConfigurationFile && (this.databaseType === 'sql' || this.databaseType === 'cassandra')) {
-                    this.changelogDate = this.dateFormatForLiquibase();
-                }
-                this.data = {};
-                this.data.pages = this.pages;
-                this.data.changelogDate = this.changelogDate;
-                this.fs.writeJSON(toPath, this.data, null, 4);
-            },
+        writePageSetJson() {
+            let toPath = `${constant.MODULES_PAGES_CONFIG_FILE}/${this.pageSet}.json`;
+            // store information in a file for further use.
+            if (!this.useConfigurationFile && (this.databaseType === 'sql' || this.databaseType === 'cassandra')) {
+                this.changelogDate = this.dateFormatForLiquibase();
+            }
+            this.data = {};
+            this.data.pages = this.pages;
+            this.data.changelogDate = this.changelogDate;
+            this.fs.writeJSON(toPath, this.data, null, 4);
+        },
 
-            loadInMemoryData() {
+        loadInMemoryData() {
+            this.enableTranslation = this.config.get('enableTranslation');
+
             this.pageSetSpinalCased = _.kebabCase(_.lowerFirst(this.pageSet));
             this.pageSetClass = _.camelCase(this.pageSet);
             this.pageSetUrl = this.pageSetSpinalCased;
+            this.pageSetRouterState = this.pageSetClass;
             this.pageSetFolder = this.pageSetSpinalCased;
             this.pageSetTranslation = this.pageSetSpinalCased;
 
@@ -88,6 +91,7 @@ module.exports = JhipsterGenerator.extend({
                 page.pageUrl = page.pageNameKebabCased;
                 page.pageNameTranslationKey = _.lowerFirst(page.pageName);
                 page.pageAngularName = page.pageNameCamelCased;
+                page.pageRouterState = page.pageNameCamelCased;
             });
         }
     },

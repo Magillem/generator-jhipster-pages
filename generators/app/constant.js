@@ -18,3 +18,7 @@
  */
 
 const MODULES_PAGES_CONFIG_FILE = `.jhipster/pages`;
+
+module.exports = {
+    MODULES_PAGES_CONFIG_FILE
+};

@@ -26,8 +26,9 @@ limitations under the License.
     stateConfig.$inject = ['$stateProvider'];
 
     function stateConfig($stateProvider) {
-        $stateProvider<%_ for (page in pages) { _%>
-            .state('<%= pageSet %>', {
+        $stateProvider<%_ for (idx in pages) {
+            const page = pages[idx];_%>
+            .state('<%= pageSetRouterState %>-<%= page.pageRouterState %>', {
                 parent: 'page-sets',
                 url: '/pages/<%= pageSetUrl %>/<%= page.pageUrl %>',
                 data: {
@@ -42,7 +43,7 @@ limitations under the License.
             }
         },
         resolve: {
-            <%_ } if (enableTranslation){ _%>
+            <%_ if (enableTranslation){ _%>
             translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                 $translatePartialLoader.addPart('<%= pageSetTranslation %>');
                 $translatePartialLoader.addPart('global');
