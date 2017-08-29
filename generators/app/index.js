@@ -92,6 +92,14 @@ module.exports = JhipsterGenerator.extend({
                 page.pageNameTranslationKey = _.lowerFirst(page.pageName);
                 page.pageAngularName = page.pageNameCamelCased;
                 page.pageRouterState = page.pageNameCamelCased;
+                if(page.pageName === this.pageName) {
+                    this.pageNameKebabCased = page.pageNameKebabCased;
+                    this.pageNameCamelCased = page.pageNameCamelCased;
+                    this.pageUrl = page.pageUrl;
+                    this.pageNameTranslationKey = page.pageNameTranslationKey;
+                    this.pageAngularName = page.pageAngularName;
+                    this.pageRouterState = page.pageRouterState;
+                }
             });
         }
     },

@@ -104,6 +104,10 @@ const angularjsFiles = {
             path: ANGULAR_DIR,
             templates: [
                 {
+                    file: 'pages/_page-sets.state.js',
+                    renameTo: generator => `pages/${generator.pageSetFolder}/page-sets.state.js`
+                },
+                {
                     file: 'pages/_page-set.state.js',
                     renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSet}.state.js`
                 },
