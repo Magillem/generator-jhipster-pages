@@ -1,6 +1,6 @@
 # generator-jhipster-pages
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
-> JHipster module, create pages (empty, sitemap, workflow, forms) and dedicated server side
+> JHipster module, create pages : client only (static), or client and server side. Load data from server, Save data to server, form, workflow...
 
 # Introduction
 
@@ -44,9 +44,55 @@ npm update -g generator-jhipster-pages
 
 # Usage
 
+## Launch
+
+```bash
+yo generator-jhipster-pages
+```
+
+## Core Concepts
+
+each page beyond to a page set. A page set is defined by a name.
+A Page have a name, a glyphicon, and a type.
+The following types are supported:
+- **client only** generate a simple static page :
+    - empty html page
+    - simple js controller
+
+## Road Map
+
+Here is the list of types to do
+- **Load data from server** generate
+    - empty html page
+    - js controller
+    - js read service
+    - java get web service
+- **Save data to server** generate
+    - empty html page
+    - js controller
+    - js write service
+    - java post web service
+- **Load and Save data to server** generate
+   - empty html page
+   - js controller
+   - js read and write service
+   - java get and post web service
+- **form** generate 
+   - form html page
+   - js controller
+   - js read and write service
+   - java get and post web service
+   - get and post argument object
+- **workflow** generate
+    - multiple step html pages with link to previous and next steps
+    - multiple step js controllers
+    - js service with init get and final write method
+    - java web service with get and post
+
+
 # License
 
-MIT © [Guillaume DUFOUR]()
+Apache License v2.0 © [Guillaume DUFOUR]()
 
 
 [npm-image]: https://img.shields.io/npm/v/generator-jhipster-pages.svg
