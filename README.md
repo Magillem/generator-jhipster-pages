@@ -88,6 +88,8 @@ Here is the list of types to do
     - multiple step js controllers
     - js service with init get and final write method
     - java web service with get and post
+    
+Stack dev order : AngularJS first (angular 1) and then angular 4
 
 
 # License
