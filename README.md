@@ -77,14 +77,14 @@ Here is the list of types to do
    - js controller
    - js read and write service
    - java get and post web service
-- **form** generate 
+- **Form** generate 
    - form html page
    - js controller
    - js read and write service
    - java get and post web service
    - get and post argument object
-- **workflow** generate
-    - multiple step html pages with link to previous and next steps
+- **Workflow** generate
+    - multiple step html pages (form) with link to previous and next steps
     - multiple step js controllers
     - js service with init get and final write method
     - java web service with get and post
