@@ -103,7 +103,7 @@ module.exports = JhipsterGenerator.extend({
             this.pageSetInstance = _.lowerFirst(this.pageSetClass);
             this.pageSetUrl = this.pageSetSpinalCased;
             this.pageSetApiUrl = this.pageSetSpinalCased;
-            this.pageSetRouterState = this.pageSetClass;
+            this.pageSetRouterState = _.lowerFirst(this.pageSetClass);
             this.pageSetFolder = this.pageSetSpinalCased;
             this.pageSetTranslation = this.pageSetSpinalCased;
 
@@ -113,7 +113,7 @@ module.exports = JhipsterGenerator.extend({
                 page.pageUrl = page.pageNameKebabCased;
                 page.pageNameTranslationKey = _.lowerFirst(page.pageName);
                 page.pageAngularName = page.pageNameCamelCased;
-                page.pageRouterState = page.pageNameCamelCased;
+                page.pageRouterState = _.lowerFirst(page.pageNameCamelCased);
                 page.pageInstance = _.lowerFirst(page.pageNameCamelCased);
                 page.pageClass = _.upperFirst(page.pageNameCamelCased);
                 page.pageLoadInstance = page.pageInstance+'LoadVM';
