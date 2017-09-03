@@ -76,7 +76,14 @@ module.exports = JhipsterGenerator.extend({
         },
 
         loadInMemoryData() {
-            this.enableTranslation = this.config.get('enableTranslation');
+
+            this.baseName = this.jhipsterAppConfig.baseName;
+            this.packageName = this.jhipsterAppConfig.packageName;
+            this.applicationType = this.jhipsterAppConfig.applicationType;
+            this.packageFolder = this.jhipsterAppConfig.packageFolder;
+            this.enableTranslation = this.jhipsterAppConfig.enableTranslation;
+            this.authenticationType = this.jhipsterAppConfig.authenticationType;
+            this.mainClass = this.getMainClassName();
 
             if(this.pageType === 'loadFromServer' || this.pageType === 'loadAndSaveToServer' || this.pageType === 'forms' || this.pageType === 'workflow') {
                 this.loadFromServer = true;
@@ -92,6 +99,8 @@ module.exports = JhipsterGenerator.extend({
 
             this.pageSetSpinalCased = _.kebabCase(_.lowerFirst(this.pageSet));
             this.pageSetClass = _.camelCase(this.pageSet);
+            this.pageSetAngularClass = this.pageSetClass;
+            this.pageSetInstance = _.lowerFirst(this.pageSetClass);
             this.pageSetUrl = this.pageSetSpinalCased;
             this.pageSetApiUrl = this.pageSetSpinalCased;
             this.pageSetRouterState = this.pageSetClass;
@@ -111,6 +120,21 @@ module.exports = JhipsterGenerator.extend({
                 page.pageLoadClass = page.pageClass+'LoadVM';
                 page.pageSaveInstance = page.pageInstance+'SaveVM';
                 page.pageSaveClass = page.pageClass+'SaveVM';
+                page.loadFromServer = false;
+                page.saveToServer = false;
+                page.contactServer = false;
+
+                if(page.pageType === 'loadFromServer' || page.pageType === 'loadAndSaveToServer' || page.pageType === 'forms' || page.pageType === 'workflow') {
+                    page.loadFromServer = true;
+                }
+
+                if(page.pageType === 'saveToServer' || page.pageType === 'loadAndSaveToServer' || page.pageType === 'forms' || page.pageType === 'workflow') {
+                    page.saveToServer = true;
+                }
+
+                if(page.loadFromServer === true || page.saveToServer === true) {
+                    page.contactServer = true;
+                }
 
                 if(page.pageName === this.pageName) {
                     this.pageNameKebabCased = page.pageNameKebabCased;

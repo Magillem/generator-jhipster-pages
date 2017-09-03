@@ -42,6 +42,7 @@ public class <%= pageSetClass %>Resource {
 <%_ for (idx in pages) {
     const page = pages[idx];_%>
 
+<%_ if (page.saveToServer) { _%>
     /**
      * POST  /<%= page.pageApiUrl %> : Save <%= page.pageName %>.
      *
@@ -55,8 +56,9 @@ public class <%= pageSetClass %>Resource {
         log.debug("REST request to save <%= page.pageSaveClass %> : {}", <%= page.pageSaveInstance %>);
         //TODO please code the save of page data.
         return ResponseEntity.ok();
-        }
-
+    }
+<%_ }
+    if (page.loadFromServer) { _%>
     /**
      * GET  /<%= page.pageApiUrl %> : get <%= page.pageName %>.
      *
@@ -71,6 +73,7 @@ public class <%= pageSetClass %>Resource {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(<%= page.pageLoadInstance %>));
     }
 
-<%_ } _%>
+<%_ }
+} _%>
 
 }

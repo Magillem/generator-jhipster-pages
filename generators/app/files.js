@@ -107,17 +107,17 @@ const angularjsFiles = {
                 },
                 {
                     file: 'pages/_page-set.state.js',
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSet}.state.js`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSetAngularClass}.state.js`
                 },
                 {
                     file: 'pages/_page.controller.js',
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageName}.controller.js`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.controller.js`
                 },
                 {
                     file: 'pages/_page.html',
                     method: 'processHtml',
                     template: true,
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageName}.html`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.html`
                 }
             ]
         }
@@ -128,8 +128,8 @@ const angularjsFiles = {
             condition: generator => generator.contactServer === true,
             templates: [
                 {
-                    file: 'pages/_page-set.service.js',
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSet}.service.js`
+                    file: 'pages/_page.service.js',
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSetAngularClass}.service.js`
                 }
             ]
         }
@@ -292,7 +292,14 @@ function writeFiles() {
             if (this.enableTranslation) {
                 const languages = this.languages || this.getAllInstalledLanguages();
                 languages.forEach((language) => {
-                    this.copyI18n(language, CLIENT_I18N_TEMPLATES_DIR);
+                    try {
+                        this.template(`${CLIENT_I18N_TEMPLATES_DIR}/i18n/_page_${language}.json`, `${CLIENT_MAIN_SRC_DIR}i18n/${language}/${this.pageInstance}.json`);
+                        this.addEntityTranslationKey(this.pageSetTranslation, this.pageSetClass, language);
+                        this.addEntityTranslationKey(this.pageNameTranslationKey, this.pageClass, language);
+                    } catch (e) {
+                        // An exception is thrown if the folder doesn't exist
+                        // do nothing
+                    }
                 });
             }
         }
