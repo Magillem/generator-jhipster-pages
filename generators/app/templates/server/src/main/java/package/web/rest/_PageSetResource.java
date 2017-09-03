@@ -20,6 +20,14 @@ package <%=packageName%>.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import <%=packageName%>.web.rest.util.HeaderUtil;
+<%_ for (idx in pages) {
+    const page = pages[idx];_%>
+<%_ if (page.saveToServer) { _%>
+import <%=packageName%>.web.rest.vm.<%=page.pageSaveClass%>;
+<%_ }
+    if (page.loadFromServer) { _%>
+import <%=packageName%>.web.rest.vm.<%=page.pageLoadClass%>;
+<%_ }} _%>
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +49,6 @@ public class <%= pageSetClass %>Resource {
 
 <%_ for (idx in pages) {
     const page = pages[idx];_%>
-
 <%_ if (page.saveToServer) { _%>
     /**
      * POST  /<%= page.pageApiUrl %> : Save <%= page.pageName %>.
@@ -55,7 +62,7 @@ public class <%= pageSetClass %>Resource {
     public ResponseEntity post<%= page.pageClass %>(@RequestBody <%= page.pageSaveClass %> <%= page.pageSaveInstance %>) throws URISyntaxException {
         log.debug("REST request to save <%= page.pageSaveClass %> : {}", <%= page.pageSaveInstance %>);
         //TODO please code the save of page data.
-        return ResponseEntity.ok();
+        return ResponseEntity.ok().build();
     }
 <%_ }
     if (page.loadFromServer) { _%>

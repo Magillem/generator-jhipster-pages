@@ -98,7 +98,7 @@ module.exports = JhipsterGenerator.extend({
             }
 
             this.pageSetSpinalCased = _.kebabCase(_.lowerFirst(this.pageSet));
-            this.pageSetClass = _.camelCase(this.pageSet);
+            this.pageSetClass = _.upperFirst(_.camelCase(this.pageSet));
             this.pageSetAngularClass = this.pageSetClass;
             this.pageSetInstance = _.lowerFirst(this.pageSetClass);
             this.pageSetUrl = this.pageSetSpinalCased;
