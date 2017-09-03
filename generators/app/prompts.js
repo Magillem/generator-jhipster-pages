@@ -107,12 +107,20 @@ function askForPageConfig() {
             message: 'Which king of page you want to add?',
             choices: [
                 {
-                    value: 'static',
-                    name: 'Static'
+                    value: 'clientOnly',
+                    name: 'Client Only'
                 },
                 {
-                    value: 'dynamic',
-                    name: 'Dynamic'
+                    value: 'loadFromServer',
+                    name: 'Load data from server'
+                },
+                {
+                    value: 'saveToServer',
+                    name: 'Save data to server'
+                },
+                {
+                    value: 'loadAndSaveToServer',
+                    name: 'Load and Save data to server'
                 },
                 {
                     value: 'forms',

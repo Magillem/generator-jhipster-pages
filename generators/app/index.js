@@ -78,9 +78,22 @@ module.exports = JhipsterGenerator.extend({
         loadInMemoryData() {
             this.enableTranslation = this.config.get('enableTranslation');
 
+            if(this.pageType === 'loadFromServer' || this.pageType === 'loadAndSaveToServer' || this.pageType === 'forms' || this.pageType === 'workflow') {
+                this.loadFromServer = true;
+            }
+
+            if(this.pageType === 'saveToServer' || this.pageType === 'loadAndSaveToServer' || this.pageType === 'forms' || this.pageType === 'workflow') {
+                this.saveToServer = true;
+            }
+
+            if(this.loadFromServer === true || this.saveToServer === true) {
+                this.contactServer = true;
+            }
+
             this.pageSetSpinalCased = _.kebabCase(_.lowerFirst(this.pageSet));
             this.pageSetClass = _.camelCase(this.pageSet);
             this.pageSetUrl = this.pageSetSpinalCased;
+            this.pageSetApiUrl = this.pageSetSpinalCased;
             this.pageSetRouterState = this.pageSetClass;
             this.pageSetFolder = this.pageSetSpinalCased;
             this.pageSetTranslation = this.pageSetSpinalCased;
@@ -92,13 +105,27 @@ module.exports = JhipsterGenerator.extend({
                 page.pageNameTranslationKey = _.lowerFirst(page.pageName);
                 page.pageAngularName = page.pageNameCamelCased;
                 page.pageRouterState = page.pageNameCamelCased;
+                page.pageInstance = _.lowerFirst(page.pageNameCamelCased);
+                page.pageClass = _.upperFirst(page.pageNameCamelCased);
+                page.pageLoadInstance = page.pageInstance+'LoadVM';
+                page.pageLoadClass = page.pageClass+'LoadVM';
+                page.pageSaveInstance = page.pageInstance+'SaveVM';
+                page.pageSaveClass = page.pageClass+'SaveVM';
+
                 if(page.pageName === this.pageName) {
                     this.pageNameKebabCased = page.pageNameKebabCased;
                     this.pageNameCamelCased = page.pageNameCamelCased;
                     this.pageUrl = page.pageUrl;
+                    this.pageApiUrl = page.pageNameKebabCased;
                     this.pageNameTranslationKey = page.pageNameTranslationKey;
                     this.pageAngularName = page.pageAngularName;
                     this.pageRouterState = page.pageRouterState;
+                    this.pageInstance = page.pageInstance ;
+                    this.pageClass = page.pageClass ;
+                    this.pageLoadInstance = page.pageLoadInstance ;
+                    this.pageLoadClass = page.pageLoadClass ;
+                    this.pageSaveInstance = page.pageSaveInstance ;
+                    this.pageSaveClass = page.pageSaveClass ;
                 }
             });
         }

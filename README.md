@@ -47,7 +47,7 @@ npm update -g generator-jhipster-pages
 ## Launch
 
 ```bash
-yo generator-jhipster-pages
+yo jhipster-pages
 ```
 
 ## Core Concepts

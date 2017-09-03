@@ -17,29 +17,10 @@
  limitations under the License.
 -%>
 package <%=packageName%>.web.rest;
-<% if (databaseType === 'cassandra') { %>
-import <%=packageName%>.AbstractCassandraTest;<% } %>
 import <%=packageName%>.<%= mainClass %>;
-<% if (authenticationType === 'uaa') { %>
-import <%=packageName%>.config.SecurityBeanOverrideConfiguration;
-<% } %>
 import <%=packageName%>.domain.<%= entityClass %>;
-<%_ for (idx in relationships) { // import entities in required relationships
-        const relationshipValidate = relationships[idx].relationshipValidate;
-        const otherEntityNameCapitalized = relationships[idx].otherEntityNameCapitalized;
-        if (relationshipValidate !== null && relationshipValidate === true) { _%>
-import <%=packageName%>.domain.<%= otherEntityNameCapitalized %>;
-<%_ } } _%>
-import <%=packageName%>.repository.<%= entityClass %>Repository;<% if (service !== 'no') { %>
-import <%=packageName%>.service.<%= entityClass %>Service;<% } if (searchEngine === 'elasticsearch') { %>
-import <%=packageName%>.repository.search.<%= entityClass %>SearchRepository;<% } if (dto === 'mapstruct') { %>
-import <%=packageName%>.service.dto.<%= entityClass %>DTO;
-import <%=packageName%>.service.mapper.<%= entityClass %>Mapper;<% } %>
+import <%=packageName%>.repository.<%= entityClass %>Repository;
 import <%=packageName%>.web.rest.errors.ExceptionTranslator;
-<%_ if (jpaMetamodelFiltering) { _%>
-import <%=packageName%>.service.dto.<%= entityClass %>Criteria;
-import <%=packageName%>.service.<%= entityClass %>QueryService;
-<%_ } _%>
 
 import org.junit.Before;
 import org.junit.Test;
@@ -52,30 +33,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;<% if (databaseType === 'sql') { %>
-import org.springframework.transaction.annotation.Transactional;<% } %><% if (fieldsContainBlob === true) { %>
-import org.springframework.util.Base64Utils;<% } %>
-<% if (databaseType === 'sql') { %>
-import javax.persistence.EntityManager;<% } %><% if (fieldsContainBigDecimal === true) { %>
-import java.math.BigDecimal;<% } %><% if (fieldsContainBlob === true && databaseType === 'cassandra') { %>
-import java.nio.ByteBuffer;<% } %><% if (fieldsContainLocalDate === true) { %>
-import java.time.LocalDate;<% } %><% if (fieldsContainInstant === true || fieldsContainZonedDateTime === true) { %>
-import java.time.Instant;<% } %><% if (fieldsContainZonedDateTime === true) { %>
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;<% } %><% if (fieldsContainLocalDate === true || fieldsContainZonedDateTime === true) { %>
-import java.time.ZoneId;<% } %><% if (fieldsContainInstant === true) { %>
-import java.time.temporal.ChronoUnit;<% } %>
-import java.util.List;<% if (databaseType === 'cassandra') { %>
-import java.util.UUID;<% } %>
-<% if (fieldsContainZonedDateTime === true) { %>
-import static <%=packageName%>.web.rest.TestUtil.sameInstant;<% } %>
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-<%_ for (idx in fields) { if (fields[idx].fieldIsEnum === true) { _%>import <%=packageName%>.domain.enumeration.<%= fields[idx].fieldType %>;
-<%_ } } _%>
 /**
  * Test class for the <%= entityClass %>Resource REST controller.
  *
@@ -510,7 +473,7 @@ _%>
 <%_
             }
             // the range criterias
-            if (['Byte', 'Short', 'Integer', 'Long', 'LocalDate', 'ZonedDateTime'].includes(searchBy.fieldType)) { 
+            if (['Byte', 'Short', 'Integer', 'Long', 'LocalDate', 'ZonedDateTime'].includes(searchBy.fieldType)) {
               var defaultValue = 'DEFAULT_' + searchBy.fieldNameUnderscored.toUpperCase();
               var biggerValue = 'UPDATED_' + searchBy.fieldNameUnderscored.toUpperCase();
               if (searchBy.fieldValidate === true && searchBy.fieldValidateRules.includes('max')) {
