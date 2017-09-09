@@ -116,6 +116,7 @@ module.exports = JhipsterGenerator.extend({
                 page.pageRouterState = _.lowerFirst(page.pageNameCamelCased);
                 page.pageInstance = _.lowerFirst(page.pageNameCamelCased);
                 page.pageClass = _.upperFirst(page.pageNameCamelCased);
+                page.pageApiUrl = page.pageNameKebabCased;
                 page.pageLoadInstance = page.pageInstance+'LoadVM';
                 page.pageLoadClass = page.pageClass+'LoadVM';
                 page.pageSaveInstance = page.pageInstance+'SaveVM';

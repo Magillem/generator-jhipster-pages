@@ -137,6 +137,14 @@ function askForPageConfig() {
             type: 'input',
             name: 'pageName',
             message: 'Enter the page name:',
+            validate: (input) => {
+                this.pages.forEach((page) => {
+                    if(page.pageName === input) {
+                        return `${input} already exist in ${this.pageSet}`;
+                    }
+                });
+                return true;
+            }
         },
         {
             type: 'input',

@@ -70,8 +70,6 @@ _%>
 
     private MockMvc rest<%= pageSetClass %>MockMvc;
 
-    private <%= pageSetClass %> <%= pageSetInstance %>;
-
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
