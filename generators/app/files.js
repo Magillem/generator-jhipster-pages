@@ -103,7 +103,7 @@ const angularjsFiles = {
             templates: [
                 {
                     file: 'pages/_page-sets.state.js',
-                    renameTo: generator => `pages/${generator.pageSetFolder}/page-sets.state.js`
+                    renameTo: generator => `pages/page-sets.state.js`
                 },
                 {
                     file: 'pages/_page-set.state.js',
