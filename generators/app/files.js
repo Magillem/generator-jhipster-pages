@@ -286,7 +286,7 @@ function writeFiles() {
                 this.writeFilesToDisk(angularFiles, this, false, CLIENT_NG2_TEMPLATES_DIR);
             }
 
-            this.addElementToMenu(this.pageSet+'-'+this.pageName, this.pageGlyphIcon, this.enableTranslation, this.clientFramework);
+            this.addElementToMenu(this.pageSetRouterState+'-'+this.pageRouterState, this.pageGlyphIcon, this.enableTranslation, this.clientFramework);
 
             // Copy for each
             if (this.enableTranslation) {
