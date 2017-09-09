@@ -129,7 +129,7 @@ const angularjsFiles = {
             templates: [
                 {
                     file: 'pages/_page.service.js',
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSetAngularClass}.service.js`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.service.js`
                 }
             ]
         }

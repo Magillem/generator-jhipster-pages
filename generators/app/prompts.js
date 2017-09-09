@@ -79,7 +79,7 @@ function askForPageSetConfig() {
             this.changelogDate = this.dateFormatForLiquibase();
         } else {
             let fromPath = `${constant.MODULES_PAGES_CONFIG_FILE}/${this.pageSet}.json`;
-            this.log(fromPath);
+            //this.log(fromPath);
             try {
                 this.fileData = this.fs.readJSON(fromPath);
             } catch (err) {

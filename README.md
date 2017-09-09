@@ -58,10 +58,6 @@ The following types are supported:
 - **client only** generate a simple static page :
     - empty html page
     - simple js controller
-
-## Road Map
-
-Here is the list of types to do
 - **Load data from server** generate
     - empty html page
     - js controller
@@ -77,6 +73,10 @@ Here is the list of types to do
    - js controller
    - js read and write service
    - java get and post web service
+
+## Road Map
+
+Here is the list of types to do
 - **Form** generate 
    - form html page
    - js controller

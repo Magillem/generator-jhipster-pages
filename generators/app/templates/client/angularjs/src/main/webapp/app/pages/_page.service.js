@@ -34,6 +34,6 @@ limitations under the License.
             if (saveToServer) { %>
             'save': { method: 'POST'}<% } %>
         }
-    });
+    );
     }
 })();

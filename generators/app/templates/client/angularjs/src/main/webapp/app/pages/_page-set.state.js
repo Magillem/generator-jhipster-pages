@@ -48,8 +48,13 @@ limitations under the License.
                 $translatePartialLoader.addPart('<%= pageSetTranslation %>');
                 $translatePartialLoader.addPart('global');
                 return $translate.refresh();
-            }]
+            }],
             <%_ } _%>
+            <% if (page.loadFromServer === true) { %>
+            entity: ['<%= page.pageAngularName %>', function(<%= pageAngularName %>) {
+                return <%= pageAngularName %>.get().$promise;
+            }]
+            <% } %>
         }
     })
     <%_ } _%>

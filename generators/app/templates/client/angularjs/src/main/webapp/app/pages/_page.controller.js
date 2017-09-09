@@ -23,9 +23,9 @@ limitations under the License.
         .module('<%=angularAppName%>')
         .controller('<%= pageAngularName %>Controller', <%= pageAngularName %>Controller);
 
-<%= pageAngularName %>Controller.$inject = [];
+<%= pageAngularName %>Controller.$inject = [<% if (loadFromServer === true) { %>'entity'<% } %><% if (loadFromServer === true && saveToServer === true ) { %>,<% } %><% if (saveToServer === true) { %>'<%= pageAngularName %>'<% } %>];
 
-    function <%= pageAngularName %>Controller() {
+    function <%= pageAngularName %>Controller(<% if (loadFromServer === true) { %>entity<% } %><% if (loadFromServer === true && saveToServer === true ) { %>,<% } %><% if (saveToServer === true) { %><%= pageAngularName %><% } %>) {
 
         var vm = this;
 
