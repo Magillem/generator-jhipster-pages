@@ -53,13 +53,18 @@ module.exports = JhipsterGenerator.extend({
             if (!semver.satisfies(jhipsterVersion, minimumJhipsterVersion)) {
                 this.warning(`\nYour generated project used an old JHipster version (${jhipsterVersion})... you need at least (${minimumJhipsterVersion})\n`);
             }
+        },
+        setupconsts() {
+            this.fields = [];
+            this.fieldNamesUnderscored = [];
         }
     },
 
     prompting: {
-
         askForPageSetConfig: prompts.askForPageSetConfig,
-        askForPageConfig: prompts.askForPageConfig
+        askForPageConfig: prompts.askForPageConfig,
+        askForFormConfig: prompts.askForFormConfig,
+        askForWorkflowConfig: prompts.askForWorkflowConfig
     },
 
     configuring: {
@@ -71,6 +76,14 @@ module.exports = JhipsterGenerator.extend({
             }
             this.data = {};
             this.data.pages = this.pages;
+            this.currentPage = {pageName: this.pageName, pageType: this.pageType};
+            if(this.pageGlyphIcon || this.pageGlyphIcon === 'false') {
+                this.currentPage.pageGlyphIcon = this.pageGlyphIcon;
+            }
+            if(this.fields) {
+                this.currentPage.fields = this.fields;
+            }
+            this.pages.push(this.currentPage);
             this.data.changelogDate = this.changelogDate;
             this.fs.writeJSON(toPath, this.data, null, 4);
         },
