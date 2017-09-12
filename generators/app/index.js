@@ -57,6 +57,7 @@ module.exports = JhipsterGenerator.extend({
         setupconsts() {
             this.fields = [];
             this.fieldNamesUnderscored = [];
+            this.validation = false;
         }
     },
 
@@ -164,6 +165,12 @@ module.exports = JhipsterGenerator.extend({
                     this.pageLoadClass = page.pageLoadClass ;
                     this.pageSaveInstance = page.pageSaveInstance ;
                     this.pageSaveClass = page.pageSaveClass ;
+                }
+            });
+
+            this.fields.forEach((field) => {
+                if (field.fieldValidate) {
+                    this.validation = true;
                 }
             });
         }
