@@ -10,7 +10,7 @@
   "author": {
     "name": "Guillaume DUFOUR",
     "email": "guillaume.duff@gmail.com",
-    "url": ""
+    "url": "https://github.com/Dufgui"
   },
   "files": [
     "generators"
@@ -52,7 +52,7 @@
   "scripts": {
     "test": "mocha test/*"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/Dufgui/generator-jhipster-pages/issues"
   }
