@@ -28,6 +28,14 @@ limitations under the License.
     function <%= pageAngularName %>Controller(<% if (loadFromServer === true) { %>entity<% } %><% if (loadFromServer === true && saveToServer === true ) { %>,<% } %><% if (saveToServer === true) { %><%= pageAngularName %><% } %>) {
 
         var vm = this;
+    <% if (loadFromServer === true) { %>vm.entity=entity<% } %>
+    <% if (saveToServer === true) { %>
+        vm.save = save;
 
+        function save () {
+            vm.isSaving = true;
+            <%= pageAngularName %>.save(vm.<%= pageInstance %>, onSaveSuccess, onSaveError);
+        }
+        <% } %>
     }
 })();

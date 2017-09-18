@@ -18,10 +18,46 @@
     -%>
     package <%=packageName%>.web.rest.vm;
 
+<%_ if (fieldsContainInstant === true) { _%>
+import java.time.Instant;
+<%_ } if (fieldsContainLocalDate === true) { _%>
+import java.time.LocalDate;
+<%_ } if (fieldsContainZonedDateTime === true) { _%>
+import java.time.ZonedDateTime;
+<%_ } _%>
+
 /**
  * View Model Class to Save page <%= pageName %>.
  */
 
 public class <%= pageSaveClass %>{
 
+<%_ for (idx in fields) {
+    if (typeof fields[idx].javadoc !== 'undefined') { _%>
+<%- formatAsFieldJavadoc(fields[idx].javadoc) %>
+<%_ }
+    let required = false;
+    const fieldValidate = fields[idx].fieldValidate;
+    const fieldValidateRules = fields[idx].fieldValidateRules;
+    const fieldValidateRulesMaxlength = fields[idx].fieldValidateRulesMaxlength;
+    const fieldType = fields[idx].fieldType;
+    const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
+    const fieldName = fields[idx].fieldName;
+    const fieldNameUnderscored = fields[idx].fieldNameUnderscored;
+    const fieldNameAsDatabaseColumn = fields[idx].fieldNameAsDatabaseColumn;
+    if (fieldValidate === true) {
+    if (fieldValidate === true && fieldValidateRules.indexOf('required') !== -1) {
+    required = true;
+    } _%>
+<%- include ../../../common/field_validators -%>
+<%_ } _%>
+<%_ if (typeof fields[idx].javadoc != 'undefined') { _%>
+@ApiModelProperty(value = "<%- formatAsApiDescription(fields[idx].javadoc) %>"<% if (required) { %>, required = true<% } %>)
+<%_ } _%>
+<%_ if (fieldTypeBlobContent !== 'text') { _%>
+private <%= fieldType %> <%= fieldName %>;
+<%_ } else { _%>
+private String <%= fieldName %>;
+<%_ }
+}_%>
 }
