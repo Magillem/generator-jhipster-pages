@@ -261,7 +261,6 @@ function writeFiles() {
             this.log(`\nnewPageSet=${this.newPageSet}`);
             this.log(`\npageType=${this.pageType}`);
             this.log(`\npageName=${this.pageName}`);
-            this.log(`\nfuck=${this.pageType !== 'clientOnly'}`);
 
             this.log('------\n');
 
@@ -293,8 +292,7 @@ function writeFiles() {
                 const languages = this.languages || this.getAllInstalledLanguages();
                 languages.forEach((language) => {
                     try {
-                        this.template(`${CLIENT_I18N_TEMPLATES_DIR}/i18n/_page_${language}.json`, `${CLIENT_MAIN_SRC_DIR}i18n/${language}/${this.pageInstance}.json`);
-                        this.addEntityTranslationKey(this.pageSetTranslation, this.pageSetClass, language);
+                        this.template(`${CLIENT_I18N_TEMPLATES_DIR}/i18n/_page_${language}.json`, `${constants.CLIENT_MAIN_SRC_DIR}i18n/${language}/${this.pageInstance}.json`);
                         this.addEntityTranslationKey(this.pageNameTranslationKey, this.pageClass, language);
                     } catch (e) {
                         // An exception is thrown if the folder doesn't exist

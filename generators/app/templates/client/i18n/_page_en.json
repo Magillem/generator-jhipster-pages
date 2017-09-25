@@ -18,7 +18,7 @@ limitations under the License.
 -%>
 {
     "<%= angularAppName %>": {
-        "<%= pageTranslationKey %>": {
+        "<%= pageNameTranslationKey %>": {
             "home": {
                 "title": "<%= pageName %>"
             }

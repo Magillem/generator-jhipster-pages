@@ -1,6 +1,6 @@
 # generator-jhipster-pages
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
-> JHipster module, create pages : client only (static), or client and server side. Load data from server, Save data to server, form, workflow...
+> JHipster module, create pages : client only (static), or client and server side. Load data from server, Save data to server, form, table...
 
 # Introduction
 
@@ -80,9 +80,15 @@ Here is the list of types to do
 - **Form** generate 
    - form html page
    - js controller
-   - js read and write service
-   - java get and post web service
-   - get and post argument object
+   - js write service
+   - java post web service
+   - post argument object
+- **Table** generate
+   - table html page
+   - js controller
+   - js read service
+   - java get web service
+   - get returned object
 - **Workflow** generate
     - multiple step html pages (form) with link to previous and next steps
     - multiple step js controllers

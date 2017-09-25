@@ -126,12 +126,16 @@ function askForPageConfig() {
                     name: 'Load and Save data to server'
                 },
                 {
-                    value: 'forms',
-                    name: 'Forms'
+                    value: 'form',
+                    name: 'Form (beta)'
+                },
+                {
+                    value: 'table',
+                    name: 'Table (beta)'
                 },
                 {
                     value: 'workflow',
-                    name: 'Workflow'
+                    name: 'Workflow (beta)'
                 },
             ],
             store   : true
@@ -170,7 +174,7 @@ function askForFormConfig() {
 
     const done = this.async();
 
-    if (this.pageType === 'forms' || this.pageType === 'workflow') {
+    if (this.pageType === 'form' || this.pageType === 'table' || this.pageType === 'workflow') {
         askForField.call(this, done);
     }
 }

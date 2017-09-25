@@ -45,7 +45,7 @@ limitations under the License.
         resolve: {
             <%_ if (enableTranslation){ _%>
             translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
-                $translatePartialLoader.addPart('<%= pageSetTranslation %>');
+                $translatePartialLoader.addPart('<%= pageNameTranslationKey %>');
                 $translatePartialLoader.addPart('global');
                 return $translate.refresh();
             }],

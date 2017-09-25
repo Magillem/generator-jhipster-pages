@@ -57,7 +57,6 @@ module.exports = JhipsterGenerator.extend({
         setupconsts() {
             this.fields = [];
             this.fieldNamesUnderscored = [];
-            this.validation = false;
         }
     },
 
@@ -97,13 +96,18 @@ module.exports = JhipsterGenerator.extend({
             this.packageFolder = this.jhipsterAppConfig.packageFolder;
             this.enableTranslation = this.jhipsterAppConfig.enableTranslation;
             this.authenticationType = this.jhipsterAppConfig.authenticationType;
+            this.languages = this.jhipsterAppConfig.languages;
             this.mainClass = this.getMainClassName();
 
-            if(this.pageType === 'loadFromServer' || this.pageType === 'loadAndSaveToServer' || this.pageType === 'forms' || this.pageType === 'workflow') {
+            this.loadFromServer = false;
+            this.saveToServer = false;
+            this.contactServer = false;
+
+            if(this.pageType === 'loadFromServer' || this.pageType === 'loadAndSaveToServer' || this.pageType === 'table' || this.pageType === 'workflow') {
                 this.loadFromServer = true;
             }
 
-            if(this.pageType === 'saveToServer' || this.pageType === 'loadAndSaveToServer' || this.pageType === 'forms' || this.pageType === 'workflow') {
+            if(this.pageType === 'saveToServer' || this.pageType === 'loadAndSaveToServer' || this.pageType === 'form' || this.pageType === 'workflow') {
                 this.saveToServer = true;
             }
 
@@ -139,11 +143,11 @@ module.exports = JhipsterGenerator.extend({
                 page.saveToServer = false;
                 page.contactServer = false;
 
-                if(page.pageType === 'loadFromServer' || page.pageType === 'loadAndSaveToServer' || page.pageType === 'forms' || page.pageType === 'workflow') {
+                if(page.pageType === 'loadFromServer' || page.pageType === 'loadAndSaveToServer' || page.pageType === 'table' || page.pageType === 'workflow') {
                     page.loadFromServer = true;
                 }
 
-                if(page.pageType === 'saveToServer' || page.pageType === 'loadAndSaveToServer' || page.pageType === 'forms' || page.pageType === 'workflow') {
+                if(page.pageType === 'saveToServer' || page.pageType === 'loadAndSaveToServer' || page.pageType === 'form' || page.pageType === 'workflow') {
                     page.saveToServer = true;
                 }
 
@@ -168,7 +172,64 @@ module.exports = JhipsterGenerator.extend({
                 }
             });
 
+            this.fieldsContainInstant = false;
+            this.fieldsContainZonedDateTime = false;
+            this.fieldsContainLocalDate = false;
+            this.fieldsContainBigDecimal = false;
+            this.fieldsContainBlob = false;
+            this.fieldsContainImageBlob = false;
+            this.validation = false;
+
             this.fields.forEach((field) => {
+                const nonEnumType = _.includes(['String', 'Integer', 'Long', 'Float', 'Double', 'BigDecimal',
+                    'LocalDate', 'Instant', 'ZonedDateTime', 'Boolean', 'byte[]', 'ByteBuffer'], field.fieldType);
+                if (!nonEnumType) {
+                    field.fieldIsEnum = true;
+                } else {
+                    field.fieldIsEnum = false;
+                }
+
+                if (_.isUndefined(field.fieldInJavaBeanMethod)) {
+                    // Handle the specific case when the second letter is capitalized
+                    // See http://stackoverflow.com/questions/2948083/naming-convention-for-getters-setters-in-java
+                    if (field.fieldName.length > 1) {
+                        const firstLetter = field.fieldName.charAt(0);
+                        const secondLetter = field.fieldName.charAt(1);
+                        if (firstLetter === firstLetter.toLowerCase() && secondLetter === secondLetter.toUpperCase()) {
+                            field.fieldInJavaBeanMethod = firstLetter.toLowerCase() + field.fieldName.slice(1);
+                        } else {
+                            field.fieldInJavaBeanMethod = _.upperFirst(field.fieldName);
+                        }
+                    } else {
+                        field.fieldInJavaBeanMethod = _.upperFirst(field.fieldName);
+                    }
+                }
+
+                if (_.isUndefined(field.fieldValidateRulesPatternJava)) {
+                    field.fieldValidateRulesPatternJava = field.fieldValidateRulesPattern ?
+                        field.fieldValidateRulesPattern.replace(/\\/g, '\\\\').replace(/"/g, '\\"') : field.fieldValidateRulesPattern;
+                }
+
+                if (_.isArray(field.fieldValidateRules) && field.fieldValidateRules.length >= 1) {
+                    field.fieldValidate = true;
+                } else {
+                    field.fieldValidate = false;
+                }
+
+                if (field.fieldType === 'ZonedDateTime') {
+                    this.fieldsContainZonedDateTime = true;
+                } else if (field.fieldType === 'Instant') {
+                    this.fieldsContainInstant = true;
+                } else if (field.fieldType === 'LocalDate') {
+                    this.fieldsContainLocalDate = true;
+                } else if (field.fieldType === 'BigDecimal') {
+                    this.fieldsContainBigDecimal = true;
+                } else if (field.fieldType === 'byte[]' || field.fieldType === 'ByteBuffer') {
+                    this.fieldsContainBlob = true;
+                    if (field.fieldTypeBlobContent === 'image') {
+                        this.fieldsContainImageBlob = true;
+                    }
+                }
                 if (field.fieldValidate) {
                     this.validation = true;
                 }
