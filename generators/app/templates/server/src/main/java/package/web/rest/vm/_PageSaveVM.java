@@ -108,8 +108,20 @@ public class <%= pageSaveClass %>{
         this.<%= fieldName %>ContentType = <%= fieldName %>ContentType;
     }
 <%_     } _%>
-<%_ }
-}_%>
+<%_ } _%>
+
+    @Override
+    public String toString() {
+        return "<%= pageSaveClass %>{" +
+        <% for (idx in fields) {
+        const fieldName = fields[idx].fieldName;
+        const fieldType = fields[idx].fieldType;
+        const fieldNameCapitalized = fieldName.charAt(0).toUpperCase() + fieldName.slice(1) %>
+        ", <%= fieldName %>='" + <% if (fieldType.toLowerCase() === 'boolean') { %>is<% } else { %>get<%_ } _%><%= fieldNameCapitalized %>() + "'" +<% } %>
+        "}";
+    }
+
+<%_ } _%>
 
 // jhipster-needle-page-add-getters-setters - Jhipster will add getters and setters here, do not remove
 
