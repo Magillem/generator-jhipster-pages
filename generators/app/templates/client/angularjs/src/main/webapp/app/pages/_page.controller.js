@@ -23,9 +23,9 @@ limitations under the License.
         .module('<%=angularAppName%>')
         .controller('<%= pageAngularName %>Controller', <%= pageAngularName %>Controller);
 
-<%= pageAngularName %>Controller.$inject = [<% if (loadFromServer === true) { %>'entity'<% } %><% if (loadFromServer === true && saveToServer === true ) { %>,<% } %><% if (saveToServer === true) { %> '$scope', '$uibModalInstance', '<%= pageAngularName %>'<% } %>];
+<%= pageAngularName %>Controller.$inject = [<% if (loadFromServer === true) { %>'entity'<% } %><% if (loadFromServer === true && saveToServer === true ) { %>,<% } %><% if (saveToServer === true) { %> '$scope', '<%= pageAngularName %>'<% } %>];
 
-    function <%= pageAngularName %>Controller(<% if (loadFromServer === true) { %>entity<% } %><% if (loadFromServer === true && saveToServer === true ) { %>,<% } %><% if (saveToServer === true) { %> $scope, $uibModalInstance, <%= pageAngularName %><% } %>) {
+    function <%= pageAngularName %>Controller(<% if (loadFromServer === true) { %>entity<% } %><% if (loadFromServer === true && saveToServer === true ) { %>,<% } %><% if (saveToServer === true) { %> $scope, <%= pageAngularName %><% } %>) {
 
         var vm = this;
     <% if (loadFromServer === true) { %>vm.entity=entity<% } %>
@@ -39,7 +39,6 @@ limitations under the License.
 
         function onSaveSuccess (result) {
             $scope.$emit('<%=angularAppName%>:<%= pageInstance %>Update', result);
-            $uibModalInstance.close(result);
             vm.isSaving = false;
         }
 
