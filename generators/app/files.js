@@ -292,8 +292,8 @@ function writeFiles() {
                 const languages = this.languages || this.getAllInstalledLanguages();
                 languages.forEach((language) => {
                     try {
-                        this.template(`${CLIENT_I18N_TEMPLATES_DIR}/i18n/_page_${language}.json`, `${constants.CLIENT_MAIN_SRC_DIR}i18n/${language}/${this.pageInstance}.json`);
-                        this.addElementTranslationKey(this.pageNameTranslationKey, this.pageName, language);
+                        this.template(`${CLIENT_I18N_TEMPLATES_DIR}/i18n/_page_${language}.json`, `${constants.CLIENT_MAIN_SRC_DIR}i18n/${language}/${this.pageSetTranslationKey}.json`);
+                        this.addElementTranslationKey(this.pageSetAndNameTranslationKey, this.pageName, language);
                     } catch (e) {
                         // An exception is thrown if the folder doesn't exist
                         // do nothing

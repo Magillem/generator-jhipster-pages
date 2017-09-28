@@ -17,11 +17,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -%>
 <%
-const keyPrefix = angularAppName + '.' + pageNameTranslationKey;
+const keyPrefix = angularAppName + '.' + pageSetTranslationKey + '.' + pageNameTranslationKey;
 const ngValidators = './ng_validators';
 %>
 <div>
-    <h2><span data-translate="<%= keyPrefix %>.home.title"><%= pageName %></span></h2>
+    <h2><span data-translate="<%= keyPrefix %>.title"><%= pageName %></span></h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
 
@@ -35,7 +35,7 @@ const ngValidators = './ng_validators';
         const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
         let fieldInputType = 'text';
         let ngModelOption = '';
-        const translationKey = keyPrefix + fieldName;
+        const translationKey = keyPrefix +'.'+ fieldName;
         if (fieldType === 'Integer' || fieldType === 'Long' || fieldType === 'Float' || fieldType === 'Double' || fieldType === 'BigDecimal') {
         fieldInputType = 'number';
         } else if (fieldType === 'LocalDate') {

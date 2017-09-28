@@ -18,6 +18,15 @@
     -%>
 package <%=packageName%>.web.rest.vm;
 
+<%_ if (fieldsContainInstant === true) { _%>
+import java.time.Instant;
+<%_ } if (fieldsContainLocalDate === true) { _%>
+import java.time.LocalDate;
+<%_ } if (fieldsContainZonedDateTime === true) { _%>
+import java.time.ZonedDateTime;
+<%_ } if (validation) { %>
+import javax.validation.constraints.*;<% } %>
+
 /**
  * View Model Class to Load page <%= pageName %>.
  */

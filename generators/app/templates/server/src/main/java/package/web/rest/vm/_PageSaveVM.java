@@ -16,7 +16,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
     -%>
-    package <%=packageName%>.web.rest.vm;
+package <%=packageName%>.web.rest.vm;
 
 <%_ if (fieldsContainInstant === true) { _%>
 import java.time.Instant;
@@ -24,7 +24,8 @@ import java.time.Instant;
 import java.time.LocalDate;
 <%_ } if (fieldsContainZonedDateTime === true) { _%>
 import java.time.ZonedDateTime;
-<%_ } _%>
+<%_ } if (validation) { %>
+import javax.validation.constraints.*;<% } %>
 
 /**
  * View Model Class to Save page <%= pageName %>.
