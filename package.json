@@ -1,6 +1,6 @@
 {
   "name": "generator-jhipster-pages",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "create pages (empty, sitemap, workflow, forms) and dedicated server side",
   "keywords": [
     "yeoman-generator",
