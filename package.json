@@ -1,7 +1,7 @@
 {
   "name": "generator-jhipster-pages",
   "version": "1.0.0",
-  "description": "create pages (empty, sitemap, workflow, forms) and dedicated server side",
+  "description": "create pages : client only (static), or client and server side. Load data from server, Save data to server, form, table...",
   "keywords": [
     "yeoman-generator",
     "jhipster-module"
