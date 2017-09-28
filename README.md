@@ -74,17 +74,17 @@ The following types are supported:
    - js controller
    - js read and write service
    - java get and post web service
-
-## Road Map
-
-Here is the list of types to do
-
 - **Form** generate 
    - form html page
    - js controller
    - js write service
    - java post web service
    - post argument object
+
+## Road Map
+
+Here is the list of types to do
+
 - **Table** generate
    - table html page
    - js controller
