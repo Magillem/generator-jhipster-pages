@@ -55,6 +55,7 @@ yo jhipster-pages
 each page beyond to a page set. A page set is defined by a name.
 A Page have a name, a glyphicon, and a type.
 The following types are supported:
+
 - **client only** generate a simple static page :
     - empty html page
     - simple js controller
@@ -77,6 +78,7 @@ The following types are supported:
 ## Road Map
 
 Here is the list of types to do
+
 - **Form** generate 
    - form html page
    - js controller
