@@ -41,7 +41,7 @@ const CLIENT_I18N_TEMPLATES_DIR = 'client';
  * The default is to use a file path string. It implies use of the template method.
  * For any other config an object { file:.., method:.., template:.. } can be used
  */
-const serverFiles = {
+const pageSetServerFiles = {
     server: [
         {
             condition: generator => generator.contactServer === true,
@@ -50,26 +50,6 @@ const serverFiles = {
                 {
                     file: 'package/web/rest/_PageSetResource.java',
                     renameTo: generator => `${generator.packageFolder}/web/rest/${generator.pageSetClass}Resource.java`
-                }
-            ]
-        },
-        {
-            condition: generator => generator.loadFromServer === true,
-            path: SERVER_MAIN_SRC_DIR,
-            templates: [
-                {
-                    file: 'package/web/rest/vm/_PageLoadVM.java',
-                    renameTo: generator => `${generator.packageFolder}/web/rest/vm/${generator.pageLoadClass}.java`
-                }
-            ]
-        },
-        {
-            condition: generator => generator.saveToServer === true,
-            path: SERVER_MAIN_SRC_DIR,
-            templates: [
-                {
-                    file: 'package/web/rest/vm/_PageSaveVM.java',
-                    renameTo: generator => `${generator.packageFolder}/web/rest/vm/${generator.pageSaveClass}.java`
                 }
             ]
         }
@@ -96,8 +76,34 @@ const serverFiles = {
     ]
 };
 
-const angularjsFiles = {
-    pageCommon: [
+
+const pageServerFiles = {
+    server: [
+        {
+            condition: generator => generator.loadFromServer === true,
+            path: SERVER_MAIN_SRC_DIR,
+            templates: [
+                {
+                    file: 'package/web/rest/vm/_PageLoadVM.java',
+                    renameTo: generator => `${generator.packageFolder}/web/rest/vm/${generator.pageLoadClass}.java`
+                }
+            ]
+        },
+        {
+            condition: generator => generator.saveToServer === true,
+            path: SERVER_MAIN_SRC_DIR,
+            templates: [
+                {
+                    file: 'package/web/rest/vm/_PageSaveVM.java',
+                    renameTo: generator => `${generator.packageFolder}/web/rest/vm/${generator.pageSaveClass}.java`
+                }
+            ]
+        }
+    ]
+};
+
+const pageSetAngularjsFiles = {
+    pageSet: [
         {
             path: ANGULAR_DIR,
             templates: [
@@ -108,7 +114,18 @@ const angularjsFiles = {
                 {
                     file: 'pages/_page-set.state.js',
                     renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSetAngularClass}.state.js`
-                },
+                }
+            ]
+        }
+    ]
+};
+
+
+const pageAngularjsFiles = {
+    pageCommon: [
+        {
+            path: ANGULAR_DIR,
+            templates: [
                 {
                     file: 'pages/_page.controller.js',
                     renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.controller.js`
@@ -153,6 +170,10 @@ const angularjsFiles = {
         }
     ]
 };
+
+
+
+
 
 const angularFiles = {
     client: [
@@ -211,81 +232,41 @@ const angularFiles = {
 
 module.exports = {
     writeFiles,
-    serverFiles,
-    angularjsFiles,
-    angularFiles
+    pageSetServerFiles,
+    pageServerFiles,
+    pageSetAngularjsFiles,
+    pageAngularjsFiles,
+    angularFiles,
+    generateOneOrRegenerate
 };
 
 function writeFiles() {
     return {
 
-        readConf() {
-
-            // read config from .yo-rc.json
-            this.baseName = this.jhipsterAppConfig.baseName;
-            this.packageName = this.jhipsterAppConfig.packageName;
-            this.packageFolder = this.jhipsterAppConfig.packageFolder;
-            this.clientFramework = this.jhipsterAppConfig.clientFramework;
-            this.clientPackageManager = this.jhipsterAppConfig.clientPackageManager;
-            this.buildTool = this.jhipsterAppConfig.buildTool;
-
-            // use function in generator-base.js from generator-jhipster
-            this.angularAppName = this.getAngularAppName();
-
-            // use constants from generator-constants.js
-            const javaDir = `${constants.SERVER_MAIN_SRC_DIR + this.packageFolder}/`;
-            const resourceDir = constants.SERVER_MAIN_RES_DIR;
-            const webappDir = constants.CLIENT_MAIN_SRC_DIR;
-
-            // variable from questions
-            //this.message = this.props.pageSet;
-
-            // show all variables
-            this.log('\n--- some config read from config ---');
-            this.log(`baseName=${this.baseName}`);
-            this.log(`packageName=${this.packageName}`);
-            this.log(`clientFramework=${this.clientFramework}`);
-            this.log(`clientPackageManager=${this.clientPackageManager}`);
-            this.log(`buildTool=${this.buildTool}`);
-
-            this.log('\n--- some function ---');
-            this.log(`angularAppName=${this.angularAppName}`);
-
-            this.log('\n--- some const ---');
-            this.log(`javaDir=${javaDir}`);
-            this.log(`resourceDir=${resourceDir}`);
-            this.log(`webappDir=${webappDir}`);
-
-            this.log('\n--- variables from questions ---');
-            this.log(`\npageSet=${this.pageSet}`);
-            this.log(`\nnewPageSet=${this.newPageSet}`);
-            this.log(`\npageType=${this.pageType}`);
-            this.log(`\npageName=${this.pageName}`);
-
-            this.log('------\n');
-
-
-        },
-
         writeServerFiles() {
             if (this.skipServer) return;
 
             // write server side files
-            this.writeFilesToDisk(serverFiles, this, false, SERVER_TEMPLATES_DIR);
+            this.writeFilesToDisk(pageSetServerFiles, this, false, SERVER_TEMPLATES_DIR);
+            generateOneOrRegenerate.call(this, () => {
+                this.writeFilesToDisk(pageServerFiles, this, false, SERVER_TEMPLATES_DIR);
+            });
         },
 
         writeClientFiles() {
             if (this.skipClient) return;
-
             if (this.clientFramework === 'angular1') {
                 // write client side files for angular 1.x
-                this.writeFilesToDisk(angularjsFiles, this, false, CLIENT_NG1_TEMPLATES_DIR);
+                this.writeFilesToDisk(pageSetAngularjsFiles, this, false, CLIENT_NG1_TEMPLATES_DIR);
+                generateOneOrRegenerate.call(this, () => {
+                    this.writeFilesToDisk(pageAngularjsFiles, this, false, CLIENT_NG1_TEMPLATES_DIR);
+                    this.addElementToMenu(this.pageSetRouterState+'-'+this.pageRouterState, this.pageGlyphIcon, this.enableTranslation, this.clientFramework);
+                });
             } else {
                 // write client side files for angular 2.x +
                 this.writeFilesToDisk(angularFiles, this, false, CLIENT_NG2_TEMPLATES_DIR);
+                this.addElementToMenu(this.pageSetRouterState+'-'+this.pageRouterState, this.pageGlyphIcon, this.enableTranslation, this.clientFramework);
             }
-
-            this.addElementToMenu(this.pageSetRouterState+'-'+this.pageRouterState, this.pageGlyphIcon, this.enableTranslation, this.clientFramework);
 
             // Copy for each
             if (this.enableTranslation) {
@@ -293,7 +274,9 @@ function writeFiles() {
                 languages.forEach((language) => {
                     try {
                         this.template(`${CLIENT_I18N_TEMPLATES_DIR}/i18n/_page_${language}.json`, `${constants.CLIENT_MAIN_SRC_DIR}i18n/${language}/${this.pageSetTranslationKey}.json`);
-                        this.addElementTranslationKey(this.pageSetAndNameTranslationKey, this.pageName, language);
+                        generateOneOrRegenerate.call(this, () => {
+                            this.addElementTranslationKey(this.pageSetAndNameTranslationKey, this.pageName, language);
+                        });
                     } catch (e) {
                         // An exception is thrown if the folder doesn't exist
                         // do nothing
@@ -302,4 +285,149 @@ function writeFiles() {
             }
         }
     };
+}
+
+function generateOneOrRegenerate(action) {
+    if(this.regenerate) {
+        this.pagesToRegenerate.forEach((page) => {
+            this.pageType = page.pageType;
+            this.pageName = page.pageName;
+            this.pageGlyphIcon = page.pageGlyphIcon;
+            loadPageInMemory.call(this);
+            action();
+        });
+    } else {
+        loadPageInMemory.call(this);
+        action();
+    }
+}
+
+function loadPageInMemory() {
+    this.loadFromServer = false;
+    this.saveToServer = false;
+    this.contactServer = false;
+
+    if(this.pageType === 'loadFromServer' || this.pageType === 'loadAndSaveToServer' || this.pageType === 'table' || this.pageType === 'workflow') {
+        this.loadFromServer = true;
+    }
+
+    if(this.pageType === 'saveToServer' || this.pageType === 'loadAndSaveToServer' || this.pageType === 'form' || this.pageType === 'workflow') {
+        this.saveToServer = true;
+    }
+
+    if(this.loadFromServer === true || this.saveToServer === true) {
+        this.contactServer = true;
+    }
+
+    this.pages.forEach((page) => {
+        page.pageNameKebabCased = _.kebabCase(_.lowerFirst(page.pageName));
+        page.pageNameCamelCased = _.camelCase(page.pageName);
+        page.pageUrl = page.pageNameKebabCased;
+        page.pageAngularName = page.pageNameCamelCased;
+        page.pageRouterState = _.lowerFirst(page.pageNameCamelCased);
+        page.pageNameTranslationKey = page.pageRouterState;
+        page.pageSetAndNameTranslationKey = this.pageSetTranslationKey+'-'+page.pageNameTranslationKey;
+        page.pageInstance = _.lowerFirst(page.pageNameCamelCased);
+        page.pageClass = _.upperFirst(page.pageNameCamelCased);
+        page.pageApiUrl = page.pageNameKebabCased;
+        page.pageLoadInstance = page.pageInstance+'LoadVM';
+        page.pageLoadClass = page.pageClass+'LoadVM';
+        page.pageSaveInstance = page.pageInstance+'SaveVM';
+        page.pageSaveClass = page.pageClass+'SaveVM';
+        page.loadFromServer = false;
+        page.saveToServer = false;
+        page.contactServer = false;
+
+        if(page.pageType === 'loadFromServer' || page.pageType === 'loadAndSaveToServer' || page.pageType === 'table' || page.pageType === 'workflow') {
+            page.loadFromServer = true;
+        }
+
+        if(page.pageType === 'saveToServer' || page.pageType === 'loadAndSaveToServer' || page.pageType === 'form' || page.pageType === 'workflow') {
+            page.saveToServer = true;
+        }
+
+        if(page.loadFromServer === true || page.saveToServer === true) {
+            page.contactServer = true;
+        }
+
+        if(page.pageName === this.pageName) {
+            this.pageNameKebabCased = page.pageNameKebabCased;
+            this.pageNameCamelCased = page.pageNameCamelCased;
+            this.pageUrl = page.pageUrl;
+            this.pageApiUrl = page.pageNameKebabCased;
+            this.pageNameTranslationKey = page.pageNameTranslationKey;
+            this.pageSetAndNameTranslationKey = page.pageSetAndNameTranslationKey;
+            this.pageAngularName = page.pageAngularName;
+            this.pageRouterState = page.pageRouterState;
+            this.pageInstance = page.pageInstance ;
+            this.pageClass = page.pageClass ;
+            this.pageLoadInstance = page.pageLoadInstance ;
+            this.pageLoadClass = page.pageLoadClass ;
+            this.pageSaveInstance = page.pageSaveInstance ;
+            this.pageSaveClass = page.pageSaveClass ;
+        }
+    });
+
+    this.fieldsContainInstant = false;
+    this.fieldsContainZonedDateTime = false;
+    this.fieldsContainLocalDate = false;
+    this.fieldsContainBigDecimal = false;
+    this.fieldsContainBlob = false;
+    this.fieldsContainImageBlob = false;
+    this.validation = false;
+
+    this.fields.forEach((field) => {
+        const nonEnumType = _.includes(['String', 'Integer', 'Long', 'Float', 'Double', 'BigDecimal',
+            'LocalDate', 'Instant', 'ZonedDateTime', 'Boolean', 'byte[]', 'ByteBuffer'], field.fieldType);
+        if (!nonEnumType) {
+            field.fieldIsEnum = true;
+        } else {
+            field.fieldIsEnum = false;
+        }
+
+        if (_.isUndefined(field.fieldInJavaBeanMethod)) {
+            // Handle the specific case when the second letter is capitalized
+            // See http://stackoverflow.com/questions/2948083/naming-convention-for-getters-setters-in-java
+            if (field.fieldName.length > 1) {
+                const firstLetter = field.fieldName.charAt(0);
+                const secondLetter = field.fieldName.charAt(1);
+                if (firstLetter === firstLetter.toLowerCase() && secondLetter === secondLetter.toUpperCase()) {
+                    field.fieldInJavaBeanMethod = firstLetter.toLowerCase() + field.fieldName.slice(1);
+                } else {
+                    field.fieldInJavaBeanMethod = _.upperFirst(field.fieldName);
+                }
+            } else {
+                field.fieldInJavaBeanMethod = _.upperFirst(field.fieldName);
+            }
+        }
+
+        if (_.isUndefined(field.fieldValidateRulesPatternJava)) {
+            field.fieldValidateRulesPatternJava = field.fieldValidateRulesPattern ?
+                field.fieldValidateRulesPattern.replace(/\\/g, '\\\\').replace(/"/g, '\\"') : field.fieldValidateRulesPattern;
+        }
+
+        if (_.isArray(field.fieldValidateRules) && field.fieldValidateRules.length >= 1) {
+            field.fieldValidate = true;
+        } else {
+            field.fieldValidate = false;
+        }
+
+        if (field.fieldType === 'ZonedDateTime') {
+            this.fieldsContainZonedDateTime = true;
+        } else if (field.fieldType === 'Instant') {
+            this.fieldsContainInstant = true;
+        } else if (field.fieldType === 'LocalDate') {
+            this.fieldsContainLocalDate = true;
+        } else if (field.fieldType === 'BigDecimal') {
+            this.fieldsContainBigDecimal = true;
+        } else if (field.fieldType === 'byte[]' || field.fieldType === 'ByteBuffer') {
+            this.fieldsContainBlob = true;
+            if (field.fieldTypeBlobContent === 'image') {
+                this.fieldsContainImageBlob = true;
+            }
+        }
+        if (field.fieldValidate) {
+            this.validation = true;
+        }
+    });
 }

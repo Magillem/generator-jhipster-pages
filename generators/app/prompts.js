@@ -34,12 +34,18 @@ function askForPageSetConfig() {
 
     const done = this.async();
 
-    const pageSetChoices = [
-        {
-            value: '_CreateNew_',
-            name: 'Create a new pages set'
-        },
-    ];
+    let pageSetChoices;
+
+    if(this.regenerate) {
+        pageSetChoices = [];
+    } else {
+        pageSetChoices = [
+            {
+                value: '_CreateNew_',
+                name: 'Create a new pages set'
+            },
+        ];
+    }
 
 
     const pageSetConfigs = `${constant.MODULES_PAGES_CONFIG_FILE}/*.json`;
@@ -90,7 +96,7 @@ function askForPageSetConfig() {
                 this.debug('Error:', err);
                 this.error(chalk.red('\nThe page set configuration file could not be read!\n'));
             }
-            this.log(this.fileData);
+            //this.log(this.fileData);
             this.fileData = this.fileData || {};
             this.pages = this.fileData.pages || [];
             this.changelogDate = this.fileData.changelogDate;
@@ -103,8 +109,19 @@ function askForPageConfig() {
 
     const done = this.async();
 
+    const existingPagesChoices = [];
+    if(this.regenerate){
+        this.pages.forEach((page) => {
+            existingPagesChoices.push({
+                value: page,
+                name: page.pageName
+            });
+        });
+    }
+
     const prompts = [
         {
+            when: !this.regenerate,
             type: 'list',
             name: 'pageType',
             message: 'Which king of page you want to add?',
@@ -141,6 +158,7 @@ function askForPageConfig() {
             store   : true
         },
         {
+            when: !this.regenerate,
             type: 'input',
             name: 'pageName',
             message: 'Enter the page name:',
@@ -154,17 +172,29 @@ function askForPageConfig() {
             }
         },
         {
+            when: !this.regenerate,
             type: 'input',
             name: 'pageGlyphIcon',
             message: 'Enter the page glyphicon name (see https://getbootstrap.com/components/):',
-        }
+        },
+        {
+            when: this.regenerate,
+            type: 'checkbox',
+            name: 'pagesToRegenerate',
+            message: 'Regenerate following pages:',
+            choices: existingPagesChoices
+        },
     ];
 
     this.prompt(prompts).then((prompt) => {
-        this.pageType = prompt.pageType;
-        this.pageName = prompt.pageName;
-        this.pageGlyphIcon = prompt.pageGlyphIcon;
-        this.changelogDate = this.dateFormatForLiquibase();
+        if(!this.regenerate) {
+            this.pageType = prompt.pageType;
+            this.pageName = prompt.pageName;
+            this.pageGlyphIcon = prompt.pageGlyphIcon;
+            this.changelogDate = this.dateFormatForLiquibase();
+        } else {
+            this.pagesToRegenerate = prompt.pagesToRegenerate;
+        }
         done();
     });
 }
@@ -173,9 +203,10 @@ function askForPageConfig() {
 function askForFormConfig() {
 
     const done = this.async();
-
-    if (this.pageType === 'form' || this.pageType === 'table' || this.pageType === 'workflow') {
+    if (!this.regenerate && (this.pageType === 'form' || this.pageType === 'table' || this.pageType === 'workflow')) {
         askForField.call(this, done);
+    } else {
+        done();
     }
 }
 
@@ -575,5 +606,4 @@ function askForField(done) {
 }
 
 function askForWorkflowConfig() {
-
 }
