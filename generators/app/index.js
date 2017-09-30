@@ -74,15 +74,15 @@ module.exports = JhipsterGenerator.extend({
 
     configuring: {
         writePageSetJson() {
-            if(!this.regenerate) {
-                let toPath = `${constant.MODULES_PAGES_CONFIG_FILE}/${this.pageSet}.json`;
+            if (!this.regenerate) {
+                const toPath = `${constant.MODULES_PAGES_CONFIG_FILE}/${this.pageSet}.json`;
                 // store information in a file for further use.
                 if (!this.useConfigurationFile && (this.databaseType === 'sql' || this.databaseType === 'cassandra')) {
                     this.changelogDate = this.dateFormatForLiquibase();
                 }
                 this.data = {};
                 this.data.pages = this.pages;
-                this.currentPage = {pageName: this.pageName, pageType: this.pageType};
+                this.currentPage = { pageName: this.pageName, pageType: this.pageType };
                 if (this.pageGlyphIcon || this.pageGlyphIcon === 'false') {
                     this.currentPage.pageGlyphIcon = this.pageGlyphIcon;
                 }
@@ -111,7 +111,6 @@ module.exports = JhipsterGenerator.extend({
 
             // use function in generator-base.js from generator-jhipster
             this.angularAppName = this.getAngularAppName();
-
         },
         loadPageSetInMemory() {
             this.pageSetSpinalCased = _.kebabCase(_.lowerFirst(this.pageSet));
