@@ -107,7 +107,7 @@ Apache License v2.0 © [Guillaume DUFOUR]()
 
 [npm-image]: https://img.shields.io/npm/v/generator-jhipster-pages.svg
 [npm-url]: https://npmjs.org/package/generator-jhipster-pages
-[travis-image]: https://travis-ci.org/Dufgui/generator-jhipster-pages.svg?branch=master
-[travis-url]: https://travis-ci.org/Dufgui/generator-jhipster-pages
-[daviddm-image]: https://david-dm.org/Dufgui/generator-jhipster-pages.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/Dufgui/generator-jhipster-pages
+[travis-image]: https://travis-ci.org/Magillem/generator-jhipster-pages.svg?branch=master
+[travis-url]: https://travis-ci.org/Magillem/generator-jhipster-pages
+[daviddm-image]: https://david-dm.org/Magillem/generator-jhipster-pages.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/Magillem/generator-jhipster-pages
