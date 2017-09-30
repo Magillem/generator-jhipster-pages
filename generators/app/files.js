@@ -320,6 +320,8 @@ function loadPageInMemory() {
     }
 
     this.pages.forEach((page) => {
+        this.fields = page.fields;
+
         page.pageNameKebabCased = _.kebabCase(_.lowerFirst(page.pageName));
         page.pageNameCamelCased = _.camelCase(page.pageName);
         page.pageUrl = page.pageNameKebabCased;
