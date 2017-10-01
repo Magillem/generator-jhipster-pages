@@ -6,30 +6,6 @@ const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 
 describe('JHipster generator pages', () => {
-    describe('Test with Maven and Angular2', () => {
-        beforeEach((done) => {
-            helpers
-                .run(path.join(__dirname, '../generators/app'))
-                .inTmpDir((dir) => {
-                    fse.copySync(path.join(__dirname, '../test/templates/maven-angular2'), dir);
-                })
-                .withOptions({
-                    testmode: true
-                })
-                .withPrompts({
-                    message: 'simple message to say hello'
-                })
-                .on('end', done);
-        });
-
-        it('generate dummy.txt file', () => {
-            assert.file([
-                'dummy-maven.txt',
-                'dummy-angular2.txt',
-            ]);
-        });
-    });
-
     describe('Test with Gradle and Angular1', () => {
         beforeEach((done) => {
             helpers
@@ -41,15 +17,27 @@ describe('JHipster generator pages', () => {
                     testmode: true
                 })
                 .withPrompts({
-                    message: 'simple message to say hello'
+                    pageSet: '_CreateNew_',
+                    newPageSet: 'aPageSet',
+                    pageType: 'form',
+                    pageName: 'aForm',
+                    pageGlyphIcon: 'euro',
+                    fieldAdd: false
                 })
                 .on('end', done);
         });
 
-        it('generate dummy.txt file', () => {
+        it('generate form files', () => {
             assert.file([
-                'dummy-gradle.txt',
-                'dummy-angular1.txt',
+                '.jhipster/pages/aPageSet.json',
+                'src/main/java/com/mycompany/myapp/web/rest/vm/AFormSaveVM.java',
+                'src/main/webapp/app/pages/page-sets.state.js',
+                'src/main/webapp/app/pages/a-page-set/APageSet.state.js',
+                'src/main/webapp/app/pages/a-page-set/aForm.controller.js',
+                'src/main/webapp/app/pages/a-page-set/aForm.html',
+                'src/main/webapp/app/pages/a-page-set/aForm.service.js',
+                'src/test/javascript/spec/app/pages/a-page-set/aForm.controller.spec.js',
+                'src/main/webapp/i18n/en/aPageSet.json'
             ]);
         });
     });
