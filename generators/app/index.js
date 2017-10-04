@@ -22,6 +22,7 @@ const generator = require('yeoman-generator');
 const packagejs = require('../../package.json');
 const semver = require('semver');
 const _ = require('lodash');
+const pluralize = require('pluralize');
 const BaseGenerator = require('generator-jhipster/generators/generator-base');
 const constant = require('./constant');
 const prompts = require('./prompts');
@@ -34,6 +35,7 @@ util.inherits(JhipsterGenerator, BaseGenerator);
 module.exports = JhipsterGenerator.extend({
     initializing: {
         init(args) {
+            this.regenerate = false;
             if (args === 'regenerate') {
                 this.regenerate = true;
             }
@@ -69,6 +71,7 @@ module.exports = JhipsterGenerator.extend({
         askForPageSetConfig: prompts.askForPageSetConfig,
         askForPageConfig: prompts.askForPageConfig,
         askForFormConfig: prompts.askForFormConfig,
+        askForTableConfig: prompts.askForTableConfig,
         askForWorkflowConfig: prompts.askForWorkflowConfig
     },
 
@@ -88,6 +91,9 @@ module.exports = JhipsterGenerator.extend({
                 }
                 if (this.fields) {
                     this.currentPage.fields = this.fields;
+                }
+                if (this.pagination) {
+                    this.currentPage.pagination = this.pagination;
                 }
                 this.pages.push(this.currentPage);
                 this.data.changelogDate = this.changelogDate;
@@ -123,6 +129,47 @@ module.exports = JhipsterGenerator.extend({
             this.pageSetTranslationKey = this.pageSetRouterState;
             this.pageSetFolder = this.pageSetSpinalCased;
             this.pageSetTranslation = this.pageSetSpinalCased;
+
+            this.loadFromServer = false;
+            this.saveToServer = false;
+            this.contactServer = false;
+
+            this.pages.forEach((page) => {
+
+                page.pageNameKebabCased = _.kebabCase(_.lowerFirst(page.pageName));
+                page.pageNameCamelCased = _.camelCase(page.pageName);
+                page.pageUrl = page.pageNameKebabCased;
+                page.pageAngularName = page.pageNameCamelCased;
+                page.pageRouterState = _.lowerFirst(page.pageNameCamelCased);
+                page.pageNameTranslationKey = page.pageRouterState;
+                page.pageSetAndNameTranslationKey = this.pageSetTranslationKey+'-'+page.pageNameTranslationKey;
+                page.pageInstance = _.lowerFirst(page.pageNameCamelCased);
+                page.pageInstancePlural = pluralize(page.pageInstance);
+                page.pageClass = _.upperFirst(page.pageNameCamelCased);
+                page.pageApiUrl = page.pageNameKebabCased;
+                page.pageLoadInstance = page.pageInstance+'LoadVM';
+                page.pageLoadClass = page.pageClass+'LoadVM';
+                page.pageSaveInstance = page.pageInstance+'SaveVM';
+                page.pageSaveClass = page.pageClass+'SaveVM';
+                page.loadFromServer = false;
+                page.saveToServer = false;
+                page.contactServer = false;
+
+                if(page.pageType === 'loadFromServer' || page.pageType === 'loadAndSaveToServer' || page.pageType === 'table' || page.pageType === 'workflow') {
+                    page.loadFromServer = true;
+                    this.loadFromServer = true;
+                }
+
+                if(page.pageType === 'saveToServer' || page.pageType === 'loadAndSaveToServer' || page.pageType === 'form' || page.pageType === 'workflow') {
+                    page.saveToServer = true;
+                    this.saveToServer = true;
+                }
+
+                if(page.loadFromServer === true || page.saveToServer === true) {
+                    page.contactServer = true;
+                    this.contactServer = true;
+                }
+            });
         }
     },
 

@@ -54,7 +54,7 @@ public class <%= pageSetClass %>Resource {
      * POST  /<%= page.pageApiUrl %> : Save <%= page.pageName %>.
      *
      * @param <%= page.pageSaveInstance %> the <%= page.pageName %> to save
-     * @return the ResponseEntity with status 201 (Created) and with body the new <%= page.pageSaveClass %>, or with status 400 (Bad Request) if the <%= pageName %> has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the new <%= page.pageSaveClass %>, or with status 400 (Bad Request) if the <%= page.pageName %> has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/<%= page.pageApiUrl %>")

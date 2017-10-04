@@ -27,6 +27,7 @@ module.exports = {
     askForPageSetConfig,
     askForPageConfig,
     askForFormConfig,
+    askForTableConfig,
     askForWorkflowConfig
 };
 
@@ -144,11 +145,11 @@ function askForPageConfig() {
                 },
                 {
                     value: 'form',
-                    name: 'Form (beta)'
+                    name: 'Form'
                 },
                 {
                     value: 'table',
-                    name: 'Table (beta)'
+                    name: 'Table'
                 },
                 {
                     value: 'workflow',
@@ -182,7 +183,13 @@ function askForPageConfig() {
             type: 'checkbox',
             name: 'pagesToRegenerate',
             message: 'Regenerate following pages:',
-            choices: existingPagesChoices
+            choices: existingPagesChoices,
+            validate: (input) => {
+                if(input.length == 0) {
+                    return `please select at least one page to regenerate`;
+                }
+                return true;
+            }
         },
     ];
 
@@ -363,7 +370,7 @@ function askForField(done) {
             }
         },
         {
-            when: response => response.fieldAdd === true,
+            when: response => response.fieldAdd === true && this.pageType !== 'table',
             type: 'confirm',
             name: 'fieldValidate',
             message: 'Do you want to add validation rules to your field?',
@@ -602,6 +609,49 @@ function askForField(done) {
         } else {
             done();
         }
+    });
+}
+
+
+function askForTableConfig() {
+
+    if(this.regenerate || this.pageType !== 'table')
+    {
+        return;
+    }
+
+    const done = this.async();
+
+    const prompts = [
+        {
+            type: 'list',
+            name: 'pagination',
+            message: 'Do you want pagination on your entity?',
+            choices: [
+                {
+                    value: 'no',
+                    name: 'No'
+                },
+                {
+                    value: 'pager',
+                    name: 'Yes, with a simple pager'
+                },
+                {
+                    value: 'pagination',
+                    name: 'Yes, with pagination links'
+                },
+                {
+                    value: 'infinite-scroll',
+                    name: 'Yes, with infinite scroll'
+                }
+            ],
+            default: 0
+        }
+    ];
+
+    this.prompt(prompts).then((prompt) => {
+        this.pagination = prompt.pagination;
+        done();
     });
 }
 

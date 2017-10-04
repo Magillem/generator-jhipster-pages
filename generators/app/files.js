@@ -320,39 +320,9 @@ function loadPageInMemory() {
     }
 
     this.pages.forEach((page) => {
-        this.fields = page.fields;
-
-        page.pageNameKebabCased = _.kebabCase(_.lowerFirst(page.pageName));
-        page.pageNameCamelCased = _.camelCase(page.pageName);
-        page.pageUrl = page.pageNameKebabCased;
-        page.pageAngularName = page.pageNameCamelCased;
-        page.pageRouterState = _.lowerFirst(page.pageNameCamelCased);
-        page.pageNameTranslationKey = page.pageRouterState;
-        page.pageSetAndNameTranslationKey = this.pageSetTranslationKey+'-'+page.pageNameTranslationKey;
-        page.pageInstance = _.lowerFirst(page.pageNameCamelCased);
-        page.pageClass = _.upperFirst(page.pageNameCamelCased);
-        page.pageApiUrl = page.pageNameKebabCased;
-        page.pageLoadInstance = page.pageInstance+'LoadVM';
-        page.pageLoadClass = page.pageClass+'LoadVM';
-        page.pageSaveInstance = page.pageInstance+'SaveVM';
-        page.pageSaveClass = page.pageClass+'SaveVM';
-        page.loadFromServer = false;
-        page.saveToServer = false;
-        page.contactServer = false;
-
-        if(page.pageType === 'loadFromServer' || page.pageType === 'loadAndSaveToServer' || page.pageType === 'table' || page.pageType === 'workflow') {
-            page.loadFromServer = true;
-        }
-
-        if(page.pageType === 'saveToServer' || page.pageType === 'loadAndSaveToServer' || page.pageType === 'form' || page.pageType === 'workflow') {
-            page.saveToServer = true;
-        }
-
-        if(page.loadFromServer === true || page.saveToServer === true) {
-            page.contactServer = true;
-        }
 
         if(page.pageName === this.pageName) {
+            this.fields = page.fields;
             this.pageNameKebabCased = page.pageNameKebabCased;
             this.pageNameCamelCased = page.pageNameCamelCased;
             this.pageUrl = page.pageUrl;
@@ -362,11 +332,13 @@ function loadPageInMemory() {
             this.pageAngularName = page.pageAngularName;
             this.pageRouterState = page.pageRouterState;
             this.pageInstance = page.pageInstance ;
+            this.pageInstancePlural = page.pageInstancePlural ;
             this.pageClass = page.pageClass ;
             this.pageLoadInstance = page.pageLoadInstance ;
             this.pageLoadClass = page.pageLoadClass ;
             this.pageSaveInstance = page.pageSaveInstance ;
             this.pageSaveClass = page.pageSaveClass ;
+            this.pagination = page.pagination;
         }
     });
 
