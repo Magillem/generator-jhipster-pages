@@ -84,7 +84,7 @@ _%>
 <%_ for (idx in pages){
     const page=pages[idx];_%>
 
-<%_ if(page.saveToServer){_%>
+<%_ if(page.postOneToServer){_%>
 
     @Test
     public void post<%=page.pageClass%>()throws Exception{
@@ -92,7 +92,7 @@ _%>
     }
 
 <%_}
-    if(page.loadFromServer){_%>
+    if(page.getOneFromServer){_%>
 
     @Test
     public void get<%=page.pageClass%>()throws Exception{

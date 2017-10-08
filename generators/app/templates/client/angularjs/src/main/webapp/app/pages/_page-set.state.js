@@ -50,7 +50,7 @@ limitations under the License.
                 return $translate.refresh();
             }],
             <%_ } _%>
-            <% if (page.loadFromServer === true) { %>
+            <% if (page.getOneFromServer === true) { %>
             entity: ['<%= page.pageAngularName %>', function(<%= pageAngularName %>) {
                 return <%= pageAngularName %>.get().$promise;
             }]

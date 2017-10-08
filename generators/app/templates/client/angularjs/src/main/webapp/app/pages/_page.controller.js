@@ -23,13 +23,13 @@ limitations under the License.
         .module('<%=angularAppName%>')
         .controller('<%= pageAngularName %>Controller', <%= pageAngularName %>Controller);
 
-<%= pageAngularName %>Controller.$inject = [<% if (loadFromServer === true) { %>'entity'<% } %><% if (loadFromServer === true && saveToServer === true ) { %>,<% } %><% if (saveToServer === true) { %> '$scope', '<%= pageAngularName %>'<% } %>];
+<%= pageAngularName %>Controller.$inject = [<% if (getOneFromServer === true) { %>'entity'<% } %><% if (getOneFromServer === true && postOneToServer === true ) { %>,<% } %><% if (postOneToServer === true) { %> '$scope', '<%= pageAngularName %>'<% } %>];
 
-    function <%= pageAngularName %>Controller(<% if (loadFromServer === true) { %>entity<% } %><% if (loadFromServer === true && saveToServer === true ) { %>,<% } %><% if (saveToServer === true) { %> $scope, <%= pageAngularName %><% } %>) {
+    function <%= pageAngularName %>Controller(<% if (getOneFromServer === true) { %>entity<% } %><% if (getOneFromServer === true && postOneToServer === true ) { %>,<% } %><% if (postOneToServer === true) { %> $scope, <%= pageAngularName %><% } %>) {
 
         var vm = this;
-    <% if (loadFromServer === true) { %>vm.entity=entity<% } %>
-    <% if (saveToServer === true) { %>
+    <% if (getOneFromServer === true) { %>vm.entity=entity<% } %>
+    <% if (postOneToServer === true) { %>
         vm.save = save;
 
         function save () {

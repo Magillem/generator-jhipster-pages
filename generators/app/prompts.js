@@ -132,11 +132,11 @@ function askForPageConfig() {
                     name: 'Client Only'
                 },
                 {
-                    value: 'loadFromServer',
+                    value: 'getOneFromServer',
                     name: 'Load data from server'
                 },
                 {
-                    value: 'saveToServer',
+                    value: 'postOneToServer',
                     name: 'Save data to server'
                 },
                 {

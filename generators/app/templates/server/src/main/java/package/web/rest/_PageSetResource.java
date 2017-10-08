@@ -20,21 +20,31 @@ package <%=packageName%>.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import <%=packageName%>.web.rest.util.HeaderUtil;
+import <%=packageName%>.web.rest.util.PaginationUtil;
 <%_ for (idx in pages) {
     const page = pages[idx];_%>
-<%_ if (page.saveToServer) { _%>
+<%_ if (page.postOneToServer) { _%>
 import <%=packageName%>.web.rest.vm.<%=page.pageSaveClass%>;
 <%_ }
-    if (page.loadFromServer) { _%>
+    if (page.getOneFromServer || page.getAllFromServer) { _%>
 import <%=packageName%>.web.rest.vm.<%=page.pageLoadClass%>;
+import io.swagger.annotations.ApiParam;
 <%_ }} _%>
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+<%_ if (getAllFromServer) { _%>
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+<%_ } _%>
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +59,7 @@ public class <%= pageSetClass %>Resource {
 
 <%_ for (idx in pages) {
     const page = pages[idx];_%>
-<%_ if (page.saveToServer) { _%>
+<%_ if (page.postOneToServer) { _%>
     /**
      * POST  /<%= page.pageApiUrl %> : Save <%= page.pageName %>.
      *
@@ -65,7 +75,7 @@ public class <%= pageSetClass %>Resource {
         return ResponseEntity.ok().build();
     }
 <%_ }
-    if (page.loadFromServer) { _%>
+    if (page.getOneFromServer) { _%>
     /**
      * GET  /<%= page.pageApiUrl %> : get <%= page.pageName %>.
      *
@@ -80,6 +90,27 @@ public class <%= pageSetClass %>Resource {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(<%= page.pageLoadInstance %>));
     }
 
+<%_ }
+    if (page.getAllFromServer) { _%>
+    /**
+     * GET  /<%= page.pageApiUrl %> : get <%= page.pageName %>.
+     *
+     * @return the ResponseEntity with status 200 (OK) and with body the <%= page.pageLoadInstance %>, or with status 404 (Not Found)
+     */
+        <%_ if (page.pagination === 'no') { %>
+    public List<<%= page.pageLoadClass %>> getAll<%= page.pageClassPlural %>(@RequestParam(required = false) String filter) {
+        log.debug("REST request to get all <%= page.pageClassPlural %>");
+        return new ArrayList<>();
+<% } else { %>
+    public ResponseEntity<List<<%=page.pageLoadClass%>>> getAll<%= page.pageClassPlural %>(@ApiParam Pageable pageable,@RequestParam(required = false) String filter){
+        log.debug("REST request to get a page of <%= page.pageClassPlural %>");
+        //TODO call repository with pageable and page.getContent()
+        List<<%= page.pageLoadClass %>> list = new ArrayList<>();
+        Page<<%=page.pageLoadClass%>> page = new PageImpl<>(list);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page,"/api/<%= page.pageApiUrl %>");
+        return new ResponseEntity<>(page.getContent(),headers,HttpStatus.OK);
+<%_}_%>
+    }
 <%_ }
 } _%>
 

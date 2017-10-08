@@ -195,7 +195,7 @@ const ngValidators = './ng_validators';
             <thead>
             <tr<% if (pagination !== 'no') { %> jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.<%=pagination !== 'infinite-scroll' ? 'transition' : 'reset'%>()"<% } %>>
             <%_ for (idx in fields) { _%>
-            <th<% if (pagination !== 'no') { %> jh-sort-by="<%= fields[idx].fieldName%>"<% } %>><span data-translate="<%=keyPrefix + fields[idx].fieldName %>"><%= fields[idx].fieldNameHumanized %></span><% if (pagination !== 'no') { %> <span class="glyphicon glyphicon-sort"></span><% } %></th>
+            <th<% if (pagination !== 'no') { %> jh-sort-by="<%= fields[idx].fieldName%>"<% } %>><span data-translate="<%=keyPrefix +'.'+ fields[idx].fieldName %>"><%= fields[idx].fieldNameHumanized %></span><% if (pagination !== 'no') { %> <span class="glyphicon glyphicon-sort"></span><% } %></th>
             <%_ } _%>
             </tr>
             </thead>

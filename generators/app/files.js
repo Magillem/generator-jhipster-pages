@@ -80,7 +80,7 @@ const pageSetServerFiles = {
 const pageServerFiles = {
     server: [
         {
-            condition: generator => generator.loadFromServer === true,
+            condition: generator => generator.getOneFromServer === true || generator.getAllFromServer === true,
             path: SERVER_MAIN_SRC_DIR,
             templates: [
                 {
@@ -90,7 +90,7 @@ const pageServerFiles = {
             ]
         },
         {
-            condition: generator => generator.saveToServer === true,
+            condition: generator => generator.postOneToServer === true,
             path: SERVER_MAIN_SRC_DIR,
             templates: [
                 {
@@ -303,19 +303,24 @@ function generateOneOrRegenerate(action) {
 }
 
 function loadPageInMemory() {
-    this.loadFromServer = false;
-    this.saveToServer = false;
+    this.getOneFromServer = false;
+    this.getAllFromServer = false;
+    this.postOneToServer = false;
     this.contactServer = false;
 
-    if(this.pageType === 'loadFromServer' || this.pageType === 'loadAndSaveToServer' || this.pageType === 'table' || this.pageType === 'workflow') {
-        this.loadFromServer = true;
+    if(this.pageType === 'getOneFromServer' || this.pageType === 'loadAndSaveToServer' || this.pageType === 'workflow') {
+        this.getOneFromServer = true;
     }
 
-    if(this.pageType === 'saveToServer' || this.pageType === 'loadAndSaveToServer' || this.pageType === 'form' || this.pageType === 'workflow') {
-        this.saveToServer = true;
+    if(this.pageType === 'table') {
+        this.getAllFromServer = true;
     }
 
-    if(this.loadFromServer === true || this.saveToServer === true) {
+    if(this.pageType === 'postOneToServer' || this.pageType === 'loadAndSaveToServer' || this.pageType === 'form' || this.pageType === 'workflow') {
+        this.postOneToServer = true;
+    }
+
+    if(this.getOneFromServer === true || this.postOneToServer === true || this.getAllFromServer === true) {
         this.contactServer = true;
     }
 

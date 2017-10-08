@@ -130,8 +130,9 @@ module.exports = JhipsterGenerator.extend({
             this.pageSetFolder = this.pageSetSpinalCased;
             this.pageSetTranslation = this.pageSetSpinalCased;
 
-            this.loadFromServer = false;
-            this.saveToServer = false;
+            this.getOneFromServer = false;
+            this.getAllFromServer = false;
+            this.postOneToServer = false;
             this.contactServer = false;
 
             this.pages.forEach((page) => {
@@ -145,26 +146,33 @@ module.exports = JhipsterGenerator.extend({
                 page.pageInstance = _.lowerFirst(page.pageNameCamelCased);
                 page.pageInstancePlural = pluralize(page.pageInstance);
                 page.pageClass = _.upperFirst(page.pageNameCamelCased);
+                page.pageClassPlural = pluralize(page.pageClass);
                 page.pageApiUrl = page.pageNameKebabCased;
                 page.pageLoadInstance = `${page.pageInstance}LoadVM`;
                 page.pageLoadClass = `${page.pageClass}LoadVM`;
                 page.pageSaveInstance = `${page.pageInstance}SaveVM`;
                 page.pageSaveClass = `${page.pageClass}SaveVM`;
-                page.loadFromServer = false;
-                page.saveToServer = false;
+                page.getOneFromServer = false;
+                page.getAllFromServer = false;
+                page.postOneToServer = false;
                 page.contactServer = false;
 
-                if (page.pageType === 'loadFromServer' || page.pageType === 'loadAndSaveToServer' || page.pageType === 'table' || page.pageType === 'workflow') {
-                    page.loadFromServer = true;
-                    this.loadFromServer = true;
+                if (page.pageType === 'getOneFromServer' || page.pageType === 'loadAndSaveToServer' || page.pageType === 'workflow') {
+                    page.getOneFromServer = true;
+                    this.getOneFromServer = true;
                 }
 
-                if (page.pageType === 'saveToServer' || page.pageType === 'loadAndSaveToServer' || page.pageType === 'form' || page.pageType === 'workflow') {
-                    page.saveToServer = true;
-                    this.saveToServer = true;
+                if (page.pageType === 'postOneToServer' || page.pageType === 'loadAndSaveToServer' || page.pageType === 'form' || page.pageType === 'workflow') {
+                    page.postOneToServer = true;
+                    this.postOneToServer = true;
                 }
 
-                if (page.loadFromServer === true || page.saveToServer === true) {
+                if (page.pageType === 'table') {
+                    page.getAllFromServer = true;
+                    this.getAllFromServer = true;
+                }
+
+                if (page.getOneFromServer === true || page.postOneToServer === true || page.getAllFromServer === true) {
                     page.contactServer = true;
                     this.contactServer = true;
                 }

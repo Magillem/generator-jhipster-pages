@@ -28,10 +28,11 @@ limitations under the License.
         var resourceUrl = <% if (applicationType === 'gateway' && locals.microserviceName) {%> '<%= microserviceName.toLowerCase() %>/' +<% } %> 'api/<%= pageSetApiUrl %>/<%= pageApiUrl %>';
 
         return $resource(resourceUrl, {}, {
-            <% if (loadFromServer) { %>
-            'load': { method: 'GET', isArray: true},
-            <% }
-            if (saveToServer) { %>
+            <% if (getOneFromServer) { %>
+            'load': { method: 'GET' },
+            <% } if (getAllFromServer) { %>
+            'load': { method: 'GET', isArray: true },
+            <% } if (postOneToServer) { %>
             'save': { method: 'POST'}<% } %>
         }
     );
