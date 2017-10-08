@@ -80,17 +80,18 @@ The following types are supported:
    - js write service
    - java post web service
    - post argument object
-
-## Road Map
-
-Here is the list of types to do
-
 - **Table** generate
    - table html page
    - js controller
    - js read service
    - java get web service
    - get returned object
+
+
+## Road Map
+
+Here is the list of types to do
+
 - **Workflow** generate
     - multiple step html pages (form) with link to previous and next steps
     - multiple step js controllers
