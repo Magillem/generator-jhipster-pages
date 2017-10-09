@@ -46,9 +46,18 @@ npm update -g generator-jhipster-pages
 
 ## Launch
 
+just launch generator and it will ask everythings 
+
 ```bash
 yo jhipster-pages
 ```
+
+if you want to regenerate some existing pages you can do it by page set with the following command line :
+
+```bash
+yo jhipster-pages regenerate
+```
+
 
 ## Core Concepts
 
