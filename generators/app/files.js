@@ -157,7 +157,7 @@ const pageAngularjsFiles = {
             path: CLIENT_TEST_SRC_DIR,
             templates: [{
                 file: 'spec/app/pages/_page.controller.spec.js',
-                renameTo: generator => `spec/app/pages/${generator.pageSetFolder}/${generator.pageName}.controller.spec.js`
+                renameTo: generator => `spec/app/pages/${generator.pageSetFolder}/${generator.pageAngularName}.controller.spec.js`
             }]
         },
         {
@@ -165,7 +165,7 @@ const pageAngularjsFiles = {
             path: CLIENT_TEST_SRC_DIR,
             templates: [{
                 file: 'e2e/pages/_page.js',
-                renameTo: generator => `e2e/pages/${generator.pageName}.js`
+                renameTo: generator => `e2e/pages/${generator.pageAngularName}.js`
             }]
         }
     ]
