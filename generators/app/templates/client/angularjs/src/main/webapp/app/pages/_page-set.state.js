@@ -37,7 +37,7 @@ limitations under the License.
                 },
         views: {
             'content@': {
-                templateUrl: 'app/pages/<%= pageSetFolder %>/<%= page.pageName %>.html',
+                templateUrl: 'app/pages/<%= pageSetFolder %>/<%= page.pageAngularName %>.html',
                     controller: '<%= page.pageAngularName %>Controller',
                     controllerAs: 'vm'
             }
