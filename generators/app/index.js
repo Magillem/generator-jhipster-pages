@@ -185,10 +185,12 @@ module.exports = JhipsterGenerator.extend({
 
     install: {
         gulpInject() {
-            if (this.clientFramework === 'angular1') {
-                this.injectJsFilesToIndex();
-            } else {
-                this.rebuildClient();
+            if(!this.options['skip-install']) {
+                if (this.clientFramework === 'angular1') {
+                    this.injectJsFilesToIndex();
+                } else {
+                    this.rebuildClient();
+                }
             }
         }
     },

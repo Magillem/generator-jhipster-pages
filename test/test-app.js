@@ -14,7 +14,8 @@ describe('JHipster generator pages', () => {
                     fse.copySync(path.join(__dirname, '../test/templates/gradle-angular1'), dir);
                 })
                 .withOptions({
-                    testmode: true
+                    testmode: true,
+                    'skip-install': true
                 })
                 .withPrompts({
                     pageSet: '_CreateNew_',
