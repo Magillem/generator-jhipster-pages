@@ -185,7 +185,7 @@ module.exports = JhipsterGenerator.extend({
 
     install: {
         gulpInject() {
-            if(!this.options['skip-install']) {
+            if (!this.options['skip-install']) {
                 if (this.clientFramework === 'angular1') {
                     this.injectJsFilesToIndex();
                 } else {
