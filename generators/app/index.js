@@ -192,7 +192,7 @@ module.exports = JhipsterGenerator.extend({
             }
         }
     },
-    
+
     end() {
         this.log('End of pages generator');
     }
