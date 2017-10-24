@@ -96,6 +96,7 @@ module.exports = JhipsterGenerator.extend({
                     this.currentPage.pagination = this.pagination;
                 }
                 this.pages.push(this.currentPage);
+                this.data.pageSetGlyphIcon = this.pageSetGlyphIcon;
                 this.data.changelogDate = this.changelogDate;
                 this.fs.writeJSON(toPath, this.data, null, 4);
             }

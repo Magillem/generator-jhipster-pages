@@ -78,12 +78,19 @@ function askForPageSetConfig() {
                 }
                 return true;
             }
+        },
+        {
+            when: response => response.pageSet === '_CreateNew_',
+            type: 'input',
+            name: 'pageSetGlyphIcon',
+            message: 'Enter the page glyphicon name (see https://getbootstrap.com/components/):',
         }
     ];
 
     this.prompt(prompts).then((prompt) => {
         this.pageSet = prompt.pageSet;
         this.newPageSet = prompt.newPageSet;
+        this.pageSetGlyphIcon = prompt.pageSetGlyphIcon;
         if(typeof this.newPageSet !== "undefined") {
             this.pageSet = this.newPageSet;
             this.pages = [];
@@ -100,6 +107,7 @@ function askForPageSetConfig() {
             //this.log(this.fileData);
             this.fileData = this.fileData || {};
             this.pages = this.fileData.pages || [];
+            this.pageSetGlyphIcon = this.fileData.pageSetGlyphIcon;
             this.changelogDate = this.fileData.changelogDate;
         }
         done();
