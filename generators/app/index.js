@@ -183,6 +183,14 @@ module.exports = JhipsterGenerator.extend({
 
     writing: writeFiles(),
 
+    install() {
+         if (this.clientFramework === 'angular1') {
+            this.injectJsFilesToIndex();
+        } else {
+            this.rebuildClient();
+        }
+    },
+    
     end() {
         this.log('End of pages generator');
     }
