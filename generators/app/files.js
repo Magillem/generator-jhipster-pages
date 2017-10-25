@@ -188,8 +188,7 @@ const pageSetAngularFiles = {
                 {
                     file: 'pages/_page-set.module.ts',
                     renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSetAngularClass}.module.ts`
-                }
-
+                },
                 {
                     condition: generator => generator.pageType !== 'clientOnly',
                     file: 'pages/_page-set.service.ts',
