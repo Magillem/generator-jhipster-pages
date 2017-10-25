@@ -16,11 +16,11 @@ distributed under the License is distributed on an "AS IS" BASIS,
     See the License for the specific language governing permissions and
 limitations under the License.
 -%>
-export * from './<%= pageAngularName %>.model';
-export * from './<%= pageAngularName %>-popup.service';
-export * from './<%= pageAngularName %>.service';
-export * from './<%= pageAngularName %>-dialog.component';
-export * from './<%= pageAngularName %>-delete-dialog.component';
-export * from './<%= pageAngularName %>-detail.component';
-export * from './<%= pageAngularName %>.component';
-export * from './<%= pageAngularName %>.route';
+<%_ for (idx in pages) {
+const page = pages[idx];_%>
+export * from './<%= page.pageAngularName %>.model';
+export * from './<%= page.pageAngularName %>-popup.service';
+export * from './<%= page.pageAngularName %>.service';
+export * from './<%= page.pageAngularName %>.component';
+<%_ } _%>
+export * from './<%= pageSetAngularClass %>.route';

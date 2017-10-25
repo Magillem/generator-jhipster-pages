@@ -190,11 +190,6 @@ const pageSetAngularFiles = {
                     renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSetAngularClass}.module.ts`
                 },
                 {
-                    condition: generator => generator.pageType !== 'clientOnly',
-                    file: 'pages/_page-set.service.ts',
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSetAngularClass}.service.ts`
-                },
-                {
                     file: 'pages/_page-set.route.ts',
                     renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSetAngularClass}.route.ts`
                 },
@@ -214,19 +209,24 @@ const angularFiles = {
             path: ANGULAR_DIR,
             templates: [
                 {
+                    condition: generator => generator.pageType !== 'clientOnly',
+                    file: 'pages/_page-set.service.ts',
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.service.ts`
+                },
+                {
                     file: `pages/_page-${generator.pageType}.component.html`,
                     method: 'processHtml',
                     template: true,
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageName}.component.html`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.component.html`
                 },
                 {
                     file: 'pages/_page.module.ts',
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageName}.module.ts`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.module.ts`
                 },
 
                 {
                     file: 'pages/_page.model.ts',
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageName}.model.ts`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.model.ts`
                 }
             ]
         }
