@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+const path = require('path');
 const _ = require('lodash');
 const randexp = require('randexp');
 const chalk = require('chalk');
@@ -175,9 +176,7 @@ const pageAngularjsFiles = {
 
 
 
-
-
-const angularFiles = {
+const pageSetAngularFiles = {
     client: [
         {
             path: ANGULAR_DIR,
@@ -192,14 +191,25 @@ const angularFiles = {
                     renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSet}.route.ts`
                 },
                 {
+                    file: 'pages/_index.ts',
+                    renameTo: generator => `pages/${generator.pageSetFolder}/index.ts`
+                }
+            ]
+        }
+    ]
+};
+
+
+const angularFiles = {
+    client: [
+        {
+            path: ANGULAR_DIR,
+            templates: [
+                {
                     file: `pages/_page-${generator.pageType}.component.html`,
                     method: 'processHtml',
                     template: true,
                     renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageName}.component.html`
-                },
-                {
-                    file: 'pages/_index.ts',
-                    renameTo: generator => `pages/${generator.pageSetFolder}/index.ts`
                 },
                 {
                     file: 'pages/_page.module.ts',
@@ -240,7 +250,8 @@ module.exports = {
     pageAngularjsFiles,
     angularFiles,
     addDropdownToMenu,
-    addElementToDropdown
+    addElementToDropdown,
+    addPageSetsModule
 };
 
 function writeFiles() {
@@ -271,13 +282,18 @@ function writeFiles() {
                     }
                 });
             } else {
+                addPageSetsModule.call(this, this.clientFramework);
                 // write client side files for angular 2.x +
-                this.writeFilesToDisk(angularFiles, this, false, CLIENT_NG2_TEMPLATES_DIR);
-                if(this.newPageSet) {
-                    addDropdownToMenu.call(this, this.pageSetRouterState, this.pageSetRouterState+'-'+this.pageRouterState, this.pageSetGlyphIcon, this.enableTranslation, this.clientFramework);
-                } else if(!this.regenerate) {
-                    addElementToDropdown.call(this, this.pageSetRouterState, this.pageSetRouterState+'-'+this.pageRouterState, this.pageGlyphIcon, this.enableTranslation, this.clientFramework);
-                }
+                this.writeFilesToDisk(pageSetAngularFiles, this, false, CLIENT_NG2_TEMPLATES_DIR);
+                generateOneOrRegenerate.call(this, () => {
+                    this.writeFilesToDisk(pageAngularFiles, this, false, CLIENT_NG2_TEMPLATES_DIR);
+
+                    if(this.newPageSet) {
+                        addDropdownToMenu.call(this, this.pageSetRouterState, this.pageSetRouterState+'-'+this.pageRouterState, this.pageSetGlyphIcon, this.enableTranslation, this.clientFramework);
+                    } else if(!this.regenerate) {
+                        addElementToDropdown.call(this, this.pageSetRouterState, this.pageSetRouterState+'-'+this.pageRouterState, this.pageGlyphIcon, this.enableTranslation, this.clientFramework);
+                    }
+                });
             }
 
             // Copy for each
@@ -533,6 +549,47 @@ function addElementToDropdown(dropdownName, routerName, glyphiconName, enableTra
         }
     } catch (e) {
         this.log(`${chalk.yellow('\nUnable to find ') + navbarPath + chalk.yellow(' or missing required jhipster-needle. Reference to ') + dropdownName} ${chalk.yellow('not added to menu.\n')}`);
+        this.debug('Error:', e);
+    }
+}
+
+
+/**
+ * Add pageSets module to app module.
+ *
+ * @param {string} clientFramework - The name of the client framework
+ */
+function addPageSetsModule(clientFramework) {
+    let appModulePath;
+    try {
+        if (clientFramework !== 'angular1') {
+            appModulePath = `${CLIENT_MAIN_SRC_DIR}app/app.module.ts`;
+            const fullPath = path.join(process.cwd(), appModulePath);
+
+            let args = {
+                file: appModulePath
+            };
+
+            args.haystack = this.fs.read(fullPath);
+
+            const re = new RegExp(`\\s*${escapeRegExp("TmpPageSetsModule,")}`);
+            if (re.test(args.haystack)) {
+                return;
+            }
+
+            args.needle = `import { TmpEntityModule } from './entities/entity.module';`;
+            args.splicable = [`import { TmpPageSetsModule } from './pages/pageSets.module';`]
+            args.haystack = jhipsterUtils.rewrite(args);
+
+            args.needle = `TmpAccountModule,`;
+            args.splicable = [`TmpPageSetsModule,`]
+            args.haystack = jhipsterUtils.rewrite(args);
+
+            this.fs.write(fullPath, args.haystack);
+
+        }
+    } catch (e) {
+        this.log(`${chalk.yellow('\nUnable to find ') + appModulePath + chalk.yellow('. Reference to PageSets module not added to menu.\n')}`);
         this.debug('Error:', e);
     }
 }
