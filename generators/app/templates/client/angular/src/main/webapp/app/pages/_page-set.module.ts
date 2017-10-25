@@ -38,9 +38,12 @@ import {
 <%_ } _%>
 } from './';
 
-const ENTITY_STATES = [
-    ...<%= entityInstance %>Route,
-    ...<%= entityInstance %>PopupRoute,
+const PAGE_SET_STATES = [
+<%_ for (idx in pages) {
+const page = pages[idx];_%>
+    ...<%= page.pageInstance %>Route,
+    ...<%= page.pageInstance %>PopupRoute,
+<%_ } _%>
 ];
 
 <%_ }_%>
@@ -48,7 +51,7 @@ const ENTITY_STATES = [
 @NgModule({
     imports: [
         <%= angularXAppName %>SharedModule,
-        RouterModule.forRoot(ENTITY_STATES, { useHash: true })
+        RouterModule.forRoot(PAGE_SET_STATES, { useHash: true })
     ],
     declarations: [
 <%_ for (idx in pages) {
@@ -76,10 +79,14 @@ const page = pages[idx];_%>
 const page = pages[idx];_%>
     <%= page.pageAngularName %>Service,
     <%= page.pageAngularName %>PopupService,
-    <%_ if (pagination === 'pagination' || pagination === 'pager') { _%>
-<%= entityAngularName %>ResolvePagingParams,
+    <%_ if (page.pagination === 'pagination' || page.pagination === 'pager') { _%>
+<%= page.pageAngularName %>ResolvePagingParams,
 <%_ }} _%>
 ],
 schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class <%= angularXAppName %><%= entityAngularName %>Module {}
+
+<%_ for (idx in pages) {
+const page = pages[idx];_%>
+export class <%= angularXAppName %><%= page.pageAngularName %>Module {}
+<%_ }} _%>

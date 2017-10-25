@@ -182,13 +182,22 @@ const pageSetAngularFiles = {
             path: ANGULAR_DIR,
             templates: [
                 {
+                    file: 'pages/_page-sets.module.ts',
+                    renameTo: generator => `pages/page-sets.module.ts`
+                },
+                {
+                    file: 'pages/_page-set.module.ts',
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSetAngularClass}.module.ts`
+                }
+
+                {
                     condition: generator => generator.pageType !== 'clientOnly',
                     file: 'pages/_page-set.service.ts',
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSet}.service.ts`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSetAngularClass}.service.ts`
                 },
                 {
                     file: 'pages/_page-set.route.ts',
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSet}.route.ts`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSetAngularClass}.route.ts`
                 },
                 {
                     file: 'pages/_index.ts',
