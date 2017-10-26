@@ -214,6 +214,10 @@ const pageAngularFiles = {
                     renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.service.ts`
                 },
                 {
+                    file: 'pages/_page.component.ts',
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.component.ts`
+                },
+                {
                     file: `pages/_page.component.html`,
                     method: 'processHtml',
                     template: true,
