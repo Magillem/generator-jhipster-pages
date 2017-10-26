@@ -21,15 +21,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { JhiEventManager, JhiParseLinks, JhiAlertService<% if (fieldsContainBlob) { %>, JhiDataUtils<% } %> } from 'ng-jhipster';
 
-import { <%= entityAngularName %> } from './<%= entityFileName %>.model';
-import { <%= entityAngularName %>Service } from './<%= entityFileName %>.service';
+import { <%= pageAngularName %> } from './<%= pageAngularName %>.model';
+import { <%= pageAngularName %>Service } from './<%= pageAngularName %>.service';
 import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
 
 @Component({
-    selector: '<%= jhiPrefix %>-<%= entityFileName %>',
-    templateUrl: './<%= entityFileName %>.component.html'
+    selector: '<%= jhiPrefix %>-<%= pageAngularName %>',
+    templateUrl: './<%= pageAngularName %>.component.html'
 })
-export class <%= entityAngularName %>Component implements OnInit, OnDestroy {
+export class <%= pageAngularName %>Component implements OnInit, OnDestroy {
     <%_ if (pagination === 'pagination' || pagination === 'pager') { _%>
     <%- include('pagination-template', {toArrayString: toArrayString}); -%>
     <%_ } else if (pagination === 'infinite-scroll') { _%>
@@ -42,14 +42,14 @@ export class <%= entityAngularName %>Component implements OnInit, OnDestroy {
         this.principal.identity().then((account) => {
             this.currentAccount = account;
         });
-        this.registerChangeIn<%= entityClassPlural %>();
+        this.registerChangeIn<%= pageClassPlural %>();
     }
 
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);
     }
 
-    trackId(index: number, item: <%= entityAngularName %>) {
+    trackId(index: number, item: <%= pageAngularName %>) {
         return item.id;
     }
     <%_ if (fieldsContainBlob) { _%>
@@ -67,12 +67,11 @@ export class <%= entityAngularName %>Component implements OnInit, OnDestroy {
     if (pagination === 'infinite-scroll') {
         eventCallBack = 'this.reset()';
     } _%>
-    registerChangeIn<%= entityClassPlural %>() {
-        this.eventSubscriber = this.eventManager.subscribe('<%= entityInstance %>ListModification', (response) => <%= eventCallBack %>);
+    registerChangeIn<%= pageClassPlural %>() {
+        this.eventSubscriber = this.eventManager.subscribe('<%= pageInstance %>ListModification', (response) => <%= eventCallBack %>);
     }
 
     <%_ if (pagination !== 'no') { _%>
-    <%_ if (databaseType !== 'cassandra') { _%>
     sort() {
         const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
         if (this.predicate !== 'id') {
@@ -81,23 +80,20 @@ export class <%= entityAngularName %>Component implements OnInit, OnDestroy {
         return result;
     }
 
-        <%_ } _%>
     <%_ if (pagination === 'pagination' || pagination === 'pager') { _%>
     private onSuccess(data, headers) {
-        <%_ if (databaseType !== 'cassandra') { _%>
         this.links = this.parseLinks.parse(headers.get('link'));
             this.totalItems = headers.get('X-Total-Count');
             this.queryCount = this.totalItems;
             // this.page = pagingParams.page;
-            <%_ } _%>
-        this.<%= entityInstancePlural %> = data;
+        this.<%= pageInstancePlural %> = data;
     }
         <%_ } else if (pagination === 'infinite-scroll') { _%>
     private onSuccess(data, headers) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         for (let i = 0; i < data.length; i++) {
-            this.<%= entityInstancePlural %>.push(data[i]);
+            this.<%= pageInstancePlural %>.push(data[i]);
         }
     }
 

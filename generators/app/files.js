@@ -366,6 +366,8 @@ function loadPageInMemory() {
             this.fields = page.fields;
             this.pageNameKebabCased = page.pageNameKebabCased;
             this.pageNameCamelCased = page.pageNameCamelCased;
+            this.pageClass = page.pageClass;
+            this.pageClassPlural = page.pageClassPlural;
             this.pageUrl = page.pageUrl;
             this.pageApiUrl = page.pageNameKebabCased;
             this.pageNameTranslationKey = page.pageNameTranslationKey;

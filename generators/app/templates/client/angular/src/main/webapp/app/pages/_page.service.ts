@@ -33,49 +33,42 @@ import { SERVER_API_URL } from '../../app.constants';
 import { JhiDateUtils } from 'ng-jhipster';
 <%_ } _%>
 
-import { <%= entityAngularName %> } from './<%= entityFileName %>.model';
+import { <%= pageAngularName %> } from './<%= pageAngularName %>.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
 
 @Injectable()
-export class <%= entityAngularName %>Service {
+export class <%= pageAngularName %>Service {
 
-    private resourceUrl = <% if (applicationType === 'gateway' && locals.microserviceName) { %>'/<%= microserviceName.toLowerCase() %>/<% } else if (authenticationType === 'uaa') { %>'<% } else { %>SERVER_API_URL + '<% } %>api/<%= entityApiUrl %>';
+    private resourceUrl = <% if (applicationType === 'gateway' && locals.microserviceName) { %>'/<%= microserviceName.toLowerCase() %>/<% } else if (authenticationType === 'uaa') { %>'<% } else { %>SERVER_API_URL + '<% } %>api/<%= pageApiUrl %>';
     <%_ if(searchEngine === 'elasticsearch') { _%>
-    private resourceSearchUrl = <% if (applicationType === 'gateway' && locals.microserviceName) { %>'/<%= microserviceName.toLowerCase() %>/<% } else if (authenticationType === 'uaa') { %>'<% } else { %>SERVER_API_URL + '<% } %>api/_search/<%= entityApiUrl %>';
+    private resourceSearchUrl = <% if (applicationType === 'gateway' && locals.microserviceName) { %>'/<%= microserviceName.toLowerCase() %>/<% } else if (authenticationType === 'uaa') { %>'<% } else { %>SERVER_API_URL + '<% } %>api/_search/<%= pageApiUrl %>';
     <%_ } _%>
 
     constructor(private http: Http<% if (hasDate) { %>, private dateUtils: JhiDateUtils<% } %>) { }
-    <%_ if (entityAngularName.length <= 30) { _%>
+    <%_ if (pageAngularName.length <= 30) { _%>
 
-    create(<%= entityInstance %>: <%= entityAngularName %>): Observable<<%= entityAngularName %>> {
+    create(<%= pageInstance %>: <%= pageAngularName %>): Observable<<%= pageAngularName %>> {
     <%_ } else { _%>
 
-    create(<%= entityInstance %>: <%= entityAngularName %>):
-        Observable<<%= entityAngularName %>> {
+    create(<%= pageInstance %>: <%= pageAngularName %>):
+        Observable<<%= pageAngularName %>> {
     <%_ } _%>
-        const copy = this.convert(<%= entityInstance %>);
+        const copy = this.convert(<%= pageInstance %>);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
             return this.convertItemFromServer(jsonResponse);
         });
     }
-    <%_ if (entityAngularName.length <= 30) { _%>
+    <%_ if (pageAngularName.length <= 30) { _%>
 
-    update(<%= entityInstance %>: <%= entityAngularName %>): Observable<<%= entityAngularName %>> {
+    update(<%= pageInstance %>: <%= pageAngularName %>): Observable<<%= pageAngularName %>> {
     <%_ } else { _%>
 
-    update(<%= entityInstance %>: <%= entityAngularName %>):
-        Observable<<%= entityAngularName %>> {
+    update(<%= pageInstance %>: <%= pageAngularName %>):
+        Observable<<%= pageAngularName %>> {
     <%_ } _%>
-        const copy = this.convert(<%= entityInstance %>);
+        const copy = this.convert(<%= pageInstance %>);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
-            const jsonResponse = res.json();
-            return this.convertItemFromServer(jsonResponse);
-        });
-    }
-
-    find(id: <% if (pkType === 'String') { %>string<% } else { %>number<% } %>): Observable<<%= entityAngularName %>> {
-        return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
             const jsonResponse = res.json();
             return this.convertItemFromServer(jsonResponse);
         });
@@ -87,9 +80,6 @@ export class <%= entityAngularName %>Service {
             .map((res: Response) => this.convertResponse(res));
     }
 
-    delete(id: <% if (pkType === 'String') { %>string<% } else { %>number<% } %>): Observable<Response> {
-        return this.http.delete(`${this.resourceUrl}/${id}`);
-    }
     <%_ if(searchEngine === 'elasticsearch') { _%>
 
     search(req?: any): Observable<ResponseWrapper> {
@@ -109,10 +99,10 @@ export class <%= entityAngularName %>Service {
     }
 
     /**
-     * Convert a returned JSON object to <%= entityAngularName %>.
+     * Convert a returned JSON object to <%= pageAngularName %>.
      */
-    private convertItemFromServer(json: any): <%= entityAngularName %> {
-        const entity: <%= entityAngularName %> = Object.assign(new <%= entityAngularName %>(), json);
+    private convertItemFromServer(json: any): <%= pageAngularName %> {
+        const entity: <%= pageAngularName %> = Object.assign(new <%= pageAngularName %>(), json);
         <%_ for (idx in fields) { _%>
             <%_ if (fields[idx].fieldType === 'LocalDate') { _%>
         entity.<%=fields[idx].fieldName%> = this.dateUtils
@@ -127,15 +117,15 @@ export class <%= entityAngularName %>Service {
     }
 
     /**
-     * Convert a <%= entityAngularName %> to a JSON which can be sent to the server.
+     * Convert a <%= pageAngularName %> to a JSON which can be sent to the server.
      */
-    private convert(<%= entityInstance %>: <%= entityAngularName %>): <%= entityAngularName %> {
-        const copy: <%= entityAngularName %> = Object.assign({}, <%= entityInstance %>);
+    private convert(<%= pageInstance %>: <%= pageAngularName %>): <%= pageAngularName %> {
+        const copy: <%= pageAngularName %> = Object.assign({}, <%= pageInstance %>);
         <%_ for (idx in fields){ if (fields[idx].fieldType === 'LocalDate') { _%>
         copy.<%=fields[idx].fieldName%> = this.dateUtils
-            .convertLocalDateToServer(<%= entityInstance %>.<%=fields[idx].fieldName%>);
+            .convertLocalDateToServer(<%= pageInstance %>.<%=fields[idx].fieldName%>);
         <%_ } if (['Instant', 'ZonedDateTime'].includes(fields[idx].fieldType)) { %>
-        copy.<%=fields[idx].fieldName%> = this.dateUtils.toDate(<%= entityInstance %>.<%=fields[idx].fieldName%>);
+        copy.<%=fields[idx].fieldName%> = this.dateUtils.toDate(<%= pageInstance %>.<%=fields[idx].fieldName%>);
         <%_ } } _%>
         return copy;
     }

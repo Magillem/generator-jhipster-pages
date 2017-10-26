@@ -110,6 +110,8 @@ module.exports = JhipsterGenerator.extend({
             this.authenticationType = this.jhipsterAppConfig.authenticationType;
             this.languages = this.jhipsterAppConfig.languages;
             this.mainClass = this.getMainClassName();
+            this.searchEngine = this.jhipsterAppConfig.searchEngine === 'no' ? false : this.jhipsterAppConfig.searchEngine;
+            this.jhiPrefix = this.jhipsterAppConfig.jhiPrefix || this.options['jhi-prefix'];
 
             // read config from .yo-rc.json
             this.clientFramework = this.jhipsterAppConfig.clientFramework;
