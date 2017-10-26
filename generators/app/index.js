@@ -118,6 +118,7 @@ module.exports = JhipsterGenerator.extend({
 
             // use function in generator-base.js from generator-jhipster
             this.angularAppName = this.getAngularAppName();
+            this.angularXAppName = this.getAngularXAppName();
         },
         loadPageSetInMemory() {
             this.pageSetSpinalCased = _.kebabCase(_.lowerFirst(this.pageSet));

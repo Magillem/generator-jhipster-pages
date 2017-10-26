@@ -210,20 +210,15 @@ const angularFiles = {
             templates: [
                 {
                     condition: generator => generator.pageType !== 'clientOnly',
-                    file: 'pages/_page-set.service.ts',
+                    file: 'pages/_page.service.ts',
                     renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.service.ts`
                 },
                 {
-                    file: `pages/_page-${generator.pageType}.component.html`,
+                    file: `pages/_page.component.html`,
                     method: 'processHtml',
                     template: true,
                     renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.component.html`
                 },
-                {
-                    file: 'pages/_page.module.ts',
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.module.ts`
-                },
-
                 {
                     file: 'pages/_page.model.ts',
                     renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.model.ts`
@@ -235,8 +230,8 @@ const angularFiles = {
         {
             path: CLIENT_TEST_SRC_DIR,
             templates: [{
-                file: `spec/app/pages/_page-${generator.pageType}.component.spec.ts`,
-                renameTo: generator => `spec/app/pages/${generator.pageSetFolder}/${generator.pageName}.component.spec.ts`
+                file: `spec/app/pages/_page.component.spec.ts`,
+                renameTo: generator => `spec/app/pages/${generator.pageSetFolder}/${generator.pageAngularName}.component.spec.ts`
             }]
         },
         {
@@ -244,7 +239,7 @@ const angularFiles = {
             path: CLIENT_TEST_SRC_DIR,
             templates: [{
                 file: 'e2e/pages/_page.spec.ts',
-                renameTo: generator => `e2e/pages/${generator.pageName}.spec.ts`
+                renameTo: generator => `e2e/pages/${generator.pageAngularName}.spec.ts`
             }]
         }
     ]

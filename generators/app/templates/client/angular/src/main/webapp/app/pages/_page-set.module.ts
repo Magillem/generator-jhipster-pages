@@ -33,9 +33,10 @@ import {
     <%= page.pageAngularName %>DeleteDialogComponent,
     <%= page.pageAngularName %>Route,
     <%= page.pageAngularName %>PopupRoute,
-<%_ if (page.pagination === 'pagination' || pagination === 'pager') { _%>
+<%_ if (page.pagination === 'pagination' || page.pagination === 'pager') { _%>
 <%= page.pageAngularName %>ResolvePagingParams,
-<%_ } _%>
+<%_ }
+} _%>
 } from './';
 
 const PAGE_SET_STATES = [
@@ -45,8 +46,6 @@ const page = pages[idx];_%>
     ...<%= page.pageInstance %>PopupRoute,
 <%_ } _%>
 ];
-
-<%_ }_%>
 
 @NgModule({
     imports: [
@@ -89,4 +88,4 @@ schemas: [CUSTOM_ELEMENTS_SCHEMA]
 <%_ for (idx in pages) {
 const page = pages[idx];_%>
 export class <%= angularXAppName %><%= page.pageAngularName %>Module {}
-<%_ }} _%>
+<%_ } _%>
