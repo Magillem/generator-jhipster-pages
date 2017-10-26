@@ -112,6 +112,8 @@ module.exports = JhipsterGenerator.extend({
             this.mainClass = this.getMainClassName();
             this.searchEngine = this.jhipsterAppConfig.searchEngine === 'no' ? false : this.jhipsterAppConfig.searchEngine;
             this.jhiPrefix = this.jhipsterAppConfig.jhiPrefix || this.options['jhi-prefix'];
+            this.testFrameworks = this.jhipsterAppConfig.testFrameworks;
+            this.protractorTests = this.testFrameworks.indexOf('protractor') !== -1;
 
             // read config from .yo-rc.json
             this.clientFramework = this.jhipsterAppConfig.clientFramework;
