@@ -203,7 +203,7 @@ const pageSetAngularFiles = {
 };
 
 
-const angularFiles = {
+const pageAngularFiles = {
     client: [
         {
             path: ANGULAR_DIR,
@@ -251,7 +251,8 @@ module.exports = {
     pageServerFiles,
     pageSetAngularjsFiles,
     pageAngularjsFiles,
-    angularFiles,
+    pageSetAngularFiles,
+    pageAngularFiles,
     addDropdownToMenu,
     addElementToDropdown,
     addPageSetsModule

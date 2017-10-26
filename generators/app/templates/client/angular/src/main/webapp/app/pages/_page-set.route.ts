@@ -17,7 +17,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 limitations under the License.
 -%>
 <%_
-const i18nToLoad = [entityInstance];
+const i18nToLoad = [pageSetInstance];
 for (const idx in fields) {
     if (fields[idx].fieldIsEnum === true) {
         i18nToLoad.push(fields[idx].enumInstance);
@@ -36,89 +36,58 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@a
 import { UserRouteAccessService } from '../../shared';
 import { JhiPaginationUtil } from 'ng-jhipster';
 
-import { <%= entityAngularName %>Component } from './<%= entityFileName %>.component';
-import { <%= entityAngularName %>DetailComponent } from './<%= entityFileName %>-detail.component';
-import { <%= entityAngularName %>PopupComponent } from './<%= entityFileName %>-dialog.component';
-<%_ if (entityFileName.length <= 30) { _%>
-    import { <%= entityAngularName %>DeletePopupComponent } from './<%= entityFileName %>-delete-dialog.component';
-    <%_ } else { _%>
-    import {
-    <%= entityAngularName %>DeletePopupComponent
-} from './<%= entityFileName %>-delete-dialog.component';
-    <%_ } _%>
+<%_ for (idx in pages) {
+    const page = pages[idx];_%>
+import { <%= page.pageAngularName %>Component } from './<%= page.pageAngularName %>.component';
+<%_ } _%>
 
-<%_ if (pagination === 'pagination' || pagination === 'pager') { _%>
-@Injectable()
-export class <%= entityAngularName %>ResolvePagingParams implements Resolve<any> {
+<%_ for (idx in pages) {
+    const page = pages[idx];
+    _%>
 
-        constructor(private paginationUtil: JhiPaginationUtil) {}
+    <%_
+    if (page.pagination === 'pagination' || page.pagination === 'pager') {
+        _%>
+        @Injectable()
+    export class
+        <%= page.pageAngularName %>ResolvePagingParams implements Resolve <any> {
 
-        resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-            const page = route.queryParams['page'] ? route.queryParams['page'] : '1';
-            const sort = route.queryParams['sort'] ? route.queryParams['sort'] : 'id,asc';
-            return {
-                page: this.paginationUtil.parsePage(page),
-                predicate: this.paginationUtil.parsePredicate(sort),
-                ascending: this.paginationUtil.parseAscending(sort)
-            };
+            constructor(private paginationUtil: JhiPaginationUtil) {
+            }
+
+            resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+                const page = route.queryParams['page'] ? route.queryParams['page'] : '1';
+                const sort = route.queryParams['sort'] ? route.queryParams['sort'] : 'id,asc';
+                return {
+                    page: this.paginationUtil.parsePage(page),
+                    predicate: this.paginationUtil.parsePredicate(sort),
+                    ascending: this.paginationUtil.parseAscending(sort)
+                };
+            }
         }
-    }
 
-    <%_ } _%>
-export const <%= entityInstance %>Route: Routes = [
+        <% _
+    }
+} _%>
+
+
+export const <%= pageSetInstance %>Route: Routes = [
+<%_ for (idx in pages) {
+const page = pages[idx];
+_%>
     {
-        path: '<%= entityUrl %>',
-        component: <%= entityAngularName %>Component,
-    <%_ if (pagination === 'pagination' || pagination === 'pager'){ _%>
+        path: '<%= page.pageUrl %>',
+        component: <%= page.pageAngularName %>Component,
+    <%_ if (page.pagination === 'pagination' || page.pagination === 'pager'){ _%>
 resolve: {
-    'pagingParams': <%= entityAngularName %>ResolvePagingParams
+    'pagingParams': <%= page.pageAngularName %>ResolvePagingParams
 },
     <%_ } _%>
 data: {
     authorities: ['ROLE_USER'],
-        pageTitle: <% if (enableTranslation){ %>'<%= angularAppName %>.<%= entityTranslationKey %>.home.title'<% }else{ %>'<%= entityClassPlural %>'<% } %>
+        pageTitle: <% if (enableTranslation){ %>'<%= angularAppName %>.<%= page.pageSetAndNameTranslationKey %>.home.title'<% }else{ %>'<%= page.pageClassPlural %>'<% } %>
 },
 canActivate: [UserRouteAccessService]
-}, {
-    path: '<%= entityUrl %>/:id',
-        component: <%= entityAngularName %>DetailComponent,
-        data: {
-        authorities: ['ROLE_USER'],
-            pageTitle: <% if (enableTranslation){ %>'<%= angularAppName %>.<%= entityTranslationKey %>.home.title'<% }else{ %>'<%= entityClassPlural %>'<% } %>
-    },
-    canActivate: [UserRouteAccessService]
 }
-];
-
-export const <%= entityInstance %>PopupRoute: Routes = [
-    {
-        path: '<%= entityUrl %>-new',
-        component: <%= entityAngularName %>PopupComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: <% if (enableTranslation){ %>'<%= angularAppName %>.<%= entityTranslationKey %>.home.title'<% }else{ %>'<%= entityClassPlural %>'<% } %>
-    },
-    canActivate: [UserRouteAccessService],
-    outlet: 'popup'
-},
-{
-    path: '<%= entityUrl %>/:id/edit',
-        component: <%= entityAngularName %>PopupComponent,
-    data: {
-    authorities: ['ROLE_USER'],
-        pageTitle: <% if (enableTranslation){ %>'<%= angularAppName %>.<%= entityTranslationKey %>.home.title'<% }else{ %>'<%= entityClassPlural %>'<% } %>
-},
-    canActivate: [UserRouteAccessService],
-        outlet: 'popup'
-},
-{
-    path: '<%= entityUrl %>/:id/delete',
-        component: <%= entityAngularName %>DeletePopupComponent,
-    data: {
-    authorities: ['ROLE_USER'],
-        pageTitle: <% if (enableTranslation){ %>'<%= angularAppName %>.<%= entityTranslationKey %>.home.title'<% }else{ %>'<%= entityClassPlural %>'<% } %>
-},
-    canActivate: [UserRouteAccessService],
-        outlet: 'popup'
-}
+<%_ } _%>
 ];
