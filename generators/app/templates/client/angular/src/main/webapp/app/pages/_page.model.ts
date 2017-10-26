@@ -19,14 +19,6 @@
 <%_
 const variables = {};
 const defaultVariablesValues = {};
-let hasUserRelationship = false;
-let tsKeyType;
-if (pkType === 'String') {
-    tsKeyType = 'string';
-} else {
-    tsKeyType = 'number';
-}
-variables['id'] = 'id?: ' + tsKeyType;
 fields.forEach(field => {
     const fieldType = field.fieldType;
     const fieldName = field.fieldName;
@@ -64,7 +56,7 @@ export const enum <%= field.fieldType %> {<%
 
 <%_ }
 }); _%>
-export class <%= entityAngularName %> implements BaseEntity {
+export class <%= pageAngularName %> implements BaseEntity {
     constructor(<% for (idx in variables) { %>
         public <%- variables[idx] %>,<% } %>
     ) {<% for (idx in defaultVariablesValues) { %>
