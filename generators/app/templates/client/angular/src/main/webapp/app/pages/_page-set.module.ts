@@ -64,7 +64,5 @@ const page = pages[idx];_%>
 schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 
-<%_ for (idx in pages) {
-const page = pages[idx];_%>
-export class <%= angularXAppName %><%= page.pageSetAngularClass %>Module {}
-<%_ } _%>
+export class <%= angularXAppName %><%= pageSetAngularClass %>Module {}
+
