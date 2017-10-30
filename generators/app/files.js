@@ -373,6 +373,7 @@ function loadPageInMemory() {
             this.pageNameTranslationKey = page.pageNameTranslationKey;
             this.pageSetAndNameTranslationKey = page.pageSetAndNameTranslationKey;
             this.pageAngularName = page.pageAngularName;
+            this.pageAngularClass = page.pageAngularClass;
             this.pageRouterState = page.pageRouterState;
             this.pageInstance = page.pageInstance ;
             this.pageInstancePlural = page.pageInstancePlural ;
@@ -582,13 +583,8 @@ function addPageSetsModule(clientFramework) {
 
             args.haystack = this.fs.read(fullPath);
 
-            const re = new RegExp(`\\s*${escapeRegExp("TmpPageSetsModule,")}`);
-            if (re.test(args.haystack)) {
-                return;
-            }
-
             args.needle = `import { TmpEntityModule } from './entities/entity.module';`;
-            args.splicable = [`import { TmpPageSetsModule } from './pages/pageSets.module';`]
+            args.splicable = [`import { TmpPageSetsModule } from './pages/page-sets.module';`]
             args.haystack = jhipsterUtils.rewrite(args);
 
             args.needle = `TmpAccountModule,`;
@@ -599,7 +595,7 @@ function addPageSetsModule(clientFramework) {
 
         }
     } catch (e) {
-        this.log(`${chalk.yellow('\nUnable to find ') + appModulePath + chalk.yellow('. Reference to PageSets module not added to menu.\n')}`);
-        this.debug('Error:', e);
+        this.log(`${chalk.yellow('\nUnable to find ') + appModulePath + chalk.yellow('. Reference to PageSets module not added to App module.\n')}`);
+        this.log('Error:', e);
     }
 }

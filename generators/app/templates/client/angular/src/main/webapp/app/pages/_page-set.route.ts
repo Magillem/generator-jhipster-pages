@@ -71,7 +71,7 @@ import { <%= page.pageAngularName %>Component } from './<%= page.pageAngularName
 } _%>
 
 
-export const <%= pageSetInstance %>Route: Routes = [
+export const <%= pageSetAngularClass %>Route: Routes = [
 <%_ for (idx in pages) {
 const page = pages[idx];
 _%>

@@ -18,6 +18,7 @@
  */
 const util = require('util');
 const chalk = require('chalk');
+const shelljs = require('shelljs');
 const generator = require('yeoman-generator');
 const packagejs = require('../../package.json');
 const semver = require('semver');
@@ -124,7 +125,7 @@ module.exports = JhipsterGenerator.extend({
             this.angularAppName = this.getAngularAppName();
             this.angularXAppName = this.getAngularXAppName();
         },
-        loadPageSetInMemory() {
+        loadCurrentPageSetInMemory() {
             this.pageSetSpinalCased = _.kebabCase(_.lowerFirst(this.pageSet));
             this.pageSetClass = _.upperFirst(_.camelCase(this.pageSet));
             this.pageSetAngularClass = this.pageSetClass;
@@ -146,6 +147,7 @@ module.exports = JhipsterGenerator.extend({
                 page.pageNameCamelCased = _.camelCase(page.pageName);
                 page.pageUrl = page.pageNameKebabCased;
                 page.pageAngularName = page.pageNameCamelCased;
+                page.pageAngularClass = _.upperFirst(page.pageNameCamelCased);
                 page.pageRouterState = _.lowerFirst(page.pageNameCamelCased);
                 page.pageNameTranslationKey = page.pageRouterState;
                 page.pageSetAndNameTranslationKey = `${this.pageSetTranslationKey}-${page.pageNameTranslationKey}`;
@@ -183,6 +185,33 @@ module.exports = JhipsterGenerator.extend({
                     this.contactServer = true;
                 }
             });
+        },
+        loadAllPageSetsInMemory() {
+            const pageSetConfigs = `${constant.MODULES_PAGES_CONFIG_FILE}/*.json`;
+            this.pageSets = [];
+            shelljs.ls(pageSetConfigs).forEach((file) => {
+                const fileName = file.split('\\').pop().split('/').pop().slice(0, -5);
+
+                let pageSetSpinalCased = _.kebabCase(_.lowerFirst(fileName));
+                let pageSetAngularClass = _.upperFirst(_.camelCase(fileName));
+                let pageSetInstance = _.lowerFirst(pageSetAngularClass);
+                let pageSetFolder = pageSetSpinalCased;
+
+                this.pageSets.push({
+                    name: fileName,
+                    pageSetAngularClass: pageSetAngularClass,
+                    pageSetInstance: pageSetInstance,
+                    pageSetFolder: pageSetFolder
+                });
+            });
+            if(this.newPageSet){
+                this.pageSets.push({
+                    name: this.pageSet,
+                    pageSetAngularClass: this.pageSetAngularClass,
+                    pageSetInstance: this.pageSetInstance,
+                    pageSetFolder: this.pageSetFolder
+                });
+            }
         }
     },
 

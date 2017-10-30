@@ -18,10 +18,19 @@ limitations under the License.
 -%>
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
+
+<%_ for (idx in pageSets) {
+const currentPageSet = pageSets[idx]; _%>
+import { <%= angularXAppName %><%= currentPageSet.pageSetAngularClass %>Module } from './<%= currentPageSet.pageSetFolder %>/<%= currentPageSet.pageSetAngularClass %>.module';
+<%_ } _%>
 /* jhipster-needle-add-pageset-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
     imports: [
+<%_ for (idx in pageSets) {
+const currentPageSet = pageSets[idx]; _%>
+        <%= angularXAppName %><%= currentPageSet.pageSetAngularClass %>Module,
+    <%_ } _%>
         /* jhipster-needle-add-pageset-module - JHipster will add entity modules here */
     ],
     declarations: [],

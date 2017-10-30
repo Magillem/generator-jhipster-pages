@@ -20,31 +20,20 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { <%= angularXAppName %>SharedModule } from '../../shared';
+import {
 <%_ for (idx in pages) {
     const page = pages[idx];_%>
-import {
     <%= page.pageAngularName %>Service,
-    <%= page.pageAngularName %>PopupService,
     <%= page.pageAngularName %>Component,
-    <%= page.pageAngularName %>DetailComponent,
-    <%= page.pageAngularName %>DialogComponent,
-    <%= page.pageAngularName %>PopupComponent,
-    <%= page.pageAngularName %>DeletePopupComponent,
-    <%= page.pageAngularName %>DeleteDialogComponent,
-    <%= page.pageAngularName %>Route,
-    <%= page.pageAngularName %>PopupRoute,
 <%_ if (page.pagination === 'pagination' || page.pagination === 'pager') { _%>
-<%= page.pageAngularName %>ResolvePagingParams,
+<%= page.pageAngularName %>ResolvePagingParams
 <%_ }
 } _%>
+    <%= pageSetAngularClass %>Route,
 } from './';
 
 const PAGE_SET_STATES = [
-<%_ for (idx in pages) {
-const page = pages[idx];_%>
-    ...<%= page.pageInstance %>Route,
-    ...<%= page.pageInstance %>PopupRoute,
-<%_ } _%>
+    ...<%= pageSetAngularClass %>Route,
 ];
 
 @NgModule({
@@ -56,28 +45,18 @@ const page = pages[idx];_%>
 <%_ for (idx in pages) {
 const page = pages[idx];_%>
     <%= page.pageAngularName %>Component,
-    <%= page.pageAngularName %>DetailComponent,
-    <%= page.pageAngularName %>DialogComponent,
-    <%= page.pageAngularName %>DeleteDialogComponent,
-    <%= page.pageAngularName %>PopupComponent,
-    <%= page.pageAngularName %>DeletePopupComponent,
 <%_ } _%>
 ],
     entryComponents: [
 <%_ for (idx in pages) {
 const page = pages[idx];_%>
     <%= page.pageAngularName %>Component,
-    <%= page.pageAngularName %>DialogComponent,
-    <%= page.pageAngularName %>PopupComponent,
-    <%= page.pageAngularName %>DeleteDialogComponent,
-    <%= page.pageAngularName %>DeletePopupComponent,
 <%_ } _%>
 ],
     providers: [
 <%_ for (idx in pages) {
 const page = pages[idx];_%>
     <%= page.pageAngularName %>Service,
-    <%= page.pageAngularName %>PopupService,
     <%_ if (page.pagination === 'pagination' || page.pagination === 'pager') { _%>
 <%= page.pageAngularName %>ResolvePagingParams,
 <%_ }} _%>
@@ -87,5 +66,5 @@ schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 <%_ for (idx in pages) {
 const page = pages[idx];_%>
-export class <%= angularXAppName %><%= page.pageAngularName %>Module {}
+export class <%= angularXAppName %><%= page.pageSetAngularClass %>Module {}
 <%_ } _%>

@@ -19,7 +19,6 @@ limitations under the License.
 <%_ for (idx in pages) {
 const page = pages[idx];_%>
 export * from './<%= page.pageAngularName %>.model';
-export * from './<%= page.pageAngularName %>-popup.service';
 export * from './<%= page.pageAngularName %>.service';
 export * from './<%= page.pageAngularName %>.component';
 <%_ } _%>
