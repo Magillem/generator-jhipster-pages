@@ -190,21 +190,22 @@ module.exports = JhipsterGenerator.extend({
             const pageSetConfigs = `${constant.MODULES_PAGES_CONFIG_FILE}/*.json`;
             this.pageSets = [];
             shelljs.ls(pageSetConfigs).forEach((file) => {
-                const fileName = file.split('\\').pop().split('/').pop().slice(0, -5);
+                const fileName = file.split('\\').pop().split('/').pop()
+                    .slice(0, -5);
 
-                let pageSetSpinalCased = _.kebabCase(_.lowerFirst(fileName));
-                let pageSetAngularClass = _.upperFirst(_.camelCase(fileName));
-                let pageSetInstance = _.lowerFirst(pageSetAngularClass);
-                let pageSetFolder = pageSetSpinalCased;
+                const pageSetSpinalCased = _.kebabCase(_.lowerFirst(fileName));
+                const pageSetAngularClass = _.upperFirst(_.camelCase(fileName));
+                const pageSetInstance = _.lowerFirst(pageSetAngularClass);
+                const pageSetFolder = pageSetSpinalCased;
 
                 this.pageSets.push({
                     name: fileName,
-                    pageSetAngularClass: pageSetAngularClass,
-                    pageSetInstance: pageSetInstance,
-                    pageSetFolder: pageSetFolder
+                    pageSetAngularClass,
+                    pageSetInstance,
+                    pageSetFolder
                 });
             });
-            if(this.newPageSet){
+            if (this.newPageSet) {
                 this.pageSets.push({
                     name: this.pageSet,
                     pageSetAngularClass: this.pageSetAngularClass,
