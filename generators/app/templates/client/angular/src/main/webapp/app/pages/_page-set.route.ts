@@ -79,15 +79,15 @@ _%>
         path: '<%= page.pageUrl %>',
         component: <%= page.pageAngularName %>Component,
     <%_ if (page.pagination === 'pagination' || page.pagination === 'pager'){ _%>
-resolve: {
-    'pagingParams': <%= page.pageAngularName %>ResolvePagingParams
+        resolve: {
+            'pagingParams': <%= page.pageAngularName %>ResolvePagingParams
 },
     <%_ } _%>
-data: {
-    authorities: ['ROLE_USER'],
-        pageTitle: <% if (enableTranslation){ %>'<%= angularAppName %>.<%= page.pageSetAndNameTranslationKey %>.home.title'<% }else{ %>'<%= page.pageClassPlural %>'<% } %>
-},
-canActivate: [UserRouteAccessService]
-},
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: <% if (enableTranslation){ %>'<%= angularAppName %>.<%= page.pageSetAndNameTranslationKey %>.home.title'<% }else{ %>'<%= page.pageClassPlural %>'<% } %>
+        },
+        canActivate: [UserRouteAccessService]
+    },
 <%_ } _%>
 ];
