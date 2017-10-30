@@ -88,6 +88,6 @@ data: {
         pageTitle: <% if (enableTranslation){ %>'<%= angularAppName %>.<%= page.pageSetAndNameTranslationKey %>.home.title'<% }else{ %>'<%= page.pageClassPlural %>'<% } %>
 },
 canActivate: [UserRouteAccessService]
-}
+},
 <%_ } _%>
 ];
