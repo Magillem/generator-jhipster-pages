@@ -583,12 +583,12 @@ function addPageSetsModule(clientFramework) {
 
             args.haystack = this.fs.read(fullPath);
 
-            args.needle = `import { TmpEntityModule } from './entities/entity.module';`;
-            args.splicable = [`import { TmpPageSetsModule } from './pages/page-sets.module';`]
+            args.needle = `import { ${angularXAppName}EntityModule } from './entities/entity.module';`;
+            args.splicable = [`import { ${angularXAppName}PageSetsModule } from './pages/page-sets.module';`]
             args.haystack = jhipsterUtils.rewrite(args);
 
-            args.needle = `TmpAccountModule,`;
-            args.splicable = [`TmpPageSetsModule,`]
+            args.needle = `${angularXAppName}AccountModule,`;
+            args.splicable = [`${angularXAppName}PageSetsModule,`]
             args.haystack = jhipsterUtils.rewrite(args);
 
             this.fs.write(fullPath, args.haystack);

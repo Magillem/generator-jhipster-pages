@@ -30,13 +30,21 @@ import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
     templateUrl: './<%= pageAngularName %>.component.html'
 })
 export class <%= pageAngularName %>Component implements OnInit, OnDestroy {
-    <%_ if (pagination === 'pagination' || pagination === 'pager') { _%>
-    <%- include('pagination-template', {toArrayString: toArrayString}); -%>
-    <%_ } else if (pagination === 'infinite-scroll') { _%>
-    <%- include('infinite-scroll-template', {toArrayString: toArrayString}); -%>
-    <%_ } else if (pagination === 'no') { _%>
-    <%- include('no-pagination-template', {toArrayString: toArrayString}); -%>
-    <%_ } _%>
+    currentAccount: any;
+    eventSubscriber: Subscription;
+
+    constructor(
+        private <%= pageInstance %>Service: <%= pageAngularName %>Service,
+        private jhiAlertService: JhiAlertService,
+        private eventManager: JhiEventManager,
+        private principal: Principal
+    ) {
+    }
+
+    loadAll() {
+
+    }
+
     ngOnInit() {
         this.loadAll();
         this.principal.identity().then((account) => {
@@ -49,9 +57,7 @@ export class <%= pageAngularName %>Component implements OnInit, OnDestroy {
         this.eventManager.destroy(this.eventSubscriber);
     }
 
-    trackId(index: number, item: <%= pageAngularName %>) {
-        return item.id;
-    }
+
     <%_ if (fieldsContainBlob) { _%>
 
     byteSize(field) {
@@ -72,13 +78,6 @@ export class <%= pageAngularName %>Component implements OnInit, OnDestroy {
     }
 
     <%_ if (pagination !== 'no') { _%>
-    sort() {
-        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
-        if (this.predicate !== 'id') {
-            result.push('id');
-        }
-        return result;
-    }
 
     <%_ if (pagination === 'pagination' || pagination === 'pager') { _%>
     private onSuccess(data, headers) {
