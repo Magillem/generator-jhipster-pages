@@ -209,7 +209,7 @@ const pageAngularFiles = {
             path: ANGULAR_DIR,
             templates: [
                 {
-                    condition: generator => generator.pageType !== 'clientOnly',
+                    condition: generator => generator.contactServer === true,
                     file: 'pages/_page.service.ts',
                     renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.service.ts`
                 },

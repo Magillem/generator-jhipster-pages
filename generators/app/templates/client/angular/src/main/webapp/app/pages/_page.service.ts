@@ -45,28 +45,33 @@ export class <%= pageAngularName %>Service {
     <%_ } _%>
 
     constructor(private http: Http<% if (hasDate) { %>, private dateUtils: JhiDateUtils<% } %>) { }
-    <%_ if (pageAngularName.length <= 30) { _%>
+
+
+    <%_ if (postOneToServer) { _%>
+
+        <%_ if (pageAngularName.length <= 30) { _%>
 
     create(<%= pageInstance %>: <%= pageAngularName %>): Observable<<%= pageAngularName %>> {
-    <%_ } else { _%>
+        <%_ } else { _%>
 
     create(<%= pageInstance %>: <%= pageAngularName %>):
         Observable<<%= pageAngularName %>> {
-    <%_ } _%>
+        <%_ } _%>
         const copy = this.convert(<%= pageInstance %>);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
             return this.convertItemFromServer(jsonResponse);
         });
     }
-    <%_ if (pageAngularName.length <= 30) { _%>
+
+        <%_ if (pageAngularName.length <= 30) { _%>
 
     update(<%= pageInstance %>: <%= pageAngularName %>): Observable<<%= pageAngularName %>> {
-    <%_ } else { _%>
+        <%_ } else { _%>
 
     update(<%= pageInstance %>: <%= pageAngularName %>):
         Observable<<%= pageAngularName %>> {
-    <%_ } _%>
+        <%_ } _%>
         const copy = this.convert(<%= pageInstance %>);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
@@ -74,11 +79,15 @@ export class <%= pageAngularName %>Service {
         });
     }
 
+    <%_ } _%>
+
+    <% if (getOneFromServer || getAllFromServer) { %>
     query(req?: any): Observable<ResponseWrapper> {
         const options = createRequestOption(req);
         return this.http.get(this.resourceUrl, options)
             .map((res: Response) => this.convertResponse(res));
     }
+    <%_ } _%>
 
     <%_ if(searchEngine === 'elasticsearch') { _%>
 
