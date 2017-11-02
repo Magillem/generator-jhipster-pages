@@ -33,7 +33,7 @@ export class <%= pageAngularName %>Component implements OnInit, OnDestroy {
     <% if (getOneFromServer || postOneToServer) { %>
     private <%= pageInstance %>: <%= pageAngularName %>;
     <% } else if (getAllFromServer) { %>
-    private <%= pageInstancePlural %>: <%= pageAngularName[] %>;
+    private <%= pageInstancePlural %>: <%= pageAngularName %>[];
     <% } %>
     currentAccount: any;
     eventSubscriber: Subscription;
@@ -56,8 +56,8 @@ export class <%= pageAngularName %>Component implements OnInit, OnDestroy {
             this.<%= pageInstance %>Service.create(this.<%= pageInstance %>));
     }
 
-    private subscribeToSaveResponse(result: Observable<<%= entityAngularName %>>) {
-        result.subscribe((res: <%= entityAngularName %>) =>
+    private subscribeToSaveResponse(result: Observable<<%= pageInstance %>>) {
+        result.subscribe((res: <%= pageInstance %>) =>
         this.onSaveSuccess(res), (res: Response) => this.onSaveError());
     }
 
