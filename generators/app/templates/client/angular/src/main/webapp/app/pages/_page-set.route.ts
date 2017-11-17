@@ -76,7 +76,7 @@ export const <%= pageSetAngularClass %>Route: Routes = [
 const page = pages[idx];
 _%>
     {
-        path: '<%= page.pageUrl %>',
+        path: '<%= pageSetRouterState %>-<%= page.pageRouterState %>',
         component: <%= page.pageAngularName %>Component,
     <%_ if (page.pagination === 'pagination' || page.pagination === 'pager'){ _%>
         resolve: {

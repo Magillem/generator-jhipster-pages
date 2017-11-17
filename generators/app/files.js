@@ -501,9 +501,9 @@ function addDropdownToMenu(dropdownName, routerName, glyphiconName, enableTransl
                         </span>
                     </a>
                     <ul class="dropdown-menu" ngbDropdownMenu>
-                        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                            <a class="nav-link" routerLink="${routerName}" (click)="collapseNavbar()">
-                                <i class="fa fa-${glyphiconName}"></i>&nbsp;
+                        <li>
+                            <a class="dropdown-item" routerLink="${routerName}" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                                <i class="fa fa-${glyphiconName}" aria-hidden="true"></i>&nbsp;
                                 <span${enableTranslation ? ` jhiTranslate="global.menu.${routerName}"` : ''}>${_.startCase(routerName)}</span>
                             </a>
                         </li>
@@ -549,9 +549,9 @@ function addElementToDropdown(dropdownName, routerName, glyphiconName, enableTra
             jhipsterUtils.rewriteFile({
                 file: navbarPath,
                 needle: `jhipster-needle-add-element-to-${dropdownName}`,
-                splicable: [`<li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-            <a class="nav-link" routerLink="${routerName}" (click)="collapseNavbar()">
-                <i class="fa fa-${glyphiconName}"></i>&nbsp;
+                splicable: [`<li>
+                    <a class="dropdown-item" routerLink="${routerName}" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                <i class="fa fa-${glyphiconName}" aria-hidden="true"></i>&nbsp;
                 <span${enableTranslation ? ` jhiTranslate="global.menu.${routerName}"` : ''}>${_.startCase(routerName)}</span>
             </a>
         </li>`
@@ -583,12 +583,12 @@ function addPageSetsModule(clientFramework) {
 
             args.haystack = this.fs.read(fullPath);
 
-            args.needle = `import { ${angularXAppName}EntityModule } from './entities/entity.module';`;
-            args.splicable = [`import { ${angularXAppName}PageSetsModule } from './pages/page-sets.module';`]
+            args.needle = `import { ${this.angularXAppName}EntityModule } from './entities/entity.module';`;
+            args.splicable = [`import { ${this.angularXAppName}PageSetsModule } from './pages/page-sets.module';`]
             args.haystack = jhipsterUtils.rewrite(args);
 
-            args.needle = `${angularXAppName}AccountModule,`;
-            args.splicable = [`${angularXAppName}PageSetsModule,`]
+            args.needle = `${this.angularXAppName}AccountModule,`;
+            args.splicable = [`${this.angularXAppName}PageSetsModule,`]
             args.haystack = jhipsterUtils.rewrite(args);
 
             this.fs.write(fullPath, args.haystack);

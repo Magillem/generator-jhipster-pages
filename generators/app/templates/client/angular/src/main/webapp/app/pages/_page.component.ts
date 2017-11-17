@@ -46,10 +46,11 @@ export class <%= pageAngularName %>Component implements OnInit, OnDestroy {
     ) {
     }
 
+    <% if (getOneFromServer || getAllFromServer) { %>
     loadAll() {
 
     }
-
+    <% } else if (postOneToServer) { %>
     save() {
         this.isSaving = true;
         this.subscribeToSaveResponse(
@@ -60,17 +61,24 @@ export class <%= pageAngularName %>Component implements OnInit, OnDestroy {
         result.subscribe((res: <%= pageInstance %>) =>
         this.onSaveSuccess(res), (res: Response) => this.onSaveError());
     }
+    <% } %>
 
     ngOnInit() {
+        <% if (getOneFromServer || getAllFromServer) { %>
         this.loadAll();
+        <% } %>
         this.principal.identity().then((account) => {
             this.currentAccount = account;
         });
+        <% if (getOneFromServer || getAllFromServer) { %>
         this.registerChangeIn<%= pageClassPlural %>();
+        <% } %>
     }
 
     ngOnDestroy() {
+        <% if (getOneFromServer || getAllFromServer) { %>
         this.eventManager.destroy(this.eventSubscriber);
+        <% } %>
     }
 
 
@@ -85,13 +93,15 @@ export class <%= pageAngularName %>Component implements OnInit, OnDestroy {
         }
         <%_ } _%>
     <%_
-    let eventCallBack = 'this.loadAll()';
-    if (pagination === 'infinite-scroll') {
-        eventCallBack = 'this.reset()';
-    } _%>
+    if (getOneFromServer || getAllFromServer) {
+        let eventCallBack = 'this.loadAll()';
+        if (pagination === 'infinite-scroll') {
+            eventCallBack = 'this.reset()';
+        } _%>
     registerChangeIn<%= pageClassPlural %>() {
         this.eventSubscriber = this.eventManager.subscribe('<%= pageInstance %>ListModification', (response) => <%= eventCallBack %>);
     }
+    <% } %>
 
     <%_ if (pagination !== 'no') { _%>
 
