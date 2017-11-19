@@ -32,9 +32,9 @@ import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
 })
 export class <%= pageAngularClass %>Component implements OnInit, OnDestroy {
 <% if (getOneFromServer || postOneToServer) { %>
-    private <%= pageInstance %>: <%= pageAngularClass %>;
+    <%= pageInstance %>: <%= pageAngularClass %>;
 <% } else if (getAllFromServer) { %>
-    private <%= pageInstancePlural %>: <%= pageAngularClass %>[];
+    <%= pageInstancePlural %>: <%= pageAngularClass %>[];
 <% } %>
     currentAccount: any;
     eventSubscriber: Subscription;<% if (postOneToServer) { %>

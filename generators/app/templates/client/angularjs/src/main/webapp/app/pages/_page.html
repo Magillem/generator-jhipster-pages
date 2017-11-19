@@ -23,7 +23,7 @@ const ngValidators = './ng_validators';
 <div>
     <h2><span data-translate="<%= keyPrefix %>.title"><%= pageName %></span></h2>
     <hr>
-    <jhi-alert-error></jhi-alert-error>
+    <<%=jhiPrefix%>-alert-error></<%=jhiPrefix%>-alert-error>
 
     <%_ if(pageType=='form') { _%>
     <form name="editForm" role="form" novalidate ng-submit="vm.save()"<% if (validation) { %> show-validation<% } %>>
