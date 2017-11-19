@@ -56,7 +56,7 @@ export const enum <%= field.fieldType %> {<%
 
 <%_ }
 }); _%>
-export class <%= pageAngularName %> implements BaseEntity {
+export class <%= pageAngularClass %> implements BaseEntity {
     constructor(<% for (idx in variables) { %>
         public <%- variables[idx] %>,<% } %>
     ) {<% for (idx in defaultVariablesValues) { %>

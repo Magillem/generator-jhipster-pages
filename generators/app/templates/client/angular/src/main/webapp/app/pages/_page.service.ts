@@ -33,11 +33,11 @@ import { SERVER_API_URL } from '../../app.constants';
 import { JhiDateUtils } from 'ng-jhipster';
 <%_ } _%>
 
-import { <%= pageAngularName %> } from './<%= pageAngularName %>.model';
+import { <%= pageAngularClass %> } from './<%= pageAngularFileName %>.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
 
 @Injectable()
-export class <%= pageAngularName %>Service {
+export class <%= pageAngularClass %>Service {
 
     private resourceUrl = <% if (applicationType === 'gateway' && locals.microserviceName) { %>'/<%= microserviceName.toLowerCase() %>/<% } else if (authenticationType === 'uaa') { %>'<% } else { %>SERVER_API_URL + '<% } %>api/<%= pageApiUrl %>';
     <%_ if(searchEngine === 'elasticsearch') { _%>
@@ -45,17 +45,15 @@ export class <%= pageAngularName %>Service {
     <%_ } _%>
 
     constructor(private http: Http<% if (hasDate) { %>, private dateUtils: JhiDateUtils<% } %>) { }
-
-
     <%_ if (postOneToServer) { _%>
 
-        <%_ if (pageAngularName.length <= 30) { _%>
+        <%_ if (pageAngularClass.length <= 30) { _%>
 
-    create(<%= pageInstance %>: <%= pageAngularName %>): Observable<<%= pageAngularName %>> {
+    create(<%= pageInstance %>: <%= pageAngularClass %>): Observable<<%= pageAngularClass %>> {
         <%_ } else { _%>
 
-    create(<%= pageInstance %>: <%= pageAngularName %>):
-        Observable<<%= pageAngularName %>> {
+    create(<%= pageInstance %>: <%= pageAngularClass %>):
+        Observable<<%= pageAngularClass %>> {
         <%_ } _%>
         const copy = this.convert(<%= pageInstance %>);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
@@ -64,13 +62,13 @@ export class <%= pageAngularName %>Service {
         });
     }
 
-        <%_ if (pageAngularName.length <= 30) { _%>
+        <%_ if (pageAngularClass.length <= 30) { _%>
 
-    update(<%= pageInstance %>: <%= pageAngularName %>): Observable<<%= pageAngularName %>> {
+    update(<%= pageInstance %>: <%= pageAngularClass %>): Observable<<%= pageAngularClass %>> {
         <%_ } else { _%>
 
-    update(<%= pageInstance %>: <%= pageAngularName %>):
-        Observable<<%= pageAngularName %>> {
+    update(<%= pageInstance %>: <%= pageAngularClass %>):
+        Observable<<%= pageAngularClass %>> {
         <%_ } _%>
         const copy = this.convert(<%= pageInstance %>);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
@@ -78,25 +76,22 @@ export class <%= pageAngularName %>Service {
             return this.convertItemFromServer(jsonResponse);
         });
     }
-
-    <%_ } _%>
-
-    <% if (getOneFromServer || getAllFromServer) { %>
+<%_ } _%>
+<% if (getOneFromServer || getAllFromServer) { %>
     query(req?: any): Observable<ResponseWrapper> {
         const options = createRequestOption(req);
         return this.http.get(this.resourceUrl, options)
             .map((res: Response) => this.convertResponse(res));
     }
-    <%_ } _%>
-
-    <%_ if(searchEngine === 'elasticsearch') { _%>
+<%_ } _%>
+<%_ if(searchEngine === 'elasticsearch') { _%>
 
     search(req?: any): Observable<ResponseWrapper> {
         const options = createRequestOption(req);
         return this.http.get(this.resourceSearchUrl, options)
             .map((res: any) => this.convertResponse(res));
     }
-    <%_ } _%>
+<%_ } _%>
 
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
@@ -108,10 +103,10 @@ export class <%= pageAngularName %>Service {
     }
 
     /**
-     * Convert a returned JSON object to <%= pageAngularName %>.
+     * Convert a returned JSON object to <%= pageAngularClass %>.
      */
-    private convertItemFromServer(json: any): <%= pageAngularName %> {
-        const entity: <%= pageAngularName %> = Object.assign(new <%= pageAngularName %>(), json);
+    private convertItemFromServer(json: any): <%= pageAngularClass %> {
+        const entity: <%= pageAngularClass %> = Object.assign(new <%= pageAngularClass %>(), json);
         <%_ for (idx in fields) { _%>
             <%_ if (fields[idx].fieldType === 'LocalDate') { _%>
         entity.<%=fields[idx].fieldName%> = this.dateUtils
@@ -126,10 +121,10 @@ export class <%= pageAngularName %>Service {
     }
 
     /**
-     * Convert a <%= pageAngularName %> to a JSON which can be sent to the server.
+     * Convert a <%= pageAngularClass %> to a JSON which can be sent to the server.
      */
-    private convert(<%= pageInstance %>: <%= pageAngularName %>): <%= pageAngularName %> {
-        const copy: <%= pageAngularName %> = Object.assign({}, <%= pageInstance %>);
+    private convert(<%= pageInstance %>: <%= pageAngularClass %>): <%= pageAngularClass %> {
+        const copy: <%= pageAngularClass %> = Object.assign({}, <%= pageInstance %>);
         <%_ for (idx in fields){ if (fields[idx].fieldType === 'LocalDate') { _%>
         copy.<%=fields[idx].fieldName%> = this.dateUtils
             .convertLocalDateToServer(<%= pageInstance %>.<%=fields[idx].fieldName%>);

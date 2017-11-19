@@ -127,12 +127,14 @@ module.exports = JhipsterGenerator.extend({
         },
         loadCurrentPageSetInMemory() {
             this.pageSetSpinalCased = _.kebabCase(_.lowerFirst(this.pageSet));
-            this.pageSetClass = _.upperFirst(_.camelCase(this.pageSet));
-            this.pageSetAngularClass = this.pageSetClass;
-            this.pageSetInstance = _.lowerFirst(this.pageSetClass);
+            this.pageSetCamelCased = _.upperFirst(_.camelCase(this.pageSet));
+            this.pageSetAngularFileName = _.lowerFirst(this.pageSetCamelCased);
+            this.pageSetClass = this.pageSetCamelCased;
+            this.pageSetAngularClass = this.pageSetCamelCased;
+            this.pageSetInstance = _.lowerFirst(this.pageSetCamelCased);
             this.pageSetUrl = this.pageSetSpinalCased;
             this.pageSetApiUrl = this.pageSetSpinalCased;
-            this.pageSetRouterState = _.lowerFirst(this.pageSetClass);
+            this.pageSetRouterState = _.lowerFirst(this.pageSetCamelCased);
             this.pageSetTranslationKey = this.pageSetRouterState;
             this.pageSetFolder = this.pageSetSpinalCased;
             this.pageSetTranslation = this.pageSetSpinalCased;
@@ -145,6 +147,7 @@ module.exports = JhipsterGenerator.extend({
             this.pages.forEach((page) => {
                 page.pageNameKebabCased = _.kebabCase(_.lowerFirst(page.pageName));
                 page.pageNameCamelCased = _.camelCase(page.pageName);
+                page.pageAngularFileName = _.lowerFirst(page.pageNameCamelCased);
                 page.pageUrl = page.pageNameKebabCased;
                 page.pageAngularName = page.pageNameCamelCased;
                 page.pageAngularClass = _.upperFirst(page.pageNameCamelCased);

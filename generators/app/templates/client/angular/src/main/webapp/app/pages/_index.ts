@@ -18,8 +18,8 @@ limitations under the License.
 -%>
 <%_ for (idx in pages) {
 const page = pages[idx];_%>
-export * from './<%= page.pageAngularName %>.model';
-export * from './<%= page.pageAngularName %>.service';
-export * from './<%= page.pageAngularName %>.component';
+export * from './<%= page.pageAngularFileName %>.model';
+export * from './<%= page.pageAngularFileName %>.service';
+export * from './<%= page.pageAngularFileName %>.component';
 <%_ } _%>
-export * from './<%= pageSetAngularClass %>.route';
+export * from './<%= pageSetAngularFileName %>.route';

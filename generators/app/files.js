@@ -116,7 +116,7 @@ const pageSetAngularjsFiles = {
                 },
                 {
                     file: 'pages/_page-set.state.js',
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSetAngularClass}.state.js`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSetAngularFileName}.state.js`
                 }
             ]
         }
@@ -131,13 +131,13 @@ const pageAngularjsFiles = {
             templates: [
                 {
                     file: 'pages/_page.controller.js',
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.controller.js`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularFileName}.controller.js`
                 },
                 {
                     file: 'pages/_page.html',
                     method: 'processHtml',
                     template: true,
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.html`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularFileName}.html`
                 }
             ]
         }
@@ -149,7 +149,7 @@ const pageAngularjsFiles = {
             templates: [
                 {
                     file: 'pages/_page.service.js',
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.service.js`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularFileName}.service.js`
                 }
             ]
         }
@@ -160,7 +160,7 @@ const pageAngularjsFiles = {
             path: CLIENT_TEST_SRC_DIR,
             templates: [{
                 file: 'spec/app/pages/_page.controller.spec.js',
-                renameTo: generator => `spec/app/pages/${generator.pageSetFolder}/${generator.pageAngularName}.controller.spec.js`
+                renameTo: generator => `spec/app/pages/${generator.pageSetFolder}/${generator.pageAngularFileName}.controller.spec.js`
             }]
         },
         {
@@ -168,7 +168,7 @@ const pageAngularjsFiles = {
             path: CLIENT_TEST_SRC_DIR,
             templates: [{
                 file: 'e2e/pages/_page.js',
-                renameTo: generator => `e2e/pages/${generator.pageAngularName}.js`
+                renameTo: generator => `e2e/pages/${generator.pageAngularFileName}.js`
             }]
         }
     ]
@@ -187,11 +187,11 @@ const pageSetAngularFiles = {
                 },
                 {
                     file: 'pages/_page-set.module.ts',
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSetAngularClass}.module.ts`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSetAngularFileName}.module.ts`
                 },
                 {
                     file: 'pages/_page-set.route.ts',
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSetAngularClass}.route.ts`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageSetAngularFileName}.route.ts`
                 },
                 {
                     file: 'pages/_index.ts',
@@ -211,21 +211,21 @@ const pageAngularFiles = {
                 {
                     condition: generator => generator.contactServer === true,
                     file: 'pages/_page.service.ts',
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.service.ts`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularFileName}.service.ts`
                 },
                 {
                     file: 'pages/_page.component.ts',
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.component.ts`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularFileName}.component.ts`
                 },
                 {
                     file: `pages/_page.component.html`,
                     method: 'processHtml',
                     template: true,
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.component.html`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularFileName}.component.html`
                 },
                 {
                     file: 'pages/_page.model.ts',
-                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularName}.model.ts`
+                    renameTo: generator => `pages/${generator.pageSetFolder}/${generator.pageAngularFileName}.model.ts`
                 }
             ]
         }
@@ -235,7 +235,7 @@ const pageAngularFiles = {
             path: CLIENT_TEST_SRC_DIR,
             templates: [{
                 file: `spec/app/pages/_page.component.spec.ts`,
-                renameTo: generator => `spec/app/pages/${generator.pageSetFolder}/${generator.pageAngularName}.component.spec.ts`
+                renameTo: generator => `spec/app/pages/${generator.pageSetFolder}/${generator.pageAngularFileName}.component.spec.ts`
             }]
         },
         {
@@ -243,7 +243,7 @@ const pageAngularFiles = {
             path: CLIENT_TEST_SRC_DIR,
             templates: [{
                 file: 'e2e/pages/_page.spec.ts',
-                renameTo: generator => `e2e/pages/${generator.pageAngularName}.spec.ts`
+                renameTo: generator => `e2e/pages/${generator.pageAngularFileName}.spec.ts`
             }]
         }
     ]
@@ -373,6 +373,7 @@ function loadPageInMemory() {
             this.pageNameTranslationKey = page.pageNameTranslationKey;
             this.pageSetAndNameTranslationKey = page.pageSetAndNameTranslationKey;
             this.pageAngularName = page.pageAngularName;
+            this.pageAngularFileName = page.pageAngularFileName;
             this.pageAngularClass = page.pageAngularClass;
             this.pageRouterState = page.pageRouterState;
             this.pageInstance = page.pageInstance ;

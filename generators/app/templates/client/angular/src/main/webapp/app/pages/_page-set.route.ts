@@ -38,19 +38,17 @@ import { JhiPaginationUtil } from 'ng-jhipster';
 
 <%_ for (idx in pages) {
     const page = pages[idx];_%>
-import { <%= page.pageAngularName %>Component } from './<%= page.pageAngularName %>.component';
+import { <%= page.pageAngularClass %>Component } from './<%= page.pageAngularFileName %>.component';
 <%_ } _%>
-
 <%_ for (idx in pages) {
     const page = pages[idx];
     _%>
-
     <%_
     if (page.pagination === 'pagination' || page.pagination === 'pager') {
         _%>
         @Injectable()
     export class
-        <%= page.pageAngularName %>ResolvePagingParams implements Resolve <any> {
+        <%= page.pageAngularClass %>ResolvePagingParams implements Resolve <any> {
 
             constructor(private paginationUtil: JhiPaginationUtil) {
             }
@@ -69,18 +67,16 @@ import { <%= page.pageAngularName %>Component } from './<%= page.pageAngularName
         <% _
     }
 } _%>
-
-
 export const <%= pageSetAngularClass %>Route: Routes = [
 <%_ for (idx in pages) {
 const page = pages[idx];
 _%>
     {
         path: '<%= pageSetRouterState %>-<%= page.pageRouterState %>',
-        component: <%= page.pageAngularName %>Component,
+        component: <%= page.pageAngularClass %>Component,
     <%_ if (page.pagination === 'pagination' || page.pagination === 'pager'){ _%>
         resolve: {
-            'pagingParams': <%= page.pageAngularName %>ResolvePagingParams
+            'pagingParams': <%= page.pageAngularClass %>ResolvePagingParams
 },
     <%_ } _%>
         data: {

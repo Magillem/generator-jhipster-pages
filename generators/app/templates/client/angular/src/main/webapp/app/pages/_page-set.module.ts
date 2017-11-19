@@ -23,10 +23,10 @@ import { <%= angularXAppName %>SharedModule } from '../../shared';
 import {
 <%_ for (idx in pages) {
     const page = pages[idx];_%>
-    <%= page.pageAngularName %>Service,
-    <%= page.pageAngularName %>Component,
+    <%= page.pageAngularClass %>Service,
+    <%= page.pageAngularClass %>Component,
 <%_ if (page.pagination === 'pagination' || page.pagination === 'pager') { _%>
-<%= page.pageAngularName %>ResolvePagingParams
+<%= page.pageAngularClass %>ResolvePagingParams
 <%_ }
 } _%>
     <%= pageSetAngularClass %>Route,
@@ -44,25 +44,24 @@ const PAGE_SET_STATES = [
     declarations: [
 <%_ for (idx in pages) {
 const page = pages[idx];_%>
-    <%= page.pageAngularName %>Component,
+    <%= page.pageAngularClass %>Component,
 <%_ } _%>
 ],
     entryComponents: [
 <%_ for (idx in pages) {
 const page = pages[idx];_%>
-    <%= page.pageAngularName %>Component,
+    <%= page.pageAngularClass %>Component,
 <%_ } _%>
 ],
     providers: [
 <%_ for (idx in pages) {
 const page = pages[idx];_%>
-    <%= page.pageAngularName %>Service,
+    <%= page.pageAngularClass %>Service,
     <%_ if (page.pagination === 'pagination' || page.pagination === 'pager') { _%>
-<%= page.pageAngularName %>ResolvePagingParams,
+<%= page.pageAngularClass %>ResolvePagingParams,
 <%_ }} _%>
 ],
 schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 
 export class <%= angularXAppName %><%= pageSetAngularClass %>Module {}
-

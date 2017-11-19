@@ -17,8 +17,6 @@ distributed under the License is distributed on an "AS IS" BASIS,
 limitations under the License.
 -%>
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
-
 <%_ for (idx in pageSets) {
 const currentPageSet = pageSets[idx]; _%>
 import { <%= angularXAppName %><%= currentPageSet.pageSetAngularClass %>Module } from './<%= currentPageSet.pageSetFolder %>/<%= currentPageSet.pageSetAngularClass %>.module';
