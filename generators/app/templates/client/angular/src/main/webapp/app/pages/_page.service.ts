@@ -48,10 +48,8 @@ export class <%= pageAngularClass %>Service {
     <%_ if (postOneToServer) { _%>
 
         <%_ if (pageAngularClass.length <= 30) { _%>
-
     create(<%= pageInstance %>: <%= pageAngularClass %>): Observable<<%= pageAngularClass %>> {
         <%_ } else { _%>
-
     create(<%= pageInstance %>: <%= pageAngularClass %>):
         Observable<<%= pageAngularClass %>> {
         <%_ } _%>
@@ -63,10 +61,8 @@ export class <%= pageAngularClass %>Service {
     }
 
         <%_ if (pageAngularClass.length <= 30) { _%>
-
     update(<%= pageInstance %>: <%= pageAngularClass %>): Observable<<%= pageAngularClass %>> {
         <%_ } else { _%>
-
     update(<%= pageInstance %>: <%= pageAngularClass %>):
         Observable<<%= pageAngularClass %>> {
         <%_ } _%>

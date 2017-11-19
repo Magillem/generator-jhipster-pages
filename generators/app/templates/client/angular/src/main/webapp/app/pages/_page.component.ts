@@ -20,13 +20,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { JhiEventManager, JhiParseLinks, JhiAlertService<% if (fieldsContainBlob) { %>, JhiDataUtils<% } %> } from 'ng-jhipster';
-
+<% if (postOneToServer) { %>import { Observable } from 'rxjs/Rx';
+<% } %>
 import { <%= pageAngularClass %> } from './<%= pageAngularFileName %>.model';
 import { <%= pageAngularClass %>Service } from './<%= pageAngularFileName %>.service';
 import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
 
 @Component({
-    selector: '<%= jhiPrefix %>-<%= pageAngularName %>',
+    selector: '<%= jhiPrefix %>-<%= pageAngularSelector %>',
     templateUrl: './<%= pageAngularFileName %>.component.html'
 })
 export class <%= pageAngularClass %>Component implements OnInit, OnDestroy {
@@ -36,7 +37,8 @@ export class <%= pageAngularClass %>Component implements OnInit, OnDestroy {
     private <%= pageInstancePlural %>: <%= pageAngularClass %>[];
 <% } %>
     currentAccount: any;
-    eventSubscriber: Subscription;
+    eventSubscriber: Subscription;<% if (postOneToServer) { %>
+    isSaving: Boolean;<% } %>
 
     constructor(
         private <%= pageInstance %>Service: <%= pageAngularClass %>Service,
@@ -56,9 +58,18 @@ export class <%= pageAngularClass %>Component implements OnInit, OnDestroy {
             this.<%= pageInstance %>Service.create(this.<%= pageInstance %>));
     }
 
-    private subscribeToSaveResponse(result: Observable<<%= pageInstance %>>) {
-        result.subscribe((res: <%= pageInstance %>) =>
+    private subscribeToSaveResponse(result: Observable<<%= pageAngularClass %>>) {
+        result.subscribe((res: <%= pageAngularClass %>) =>
         this.onSaveSuccess(res), (res: Response) => this.onSaveError());
+    }
+
+    private onSaveSuccess(result: <%= pageAngularClass %>) {
+        this.eventManager.broadcast({ name: '<%= pageInstance %>ListModification', content: 'OK'});
+        this.isSaving = false;
+    }
+
+    private onSaveError() {
+        this.isSaving = false;
     }
 <% } %>
     ngOnInit() {

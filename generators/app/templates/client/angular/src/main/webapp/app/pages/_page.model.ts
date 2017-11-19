@@ -41,7 +41,6 @@ fields.forEach(field => {
     variables[fieldName] = fieldName + '?: ' + tsType;
 });
 _%>
-import { BaseEntity } from './../../shared';
 
 <%_ const enumsAlreadyDeclared = [];
 fields.forEach(field => {
@@ -56,7 +55,7 @@ export const enum <%= field.fieldType %> {<%
 
 <%_ }
 }); _%>
-export class <%= pageAngularClass %> implements BaseEntity {
+export class <%= pageAngularClass %> {
     constructor(<% for (idx in variables) { %>
         public <%- variables[idx] %>,<% } %>
     ) {<% for (idx in defaultVariablesValues) { %>

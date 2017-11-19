@@ -373,6 +373,7 @@ function loadPageInMemory() {
             this.pageNameTranslationKey = page.pageNameTranslationKey;
             this.pageSetAndNameTranslationKey = page.pageSetAndNameTranslationKey;
             this.pageAngularName = page.pageAngularName;
+            this.pageAngularSelector = page.pageAngularSelector;
             this.pageAngularFileName = page.pageAngularFileName;
             this.pageAngularClass = page.pageAngularClass;
             this.pageRouterState = page.pageRouterState;

@@ -150,6 +150,7 @@ module.exports = JhipsterGenerator.extend({
                 page.pageAngularFileName = _.lowerFirst(page.pageNameCamelCased);
                 page.pageUrl = page.pageNameKebabCased;
                 page.pageAngularName = page.pageNameCamelCased;
+                page.pageAngularSelector = page.pageNameKebabCased;
                 page.pageAngularClass = _.upperFirst(page.pageNameCamelCased);
                 page.pageRouterState = _.lowerFirst(page.pageNameCamelCased);
                 page.pageNameTranslationKey = page.pageRouterState;
