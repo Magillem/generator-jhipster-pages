@@ -35,7 +35,7 @@ _%>
     const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
     let fieldInputType = 'text';
     let ngModelOption = '';
-    const translationKey = keyPrefix + fieldName;
+    const translationKey = keyPrefix + '.' + fieldName;
     if (['Integer', 'Long', 'Float', 'Double', 'BigDecimal'].includes(fieldType)) {
     fieldInputType = 'number';
     } else if (fieldType === 'LocalDate') {
