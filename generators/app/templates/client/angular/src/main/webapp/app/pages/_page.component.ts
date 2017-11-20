@@ -32,7 +32,7 @@ import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
 })
 export class <%= pageAngularClass %>Component implements OnInit, OnDestroy {
 <% if (getOneFromServer || postOneToServer) { %>
-    <%= pageInstance %>: <%= pageAngularClass %>;
+    <%= pageInstance %>: <%= pageAngularClass %> = new <%= pageAngularClass %>();
 <% } else if (getAllFromServer) { %>
     <%= pageInstancePlural %>: <%= pageAngularClass %>[];
 <% } %>
@@ -56,6 +56,10 @@ export class <%= pageAngularClass %>Component implements OnInit, OnDestroy {
         this.isSaving = true;
         this.subscribeToSaveResponse(
             this.<%= pageInstance %>Service.create(this.<%= pageInstance %>));
+    }
+
+    clear() {
+        this.<%= pageInstance %> = new <%= pageAngularClass %>();
     }
 
     private subscribeToSaveResponse(result: Observable<<%= pageAngularClass %>>) {
