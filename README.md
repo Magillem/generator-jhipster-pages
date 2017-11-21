@@ -12,6 +12,11 @@ As this is a [JHipster](http://jhipster.github.io/) module, we expect you have J
 
 - [Installing JHipster](https://jhipster.github.io/installation.html)
 
+# Compatibility
+
+Now it's works for angularjs and angular 4.
+I haven't tested with micro service or any not-sql based project (cassandra, mongodb, elasticsearch, ...).
+
 # Installation
 
 ## With Yarn
@@ -106,8 +111,6 @@ Here is the list of types to do
     - multiple step js controllers
     - js service with init get and final write method
     - java web service with get and post
-    
-Stack dev order : AngularJS first (angular 1) and then angular 4
 
 
 # License
