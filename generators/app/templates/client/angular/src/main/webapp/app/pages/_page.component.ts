@@ -49,7 +49,32 @@ export class <%= pageAngularClass %>Component implements OnInit, OnDestroy {
     }
 <% if (getOneFromServer || getAllFromServer) { %>
     loadAll() {
-
+<%_ if (pagination === 'pagination' || pagination === 'pager') { _%>
+            this.<%= pageInstance %>Service.query(
+                page: this.page - 1,
+                size: this.itemsPerPage,
+                sort: this.sort()
+            }).subscribe(
+                (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
+                (res: ResponseWrapper) => this.onError(res.json)
+            );
+<%_ } else if (pagination === 'infinite-scroll') { _%>
+            this.<%= pageInstance %>Service.query({
+                page: this.page,
+                size: this.itemsPerPage,
+                sort: this.sort()
+            }).subscribe(
+                (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
+                (res: ResponseWrapper) => this.onError(res.json)
+            );
+<%_ } else if (pagination === 'no') { _%>
+            this.<%= pageInstance %>Service.query().subscribe(
+                (res: ResponseWrapper) => {
+                    this.<%= pageInstancePlural %> = res.json;
+                },
+                (res: ResponseWrapper) => this.onError(res.json)
+            );
+<%_ } _%>
     }
 <% } else if (postOneToServer) { %>
     save() {
