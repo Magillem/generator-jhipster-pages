@@ -201,12 +201,14 @@ module.exports = JhipsterGenerator.extend({
                 const pageSetAngularClass = _.upperFirst(_.camelCase(fileName));
                 const pageSetInstance = _.lowerFirst(pageSetAngularClass);
                 const pageSetFolder = pageSetSpinalCased;
+                const pageSetAngularFileName = _.lowerFirst(pageSetAngularClass);
 
                 this.pageSets.push({
                     name: fileName,
                     pageSetAngularClass,
                     pageSetInstance,
-                    pageSetFolder
+                    pageSetFolder,
+                    pageSetAngularFileName
                 });
             });
             if (this.newPageSet) {
@@ -214,7 +216,8 @@ module.exports = JhipsterGenerator.extend({
                     name: this.pageSet,
                     pageSetAngularClass: this.pageSetAngularClass,
                     pageSetInstance: this.pageSetInstance,
-                    pageSetFolder: this.pageSetFolder
+                    pageSetFolder: this.pageSetFolder,
+                    pageSetAngularFileName: this.pageSetAngularFileName
                 });
             }
         }

@@ -19,10 +19,10 @@ describe('JHipster generator pages', () => {
                 })
                 .withPrompts({
                     pageSet: '_CreateNew_',
-                    newPageSet: 'aPageSet',
+                    newPageSet: 'ThePageSet',
                     pageSetGlyphIcon: 'ok',
                     pageType: 'form',
-                    pageName: 'aForm',
+                    pageName: 'TheForm',
                     pageGlyphIcon: 'euro',
                     fieldAdd: false
                 })
@@ -31,15 +31,15 @@ describe('JHipster generator pages', () => {
 
         it('generate form files', () => {
             assert.file([
-                '.jhipster/pages/aPageSet.json',
-                'src/main/java/com/mycompany/myapp/web/rest/vm/AFormSaveVM.java',
+                '.jhipster/pages/thePageSet.json',
+                'src/main/java/com/mycompany/myapp/web/rest/vm/TheFormSaveVM.java',
                 'src/main/webapp/app/pages/page-sets.state.js',
-                'src/main/webapp/app/pages/a-page-set/aPageSet.state.js',
-                'src/main/webapp/app/pages/a-page-set/aForm.controller.js',
-                'src/main/webapp/app/pages/a-page-set/aForm.html',
-                'src/main/webapp/app/pages/a-page-set/aForm.service.js',
-                'src/test/javascript/spec/app/pages/a-page-set/aForm.controller.spec.js',
-                'src/main/webapp/i18n/en/aPageSet.json'
+                'src/main/webapp/app/pages/the-page-set/thePageSet.state.js',
+                'src/main/webapp/app/pages/the-page-set/theForm.controller.js',
+                'src/main/webapp/app/pages/the-page-set/theForm.html',
+                'src/main/webapp/app/pages/the-page-set/theForm.service.js',
+                'src/test/javascript/spec/app/pages/the-page-set/theForm.controller.spec.js',
+                'src/main/webapp/i18n/en/thePageSet.json'
             ]);
         });
     });
@@ -57,10 +57,10 @@ describe('JHipster generator pages', () => {
                 })
                 .withPrompts({
                     pageSet: '_CreateNew_',
-                    newPageSet: 'aPageSet',
+                    newPageSet: 'ThePageSet',
                     pageSetGlyphIcon: 'ok',
                     pageType: 'form',
-                    pageName: 'aForm',
+                    pageName: 'TheForm',
                     pageGlyphIcon: 'euro',
                     fieldAdd: false
                 })
@@ -69,19 +69,20 @@ describe('JHipster generator pages', () => {
 
         it('generate form files', () => {
             assert.file([
-                '.jhipster/pages/aPageSet.json',
-                'src/main/java/com/mycompany/myapp/web/rest/vm/AFormSaveVM.java',
+                '.jhipster/pages/thePageSet.json',
+                'src/main/java/com/mycompany/myapp/web/rest/vm/TheFormSaveVM.java',
                 'src/main/webapp/app/pages/page-sets.module.ts',
-                'src/main/webapp/app/pages/a-page-set/aPageSet.module.ts',
-                'src/main/webapp/app/pages/a-page-set/aPageSet.route.ts',
-                'src/main/webapp/app/pages/a-page-set/index.ts',
-                'src/main/webapp/app/pages/a-page-set/aForm.component.ts',
-                'src/main/webapp/app/pages/a-page-set/aForm.component.html',
-                'src/main/webapp/app/pages/a-page-set/aForm.service.ts',
-                'src/main/webapp/app/pages/a-page-set/aForm.model.ts',
-                'src/test/javascript/spec/app/pages/a-page-set/aForm.component.spec.ts',
-                'src/main/webapp/i18n/en/aPageSet.json'
+                'src/main/webapp/app/pages/the-page-set/thePageSet.module.ts',
+                'src/main/webapp/app/pages/the-page-set/thePageSet.route.ts',
+                'src/main/webapp/app/pages/the-page-set/index.ts',
+                'src/main/webapp/app/pages/the-page-set/theForm.component.ts',
+                'src/main/webapp/app/pages/the-page-set/theForm.component.html',
+                'src/main/webapp/app/pages/the-page-set/theForm.service.ts',
+                'src/main/webapp/app/pages/the-page-set/theForm.model.ts',
+                'src/test/javascript/spec/app/pages/the-page-set/theForm.component.spec.ts',
+                'src/main/webapp/i18n/en/thePageSet.json'
             ]);
+            assert.fileContent('src/main/webapp/app/pages/page-sets.module.ts', /import { SampleMysqlThePageSetModule } from '.\/the-page-set\/thePageSet.module';/);
         });
     });
 });
