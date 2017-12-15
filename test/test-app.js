@@ -31,7 +31,7 @@ describe('JHipster generator pages', () => {
 
         it('generate form files', () => {
             assert.file([
-                '.jhipster/pages/thePageSet.json',
+                '.jhipster/pages/ThePageSet.json',
                 'src/main/java/com/mycompany/myapp/web/rest/vm/TheFormSaveVM.java',
                 'src/main/webapp/app/pages/page-sets.state.js',
                 'src/main/webapp/app/pages/the-page-set/thePageSet.state.js',
@@ -69,7 +69,7 @@ describe('JHipster generator pages', () => {
 
         it('generate form files', () => {
             assert.file([
-                '.jhipster/pages/thePageSet.json',
+                '.jhipster/pages/ThePageSet.json',
                 'src/main/java/com/mycompany/myapp/web/rest/vm/TheFormSaveVM.java',
                 'src/main/webapp/app/pages/page-sets.module.ts',
                 'src/main/webapp/app/pages/the-page-set/thePageSet.module.ts',
