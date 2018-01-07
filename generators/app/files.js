@@ -309,7 +309,7 @@ function writeFiles() {
                 const languages = this.languages || this.getAllInstalledLanguages();
                 languages.forEach((language) => {
                     try {
-                        this.template(`${CLIENT_I18N_TEMPLATES_DIR}/i18n/_page_${language}.json`, `${constants.CLIENT_MAIN_SRC_DIR}i18n/${language}/${this.pageSetTranslationKey}.json`);
+                        this.template(`${CLIENT_I18N_TEMPLATES_DIR}/i18n/_page_language.json`, `${constants.CLIENT_MAIN_SRC_DIR}i18n/${language}/${this.pageSetTranslationKey}.json`);
                         generateOneOrRegenerate.call(this, () => {
                             this.addElementTranslationKey(this.pageSetAndNameTranslationKey, this.pageName, language);
                         });
