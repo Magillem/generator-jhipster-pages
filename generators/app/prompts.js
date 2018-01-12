@@ -43,7 +43,7 @@ function askForPageSetConfig() {
         pageSetChoices = [
             {
                 value: '_CreateNew_',
-                name: 'Create a new pages set'
+                name: 'Create a new page set'
             },
         ];
     }
@@ -62,7 +62,7 @@ function askForPageSetConfig() {
         {
             type: 'list',
             name: 'pageSet',
-            message: 'Create page in the following pages set:',
+            message: 'Create page in the following page set:',
             choices: pageSetChoices,
             store   : true
         },
@@ -133,7 +133,7 @@ function askForPageConfig() {
             when: !this.regenerate,
             type: 'list',
             name: 'pageType',
-            message: 'Which king of page you want to add?',
+            message: 'Which kind of page you want to add?',
             choices: [
                 {
                     value: 'clientOnly',

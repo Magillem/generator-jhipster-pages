@@ -51,7 +51,7 @@ npm update -g generator-jhipster-pages
 
 ## Launch
 
-just launch generator and it will ask everythings 
+Launch generator and it will ask for everything it needs
 
 ```bash
 yo jhipster-pages
@@ -66,7 +66,7 @@ yo jhipster-pages regenerate
 
 ## Core Concepts
 
-each page beyond to a page set. A page set is defined by a name.
+Each page belongs to a page set. A page set is defined by a name.
 A Page have a name, a glyphicon, and a type.
 The following types are supported:
 
