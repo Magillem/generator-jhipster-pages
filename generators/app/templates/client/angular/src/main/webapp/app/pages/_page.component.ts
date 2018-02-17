@@ -17,6 +17,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 limitations under the License.
 -%>
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { JhiEventManager, JhiParseLinks, JhiAlertService<% if (fieldsContainBlob) { %>, JhiDataUtils<% } %> } from 'ng-jhipster';
@@ -24,7 +25,7 @@ import { JhiEventManager, JhiParseLinks, JhiAlertService<% if (fieldsContainBlob
 <% } %>
 import { <%= pageAngularClass %> } from './<%= pageAngularFileName %>.model';
 import { <%= pageAngularClass %>Service } from './<%= pageAngularFileName %>.service';
-import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
+import { Principal } from '../../shared';
 
 @Component({
     selector: '<%= jhiPrefix %>-<%= pageAngularSelector %>',
@@ -50,13 +51,12 @@ export class <%= pageAngularClass %>Component implements OnInit, OnDestroy {
 <% if (getOneFromServer || getAllFromServer) { %>
     loadAll() {
 <%_ if (pagination === 'pagination' || pagination === 'pager') { _%>
-            this.<%= pageInstance %>Service.query(
+            this.<%= pageInstance %>Service.query({
                 page: this.page - 1,
                 size: this.itemsPerPage,
-                sort: this.sort()
-            }).subscribe(
-                (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
-                (res: ResponseWrapper) => this.onError(res.json)
+                sort: this.sort()}).subscribe(
+                    (res: HttpResponse<<%= pageAngularClass %>[]>) => this.onSuccess(res.body, res.headers),
+                    (res: HttpErrorResponse) => this.onError(res.message)
             );
 <%_ } else if (pagination === 'infinite-scroll') { _%>
             this.<%= pageInstance %>Service.query({
@@ -64,15 +64,18 @@ export class <%= pageAngularClass %>Component implements OnInit, OnDestroy {
                 size: this.itemsPerPage,
                 sort: this.sort()
             }).subscribe(
-                (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
-                (res: ResponseWrapper) => this.onError(res.json)
+                (res: HttpResponse<<%= pageAngularClass %>[]>) => this.onSuccess(res.body, res.headers),
+                (res: HttpErrorResponse) => this.onError(res.message)
             );
 <%_ } else if (pagination === 'no') { _%>
             this.<%= pageInstance %>Service.query().subscribe(
-                (res: ResponseWrapper) => {
-                    this.<%= pageInstancePlural %> = res.json;
+                (res: HttpResponse<<%= pageAngularClass %>[]>) => {
+                    this.<%= pageInstancePlural %> = res.body;
+                    <%_ if (searchEngine === 'elasticsearch') { _%>
+                    this.currentSearch = '';
+                    <%_ } _%>
                 },
-                (res: ResponseWrapper) => this.onError(res.json)
+                (res: HttpErrorResponse) => this.onError(res.message)
             );
 <%_ } _%>
     }
