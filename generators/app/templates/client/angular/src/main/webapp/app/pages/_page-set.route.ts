@@ -63,8 +63,7 @@ import { <%= page.pageAngularClass %>Component } from './<%= page.pageAngularFil
                 };
             }
         }
-
-        <% _
+        <%_
     }
 } _%>
 export const <%= pageSetAngularClass %>Route: Routes = [

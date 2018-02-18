@@ -113,6 +113,8 @@ module.exports = JhipsterGenerator.extend({
             this.mainClass = this.getMainClassName();
             this.searchEngine = this.jhipsterAppConfig.searchEngine === 'no' ? false : this.jhipsterAppConfig.searchEngine;
             this.jhiPrefix = this.jhipsterAppConfig.jhiPrefix || this.options['jhi-prefix'];
+            this.jhiPrefixCapitalized = _.upperFirst(this.jhiPrefix);
+            this.jhiPrefixDashed = _.kebabCase(this.jhiPrefix);
             this.testFrameworks = this.jhipsterAppConfig.testFrameworks;
             this.protractorTests = this.testFrameworks.indexOf('protractor') !== -1;
 

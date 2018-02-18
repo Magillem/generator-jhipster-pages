@@ -73,13 +73,13 @@ export class <%= pageAngularClass %>Service {
 <% if (getOneFromServer) { %>
     query(req?: any): Observable<PageResponseType> {
         const options = createRequestOption(req);
-        return this.http.get<<%= pageAngularClass %>>(this.resourceUrl, copy, { observe: 'response' })
+        return this.http.get<<%= pageAngularClass %>>(this.resourceUrl, { observe: 'response' })
             .map((res: PageResponseType) => this.convertResponse(res));
     }
 <%_ } else if (getAllFromServer) { %>
     query(req?: any): Observable<PageArrayResponseType> {
         const options = createRequestOption(req);
-        return this.http.get<<%= pageAngularClass %>[]>(this.resourceUrl, copy, { observe: 'response' })
+        return this.http.get<<%= pageAngularClass %>[]>(this.resourceUrl, { observe: 'response' })
             .map((res: PageArrayResponseType) => this.convertArrayResponse(res));
     }
 <%_ } _%>

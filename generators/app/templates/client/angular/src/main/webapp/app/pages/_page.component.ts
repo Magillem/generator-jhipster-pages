@@ -28,7 +28,7 @@ import { <%= pageAngularClass %>Service } from './<%= pageAngularFileName %>.ser
 import { Principal } from '../../shared';
 
 @Component({
-    selector: '<%= jhiPrefix %>-<%= pageAngularSelector %>',
+    selector: '<%= jhiPrefixDashed %>-<%= pageAngularSelector %>',
     templateUrl: './<%= pageAngularFileName %>.component.html'
 })
 export class <%= pageAngularClass %>Component implements OnInit, OnDestroy {
