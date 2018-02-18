@@ -26,7 +26,7 @@ import {
     <%= page.pageAngularClass %>Service,
     <%= page.pageAngularClass %>Component,
 <%_ if (page.pagination === 'pagination' || page.pagination === 'pager') { _%>
-<%= page.pageAngularClass %>ResolvePagingParams
+<%= page.pageAngularClass %>ResolvePagingParams,
 <%_ }
 } _%>
     <%= pageSetAngularClass %>Route,

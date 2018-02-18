@@ -40,9 +40,23 @@ export class <%= pageAngularClass %>Component implements OnInit, OnDestroy {
     currentAccount: any;
     eventSubscriber: Subscription;<% if (postOneToServer) { %>
     isSaving: Boolean;<% } %>
+    <%_ if (pagination !== 'no') { _%>
+    routeData: any;
+    links: any;
+    totalItems: any;
+    queryCount: any;
+    itemsPerPage: any;
+    page: any;
+    predicate: any;
+    previousPage: any;
+    reverse: any;
+    <%_ } _%>
 
     constructor(
         private <%= pageInstance %>Service: <%= pageAngularClass %>Service,
+        <%_ if (pagination !== 'no') { _%>
+        private parseLinks: JhiParseLinks,
+        <%_ } _%>
         private jhiAlertService: JhiAlertService,
         private eventManager: JhiEventManager,
         private principal: Principal
@@ -136,8 +150,15 @@ export class <%= pageAngularClass %>Component implements OnInit, OnDestroy {
         this.eventSubscriber = this.eventManager.subscribe('<%= pageInstance %>ListModification', (response) => <%= eventCallBack %>);
     }
 <% } %>
-<%_ if (pagination !== 'no') {
- if (pagination === 'pagination' || pagination === 'pager') { _%>
+<%_ if (pagination !== 'no') { _%>
+    sort() {
+        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+        if (this.predicate !== 'id') {
+            result.push('id');
+        }
+        return result;
+    }
+<%_ if (pagination === 'pagination' || pagination === 'pager') { _%>
     private onSuccess(data, headers) {
         this.links = this.parseLinks.parse(headers.get('link'));
             this.totalItems = headers.get('X-Total-Count');

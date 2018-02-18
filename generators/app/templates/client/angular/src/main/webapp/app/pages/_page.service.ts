@@ -36,8 +36,8 @@ import { JhiDateUtils } from 'ng-jhipster';
 import { <%= pageAngularClass %> } from './<%= pageAngularFileName %>.model';
 import { createRequestOption } from '../../shared';
 
-export type PageResponseType = HttpResponse<<%= pageAngularClass %>>;
-export type PageArrayResponseType = HttpResponse<<%= pageAngularClass %>[]>;
+export type <%= pageAngularClass %>ResponseType = HttpResponse<<%= pageAngularClass %>>;
+export type <%= pageAngularClass %>ArrayResponseType = HttpResponse<<%= pageAngularClass %>[]>;
 
 @Injectable()
 export class <%= pageAngularClass %>Service {
@@ -51,54 +51,54 @@ export class <%= pageAngularClass %>Service {
     <%_ if (postOneToServer) { _%>
 
         <%_ if (pageAngularClass.length <= 30) { _%>
-    create(<%= pageInstance %>: <%= pageAngularClass %>): Observable<PageResponseType> {
+    create(<%= pageInstance %>: <%= pageAngularClass %>): Observable<<%= pageAngularClass %>ResponseType> {
         <%_ } else { _%>
-    create(<%= pageInstance %>: <%= pageAngularClass %>): Observable<PageResponseType> {
+    create(<%= pageInstance %>: <%= pageAngularClass %>): Observable<<%= pageAngularClass %>ResponseType> {
         <%_ } _%>
         const copy = this.convert(<%= pageInstance %>);
         return this.http.post<<%= pageAngularClass %>>(this.resourceUrl, copy, { observe: 'response' })
-            .map((res: PageResponseType) => this.convertResponse(res));
+            .map((res: <%= pageAngularClass %>ResponseType) => this.convertResponse(res));
     }
 
         <%_ if (pageAngularClass.length <= 30) { _%>
-    update(<%= pageInstance %>: <%= pageAngularClass %>): Observable<PageResponseType> {
+    update(<%= pageInstance %>: <%= pageAngularClass %>): Observable<<%= pageAngularClass %>ResponseType> {
         <%_ } else { _%>
-    update(<%= pageInstance %>: <%= pageAngularClass %>): Observable<PageResponseType> {
+    update(<%= pageInstance %>: <%= pageAngularClass %>): Observable<<%= pageAngularClass %>ResponseType> {
         <%_ } _%>
         const copy = this.convert(<%= pageInstance %>);
         return this.http.put<<%= pageAngularClass %>>(this.resourceUrl, copy, { observe: 'response' })
-            .map((res: PageResponseType) => this.convertResponse(res));
+            .map((res: <%= pageAngularClass %>ResponseType) => this.convertResponse(res));
     }
 <%_ } _%>
 <% if (getOneFromServer) { %>
-    query(req?: any): Observable<PageResponseType> {
+    query(req?: any): Observable<<%= pageAngularClass %>ResponseType> {
         const options = createRequestOption(req);
         return this.http.get<<%= pageAngularClass %>>(this.resourceUrl, { observe: 'response' })
-            .map((res: PageResponseType) => this.convertResponse(res));
+            .map((res: <%= pageAngularClass %>ResponseType) => this.convertResponse(res));
     }
 <%_ } else if (getAllFromServer) { %>
-    query(req?: any): Observable<PageArrayResponseType> {
+    query(req?: any): Observable<<%= pageAngularClass %>ArrayResponseType> {
         const options = createRequestOption(req);
         return this.http.get<<%= pageAngularClass %>[]>(this.resourceUrl, { observe: 'response' })
-            .map((res: PageArrayResponseType) => this.convertArrayResponse(res));
+            .map((res: <%= pageAngularClass %>ArrayResponseType) => this.convertArrayResponse(res));
     }
 <%_ } _%>
 <%_ if(searchEngine === 'elasticsearch') { _%>
 
-    search(req?: any): Observable<PageResponseType> {
+    search(req?: any): Observable<<%= pageAngularClass %>ResponseType> {
         const options = createRequestOption(req);
-        return this.http.get<PageArrayResponseType>(this.resourceSearchUrl, { params: options, observe: 'response' })
-            .map((res: PageArrayResponseType) => this.convertArrayResponse(res));
+        return this.http.get<<%= pageAngularClass %>ArrayResponseType>(this.resourceSearchUrl, { params: options, observe: 'response' })
+            .map((res: <%= pageAngularClass %>ArrayResponseType) => this.convertArrayResponse(res));
             .map((res: any) => this.convertResponse(res));
     }
 <%_ } _%>
 
-    private convertResponse(res: PageResponseType): PageResponseType {
+    private convertResponse(res: <%= pageAngularClass %>ResponseType): <%= pageAngularClass %>ResponseType {
         const body: <%= pageAngularClass %> = this.convertItemFromServer(res.body);
         return res.clone({body});
     }
 
-    private convertArrayResponse(res: PageArrayResponseType): PageArrayResponseType {
+    private convertArrayResponse(res: <%= pageAngularClass %>ArrayResponseType): <%= pageAngularClass %>ArrayResponseType {
         const jsonResponse: <%= pageAngularClass %>[] = res.body;
         const body: <%= pageAngularClass %>[] = [];
         for (let i = 0; i < jsonResponse.length; i++) {
