@@ -23,7 +23,7 @@
     }
 _%>
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
 <%_ if (!(applicationType === 'gateway' && locals.microserviceName) && authenticationType !== 'uaa') { _%>
 import { SERVER_API_URL } from '../../app.constants';
@@ -34,7 +34,10 @@ import { JhiDateUtils } from 'ng-jhipster';
 <%_ } _%>
 
 import { <%= pageAngularClass %> } from './<%= pageAngularFileName %>.model';
-import { ResponseWrapper, createRequestOption } from '../../shared';
+import { createRequestOption } from '../../shared';
+
+export type PageResponseType = HttpResponse<<%= pageAngularClass %>>;
+export type PageArrayResponseType = HttpResponse<<%= pageAngularClass %>[]>;
 
 @Injectable()
 export class <%= pageAngularClass %>Service {
@@ -44,76 +47,82 @@ export class <%= pageAngularClass %>Service {
     private resourceSearchUrl = <% if (applicationType === 'gateway' && locals.microserviceName) { %>'/<%= microserviceName.toLowerCase() %>/<% } else if (authenticationType === 'uaa') { %>'<% } else { %>SERVER_API_URL + '<% } %>api/_search/<%= pageSetApiUrl %>/<%= pageApiUrl %>';
     <%_ } _%>
 
-    constructor(private http: Http<% if (hasDate) { %>, private dateUtils: JhiDateUtils<% } %>) { }
+    constructor(private http: HttpClient<% if (hasDate) { %>, private dateUtils: JhiDateUtils<% } %>) { }
     <%_ if (postOneToServer) { _%>
 
         <%_ if (pageAngularClass.length <= 30) { _%>
-    create(<%= pageInstance %>: <%= pageAngularClass %>): Observable<<%= pageAngularClass %>> {
+    create(<%= pageInstance %>: <%= pageAngularClass %>): Observable<PageResponseType> {
         <%_ } else { _%>
-    create(<%= pageInstance %>: <%= pageAngularClass %>):
-        Observable<<%= pageAngularClass %>> {
+    create(<%= pageInstance %>: <%= pageAngularClass %>): Observable<PageResponseType> {
         <%_ } _%>
         const copy = this.convert(<%= pageInstance %>);
-        return this.http.post(this.resourceUrl, copy).map((res: Response) => {
-            const jsonResponse = res.json();
-            return this.convertItemFromServer(jsonResponse);
-        });
+        return this.http.post<<%= pageAngularClass %>>(this.resourceUrl, copy, { observe: 'response' })
+            .map((res: PageResponseType) => this.convertResponse(res));
     }
 
         <%_ if (pageAngularClass.length <= 30) { _%>
-    update(<%= pageInstance %>: <%= pageAngularClass %>): Observable<<%= pageAngularClass %>> {
+    update(<%= pageInstance %>: <%= pageAngularClass %>): Observable<PageResponseType> {
         <%_ } else { _%>
-    update(<%= pageInstance %>: <%= pageAngularClass %>):
-        Observable<<%= pageAngularClass %>> {
+    update(<%= pageInstance %>: <%= pageAngularClass %>): Observable<PageResponseType> {
         <%_ } _%>
         const copy = this.convert(<%= pageInstance %>);
-        return this.http.put(this.resourceUrl, copy).map((res: Response) => {
-            const jsonResponse = res.json();
-            return this.convertItemFromServer(jsonResponse);
-        });
+        return this.http.put<<%= pageAngularClass %>>(this.resourceUrl, copy, { observe: 'response' })
+            .map((res: PageResponseType) => this.convertResponse(res));
     }
 <%_ } _%>
-<% if (getOneFromServer || getAllFromServer) { %>
-    query(req?: any): Observable<ResponseWrapper> {
+<% if (getOneFromServer) { %>
+    query(req?: any): Observable<PageResponseType> {
         const options = createRequestOption(req);
-        return this.http.get(this.resourceUrl, options)
-            .map((res: Response) => this.convertResponse(res));
+        return this.http.get<<%= pageAngularClass %>>(this.resourceUrl, copy, { observe: 'response' })
+            .map((res: PageResponseType) => this.convertResponse(res));
+    }
+<%_ } else if (getAllFromServer) { %>
+    query(req?: any): Observable<PageArrayResponseType> {
+        const options = createRequestOption(req);
+        return this.http.get<<%= pageAngularClass %>[]>(this.resourceUrl, copy, { observe: 'response' })
+            .map((res: PageArrayResponseType) => this.convertArrayResponse(res));
     }
 <%_ } _%>
 <%_ if(searchEngine === 'elasticsearch') { _%>
 
-    search(req?: any): Observable<ResponseWrapper> {
+    search(req?: any): Observable<PageResponseType> {
         const options = createRequestOption(req);
-        return this.http.get(this.resourceSearchUrl, options)
+        return this.http.get<PageArrayResponseType>(this.resourceSearchUrl, { params: options, observe: 'response' })
+            .map((res: PageArrayResponseType) => this.convertArrayResponse(res));
             .map((res: any) => this.convertResponse(res));
     }
 <%_ } _%>
 
-    private convertResponse(res: Response): ResponseWrapper {
-        const jsonResponse = res.json();
-        const result = [];
+    private convertResponse(res: PageResponseType): PageResponseType {
+        const body: <%= pageAngularClass %> = this.convertItemFromServer(res.body);
+        return res.clone({body});
+    }
+
+    private convertArrayResponse(res: PageArrayResponseType): PageArrayResponseType {
+        const jsonResponse: <%= pageAngularClass %>[] = res.body;
+        const body: <%= pageAngularClass %>[] = [];
         for (let i = 0; i < jsonResponse.length; i++) {
-            result.push(this.convertItemFromServer(jsonResponse[i]));
+            body.push(this.convertItemFromServer(jsonResponse[i]));
         }
-        return new ResponseWrapper(res.headers, result, res.status);
+        return res.clone({body});
     }
 
     /**
      * Convert a returned JSON object to <%= pageAngularClass %>.
      */
     private convertItemFromServer(json: any): <%= pageAngularClass %> {
-        const entity: <%= pageAngularClass %> = Object.assign(new <%= pageAngularClass %>(), json);
+        const copy: <%= pageAngularClass %> = Object.assign(new <%= pageAngularClass %>(), json);
         <%_ for (idx in fields) { _%>
             <%_ if (fields[idx].fieldType === 'LocalDate') { _%>
-        entity.<%=fields[idx].fieldName%> = this.dateUtils
+        copy.<%=fields[idx].fieldName%> = this.dateUtils
             .convertLocalDateFromServer(json.<%=fields[idx].fieldName%>);
             <%_ } _%>
             <%_ if (['Instant', 'ZonedDateTime'].includes(fields[idx].fieldType)) { _%>
-        entity.<%=fields[idx].fieldName%> = this.dateUtils
+        copy.<%=fields[idx].fieldName%> = this.dateUtils
             .convertDateTimeFromServer(json.<%=fields[idx].fieldName%>);
             <%_ } _%>
         <%_ } _%>
-        return entity;
+        return copy;
     }
 
     /**
