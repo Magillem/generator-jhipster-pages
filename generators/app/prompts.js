@@ -83,7 +83,7 @@ function askForPageSetConfig() {
             when: response => response.pageSet === '_CreateNew_',
             type: 'input',
             name: 'pageSetGlyphIcon',
-            message: 'Enter the page glyphicon name (see https://getbootstrap.com/components/):',
+            message: 'Enter the optional page set icon name in font awesome for angular or glyphicon for angularjs ( (upload for example):',
         }
     ];
 
@@ -184,7 +184,7 @@ function askForPageConfig() {
             when: !this.regenerate,
             type: 'input',
             name: 'pageGlyphIcon',
-            message: 'Enter the page glyphicon name (see https://getbootstrap.com/components/):',
+            message: 'Enter the optional page icon name in font awesome for angular or glyphicon for angularjs (cloud-upload-alt for example):',
         },
         {
             when: this.regenerate,

@@ -14,7 +14,8 @@ As this is a [JHipster](http://jhipster.github.io/) module, we expect you have J
 
 # Compatibility
 
-Now it's works for angularjs and angular 4.
+Before 2.0.2 (included) it's angular 4.
+After 2.0.4 (included) it's angular 5.
 I haven't tested with micro service or any not-sql based project (cassandra, mongodb, elasticsearch, ...).
 
 # Installation
@@ -100,17 +101,25 @@ The following types are supported:
    - js read service
    - java get web service
    - get returned object
+   
+## I have generated, so what's next
+
+you generate page but you see empty page and you have errors in ts. For some page type it's normal.
+The goal of this module, is just to save time by generating "plumbing" files.
+
+### Example 
+If you choose "Load and Save data to server" :
+ - It create empty java web service and visual object.
+ - You can see a new entry in your navbar wich target an empty html page. 
+ - You have js/ts controller is there but don't call the js/ts service to load or save data.
+ - It's now you turn to code...
 
 
 ## Road Map
 
 Here is the list of types to do
 
-- **Workflow** generate
-    - multiple step html pages (form) with link to previous and next steps
-    - multiple step js controllers
-    - js service with init get and final write method
-    - java web service with get and post
+- reactjs client side
 
 
 # License
