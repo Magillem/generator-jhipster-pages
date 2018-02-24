@@ -1,6 +1,6 @@
 {
   "name": "generator-jhipster-pages",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "create pages : client only (static), or client and server side. Load data from server, Save data to server, form, table...",
   "keywords": [
     "yeoman-generator",
