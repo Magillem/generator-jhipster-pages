@@ -87,9 +87,8 @@ export class <%= pageAngularClass %>Service {
 
     search(req?: any): Observable<<%= pageAngularClass %>ResponseType> {
         const options = createRequestOption(req);
-        return this.http.get<<%= pageAngularClass %>ArrayResponseType>(this.resourceSearchUrl, { params: options, observe: 'response' })
+        return this.http.get<<%= pageAngularClass %>>(this.resourceSearchUrl, { params: options, observe: 'response' })
             .map((res: <%= pageAngularClass %>ArrayResponseType) => this.convertArrayResponse(res));
-            .map((res: any) => this.convertResponse(res));
     }
 <%_ } _%>
 
